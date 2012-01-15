@@ -1,3 +1,9 @@
+/*
+*ojoVoz: Alpha version 2011-2012 by Eugenio Tisselli
+*Please refer to the file gpl-3.0
+*to view terms of GPL licence
+*/
+
 package om;
 
 import java.io.File;
