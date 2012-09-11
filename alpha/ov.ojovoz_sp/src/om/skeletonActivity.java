@@ -14,6 +14,7 @@ import java.util.Date;
 
 import om.skeleton.R;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -47,6 +48,7 @@ import android.graphics.Color;
 
 public class skeletonActivity extends Activity {
 	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+	private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 200;
 
 	private Uri photoUri;
 	private boolean photoDone;
@@ -121,7 +123,7 @@ public class skeletonActivity extends Activity {
 		user = getPreference("user");
 
 		tag="";
-		String tagList = "Elegir una palabra;" + getPreference("tags") + ";Otra palabra:";
+		String tagList = "Choose a tag;" + getPreference("tags") + ";Enter new tag:";
 		tags = tagList.split(";");
 		tagSpinner = (Spinner)findViewById(R.id.omTags);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item, tags);
@@ -198,8 +200,8 @@ public class skeletonActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(android.view.Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		menu.add(0, 0, 0, "Enviar mensajes");
-		menu.add(1, 1, 1, "Mi nombre");
+		menu.add(0, 0, 0, "Send messages");
+		menu.add(1, 1, 1, "My name");
 		return true;
 	}
 
@@ -327,7 +329,7 @@ public class skeletonActivity extends Activity {
 			soundRecorder.modifyPath("ojovoz/s" + messageDate); 
 			try {
 				Button buttonRecording = (Button)findViewById(R.id.omVoiceButton);
-				buttonRecording.setText("Grabando voz ...");
+				buttonRecording.setText("Recording voice ...");
 				buttonRecording.setTextColor(Color.RED);
 				TextView textSoundRecorded = (TextView)findViewById(R.id.textSoundRecorded);
 				textSoundRecorded.setText("");
@@ -343,7 +345,7 @@ public class skeletonActivity extends Activity {
 			if (soundRecorder != null) {
 				try {
 					Button buttonRecording = (Button)findViewById(R.id.omVoiceButton);
-					buttonRecording.setText("Grabar voz");
+					buttonRecording.setText("Record voice");
 					buttonRecording.setTextColor(Color.BLACK);
 					soundRecorder.stop();
 					recording = false;
@@ -354,7 +356,7 @@ public class skeletonActivity extends Activity {
 						saveButton.setVisibility(0);
 					}
 					TextView textSoundRecorded = (TextView)findViewById(R.id.textSoundRecorded);
-					textSoundRecorded.setText("Voz grabada");
+					textSoundRecorded.setText("Voice recorded");
 				} catch (IOException e) {
 					//
 				}
@@ -377,6 +379,14 @@ public class skeletonActivity extends Activity {
 		// start the image capture Intent
 		startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
 	}
+	
+	public void showVideo(View w) {
+		
+		Intent intent = new Intent(skeletonActivity.this, VideoCapture.class);
+		startActivityForResult(intent, CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE);
+	}
+	
+	
 
 	public void saveMessage(View v) {
 		String writeText;
@@ -413,7 +423,7 @@ public class skeletonActivity extends Activity {
 		soundRecorder.clear();
 		photoUri = null;
 		Button buttonRecording = (Button)findViewById(R.id.omVoiceButton);
-		buttonRecording.setText("Grabar voz");
+		buttonRecording.setText("Record voice");
 		buttonRecording.setTextColor(Color.BLACK);
 		TextView textRecording = (TextView)findViewById(R.id.textSoundRecorded);
 		textRecording.setText("");
@@ -427,7 +437,7 @@ public class skeletonActivity extends Activity {
 		recordingDone=false;
 		tag="";
 		tagSpinner.setSelection(0);
-		Toast.makeText(this, "Mensaje guardado",Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, "Message saved",Toast.LENGTH_SHORT).show();
 
 	}
 
@@ -457,77 +467,92 @@ public class skeletonActivity extends Activity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
-			if (resultCode == RESULT_OK) {
-				// Image captured and saved to fileUri specified in the Intent
-				//Uri selectedPhoto = photoUri;
-				Uri selectedPhoto = data.getData();
-				if (selectedPhoto == null) {
-					long imageId = 0l;
-					String[] projection = {
-							MediaStore.Images.Thumbnails._ID,  // The columns we want
-							MediaStore.Images.Thumbnails.IMAGE_ID,
-							MediaStore.Images.Thumbnails.KIND,
-							MediaStore.Images.Thumbnails.DATA};
-					String selection = MediaStore.Images.Thumbnails.KIND + "="  + // Select only mini's
-					MediaStore.Images.Thumbnails.MINI_KIND;
-					String sort = MediaStore.Images.Thumbnails._ID + " DESC";
-					Cursor myCursor = this.managedQuery(MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI, projection, selection, null, sort);
-					//long thumbnailImageId = 0l;
-					//String thumbnailPath = "";
-					try{
-						myCursor.moveToFirst();
-						imageId = myCursor.getLong(myCursor.getColumnIndexOrThrow(MediaStore.Images.Thumbnails.IMAGE_ID));
-						//thumbnailImageId = myCursor.getLong(myCursor.getColumnIndexOrThrow(MediaStore.Images.Thumbnails._ID));
-						//thumbnailPath = myCursor.getString(myCursor.getColumnIndexOrThrow(MediaStore.Images.Thumbnails.DATA));
-					}
-					finally{myCursor.close();}
-					/*
-					String[] largeFileProjection = {
-							MediaStore.Images.ImageColumns._ID,
-							MediaStore.Images.ImageColumns.DATA
-					};
+		switch (requestCode) {
+			case CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE:
+				captureImageResult(resultCode, data);
+			case CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE:
+				captureVideoResult(resultCode,data);
+			default:
+				return;
+		}	
+	}
 
-					String largeFileSort = MediaStore.Images.ImageColumns._ID + " DESC";
-					myCursor = this.managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, largeFileProjection, null, null, largeFileSort);
-					//String largeImagePath = "";
+	private void captureVideoResult(int resultCode, Intent data) {
+		AlertDialog alertDialog = new AlertDialog.Builder(skeletonActivity.this).create();
+		alertDialog.setMessage("Back from video!");
+		alertDialog.show();
+	}
 
-					try{
-						myCursor.moveToFirst();
-						//largeImagePath = myCursor.getString(myCursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATA));
-					}
-					
-					finally{myCursor.close();}
-					*/
-					selectedPhoto = Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, String.valueOf(imageId));
-					//Uri uriThumbnailImage = Uri.withAppendedPath(MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI, String.valueOf(thumbnailImageId));
+	private void captureImageResult(int resultCode, Intent data) {
+		if (resultCode == RESULT_OK) {
+			// Image captured and saved to fileUri specified in the Intent
+			//Uri selectedPhoto = photoUri;
+			Uri selectedPhoto = data.getData();
+			if (selectedPhoto == null) {
+				long imageId = 0l;
+				String[] projection = {
+						MediaStore.Images.Thumbnails._ID,  // The columns we want
+						MediaStore.Images.Thumbnails.IMAGE_ID,
+						MediaStore.Images.Thumbnails.KIND,
+						MediaStore.Images.Thumbnails.DATA};
+				String selection = MediaStore.Images.Thumbnails.KIND + "="  + // Select only mini's
+				MediaStore.Images.Thumbnails.MINI_KIND;
+				String sort = MediaStore.Images.Thumbnails._ID + " DESC";
+				Cursor myCursor = this.managedQuery(MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI, projection, selection, null, sort);
+				//long thumbnailImageId = 0l;
+				//String thumbnailPath = "";
+				try{
+					myCursor.moveToFirst();
+					imageId = myCursor.getLong(myCursor.getColumnIndexOrThrow(MediaStore.Images.Thumbnails.IMAGE_ID));
+					//thumbnailImageId = myCursor.getLong(myCursor.getColumnIndexOrThrow(MediaStore.Images.Thumbnails._ID));
+					//thumbnailPath = myCursor.getString(myCursor.getColumnIndexOrThrow(MediaStore.Images.Thumbnails.DATA));
 				}
+				finally{myCursor.close();}
+				/*
+				String[] largeFileProjection = {
+						MediaStore.Images.ImageColumns._ID,
+						MediaStore.Images.ImageColumns.DATA
+				};
 
-				photoUri = selectedPhoto;
-				ImageView imageView = (ImageView)findViewById(R.id.omThumb);
-				//ContentResolver cr = getContentResolver();
-				//cr.notifyChange(selectedPhoto, null);
-				Bitmap bitmap;
-				try {
-					//bitmap = android.provider.MediaStore.Images.Media.getBitmap(cr, selectedPhoto);
-					bitmap = (Bitmap)data.getExtras().get("data");
-					imageView.setImageBitmap(bitmap);
-					imageView.invalidate();
-				} catch (Exception e) {
+				String largeFileSort = MediaStore.Images.ImageColumns._ID + " DESC";
+				myCursor = this.managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, largeFileProjection, null, null, largeFileSort);
+				//String largeImagePath = "";
+
+				try{
+					myCursor.moveToFirst();
+					//largeImagePath = myCursor.getString(myCursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATA));
 				}
-				photoDone=true;
-				if(recordingDone) {
-					Button saveButton = (Button)findViewById(R.id.omSaveButton);
-					saveButton.setVisibility(0);
-
-				} 
-
-			} else if (resultCode == RESULT_CANCELED) {
-				// User canceled the image capture
-			} else {
-				// Image capture failed, advise user
+				
+				finally{myCursor.close();}
+				*/
+				selectedPhoto = Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, String.valueOf(imageId));
+				//Uri uriThumbnailImage = Uri.withAppendedPath(MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI, String.valueOf(thumbnailImageId));
 			}
-		} 
+
+			photoUri = selectedPhoto;
+			ImageView imageView = (ImageView)findViewById(R.id.omThumb);
+			//ContentResolver cr = getContentResolver();
+			//cr.notifyChange(selectedPhoto, null);
+			Bitmap bitmap;
+			try {
+				//bitmap = android.provider.MediaStore.Images.Media.getBitmap(cr, selectedPhoto);
+				bitmap = (Bitmap)data.getExtras().get("data");
+				imageView.setImageBitmap(bitmap);
+				imageView.invalidate();
+			} catch (Exception e) {
+			}
+			photoDone=true;
+			if(recordingDone) {
+				Button saveButton = (Button)findViewById(R.id.omSaveButton);
+				saveButton.setVisibility(0);
+
+			} 
+
+		} else if (resultCode == RESULT_CANCELED) {
+			// User canceled the image capture
+		} else {
+			// Image capture failed, advise user
+		}
 	} 
 
 	private void sendMessages() {
@@ -552,7 +577,7 @@ public class skeletonActivity extends Activity {
 
 				dialog = new ProgressDialog(this);
 				dialog.setCancelable(true);
-				dialog.setMessage("Enviando mensajes");
+				dialog.setMessage("Sending messages");
 				dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 				dialog.setProgress(0);
 				dialog.setMax(dialogMax);
@@ -633,11 +658,11 @@ public class skeletonActivity extends Activity {
 				});
 				upload.start();
 			} else {
-				Toast.makeText(this, "Por favor conéctate a Internet",Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "Please connect to the Internet",Toast.LENGTH_SHORT).show();
 				sending=false;
 			}
 		} else {
-			Toast.makeText(this, "No hay mensajes para enviar",Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "No messages to send",Toast.LENGTH_SHORT).show();
 			sending=false;
 		}
 	}
@@ -795,7 +820,7 @@ public class skeletonActivity extends Activity {
 			lat = -1;
 			lon = -1;
 			TextView textLocation = (TextView)findViewById(R.id.textLocation);
-			textLocation.setText("Posición no disponible");
+			textLocation.setText("Location unavailable");
 			lastGPSFix = -1;
 		}
 	}
@@ -810,7 +835,7 @@ public class skeletonActivity extends Activity {
 					lat = loc.getLatitude();
 					lon = loc.getLongitude();
 					TextView textLocation = (TextView)findViewById(R.id.textLocation);
-					textLocation.setText("Lat: " + Double.toString(lat) + "\nLong: " + Double.toString(lon));
+					textLocation.setText(Double.toString(lat) + " , " + Double.toString(lon));
 				} else {
 					lastGPSFix = Calendar.getInstance().getTimeInMillis();
 				}
@@ -818,7 +843,7 @@ public class skeletonActivity extends Activity {
 				lat = -1;
 				lon = -1;
 				TextView textLocation = (TextView)findViewById(R.id.textLocation);
-				textLocation.setText("Posición no disponible");
+				textLocation.setText("Location unavailable");
 			}
 		}
 
@@ -827,7 +852,7 @@ public class skeletonActivity extends Activity {
 			lat = -1;
 			lon = -1;
 			TextView textLocation = (TextView)findViewById(R.id.textLocation);
-			textLocation.setText("Posición no disponible");
+			textLocation.setText("Location unavailable");
 		}
 
 		@Override
@@ -841,7 +866,7 @@ public class skeletonActivity extends Activity {
 				lat = -1;
 				lon = -1;
 				TextView textLocation = (TextView)findViewById(R.id.textLocation);
-				textLocation.setText("Posición no disponible");
+				textLocation.setText("Location unavailable");
 			}
 		}
 	} 
