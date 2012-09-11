@@ -4,7 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
-
+
+   
+     <Button
+        android:id="@+id/omVideoButton"
+        android:layout_width="279dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:onClick="showVideo"
+        android:text="@string/omVideoButtonText"
+        android:textSize="20dp" />
     <TextView
         android:id="@+id/textLocation"
         android:layout_width="match_parent"
@@ -18,11 +27,11 @@
     <Button
         android:id="@+id/omPhotoButton"
         android:layout_width="279dp"
-        android:layout_height="70dp"
+        android:layout_height="50dp"
         android:layout_gravity="center"
         android:onClick="showCamera"
         android:text="@string/omPhotoButtonText"
-        android:textSize="25dp" />
+        android:textSize="20dp" />
 
     <ImageView
         android:id="@+id/omThumb"
@@ -35,11 +44,11 @@
     <Button
         android:id="@+id/omVoiceButton"
         android:layout_width="279dp"
-        android:layout_height="70dp"
+        android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
         android:onClick="showRecorder"
         android:text="@string/omSoundButtonText"
-        android:textSize="25dp" />
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/textSoundRecorded"
@@ -61,7 +70,7 @@
     <EditText
         android:id="@+id/omNewTag"
         android:layout_width="279dp"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:layout_gravity="center_horizontal" 
         android:singleLine="true"
         android:visibility="invisible">
@@ -72,11 +81,11 @@
     <Button
         android:id="@+id/omSaveButton"
         android:layout_width="279dp"
-        android:layout_height="70dp"
+        android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
         android:onClick="saveMessage"
         android:text="@string/omSaveButtonText"
-        android:textSize="25dp"
+        android:textSize="20dp"
         android:visibility="invisible" />
 
 </LinearLayout>
