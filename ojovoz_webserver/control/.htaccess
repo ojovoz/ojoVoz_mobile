@@ -1,0 +1,5 @@
+AuthName "Introduce tu password"
+AuthType Basic
+
+	require user eugenio
+AuthPAM_Enabled on

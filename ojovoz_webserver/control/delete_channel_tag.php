@@ -1,0 +1,50 @@
+<?
+include_once("./../includes/channel_vars.php");
+include_once("./../includes/init_database.php");
+$dbh = initDB();
+
+if (isset($_POST['yes'])) {
+	$id = $_POST['id'];
+	$c = $_POST['c'];
+	$query="DELETE FROM tag_x_channel WHERE tag_x_channel_id=$id";
+	$result = mysql_query($query, $dbh);
+	header("Location: edit_channel_tags.php?c=$c");
+} else if (isset($_POST['no'])) {
+	$c = $_POST['c'];
+	header("Location: edit_channel_tags.php?c=$c");
+} else {
+	$id = $_GET['id'];
+	$c = $_GET['c'];
+	$query="SELECT tag_id,tag_group_id FROM tag_x_channel WHERE tag_x_channel_id=$id";
+	$result = mysql_query($query, $dbh);
+	$row = mysql_fetch_array($result, MYSQL_NUM);
+	if ($row[0]>=0) {
+		$query="SELECT tag_name FROM tag WHERE tag_id=".$row[0];
+		$result = mysql_query($query, $dbh);
+		$row = mysql_fetch_array($result, MYSQL_NUM);
+	} else {
+		$query="SELECT tag_group_name FROM tag_group WHERE tag_group_id=".$row[1];
+		$result = mysql_query($query, $dbh);
+		$row = mysql_fetch_array($result, MYSQL_NUM);
+	}
+?>
+<html>
+<head>
+<title><? echo($global_channel_name); ?></title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body>
+<p><font size="2" face="Courier New, Courier, mono"><strong>Delete <? echo($row[0]); ?> from channel?</strong></font></p>
+<form name="form1" method="post" action="">
+  <input name="yes" type="submit" id="yes" value="yes">
+  <input name="no" type="submit" id="no" value="no">
+  <input name="id" type="hidden" id="id" value="<? echo($id); ?>">
+  <input name="c" type="hidden" id="c" value="<? echo($c); ?>">
+</form>
+<p>&nbsp; </p>
+</body>
+</html>
+<?
+}
+?>
