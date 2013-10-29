@@ -463,7 +463,7 @@ function TagCloud($c,$crono,$m,$e,$tb1,$tbn,$page,$tag_color,$bgcolor,$minSize,$
 					}
 				} else {
 					$legend_tag_color=GetTagColor($dbh,$tags[$i]["id"]);
-					$cloud = $cloud."<li style=\"display: inline\"><img src=\"includes/images/marker".$legend_tag_color.".gif\" align=\"absbottom\"><a href=\"".$page."?c=$c&tag=".$tags[$i]["id"]."\" style=\"font-size: ".$size."em; font-family: Arial,Helvetica; color: ".$color."; background-color: ".$backcolor."\" title=\"".$toolbox."\">".$tags[$i]["name"]."</a></li> ";
+					$cloud = $cloud."<li style=\"display: inline\"><img src=\"includes/images/marker".$legend_tag_color."_ball.png\" align=\"absbottom\"><a href=\"".$page."?c=$c&tag=".$tags[$i]["id"]."\" style=\"font-size: ".$size."em; font-family: Arial,Helvetica; color: ".$color."; background-color: ".$backcolor."\" title=\"".$toolbox."\">".$tags[$i]["name"]."</a></li> ";
 				}
 			} else {
 				$found=false;
@@ -486,14 +486,14 @@ function TagCloud($c,$crono,$m,$e,$tb1,$tbn,$page,$tag_color,$bgcolor,$minSize,$
 						$cloud = $cloud."<li style=\"display: inline\"><a href=\"".$page."?c=$c&tag=".$tags[$i]["id"]."\" style=\"font-size: ".$size."em; font-family: Arial,Helvetica; color: ".$color."; background-color: ".$backcolor."\" title=\"".$toolbox."\">".$tags[$i]["name"]."</a></li> ";
 					} else {
 						$legend_tag_color=GetTagColor($dbh,$tags[$i]["id"]);
-						$cloud = $cloud."<li style=\"display: inline\"><img src=\"includes/images/marker".$legend_tag_color.".gif\" align=\"absbottom\"><a href=\"".$page."?c=$c&tag=".$tags[$i]["id"]."\" style=\"font-size: ".$size."em; font-family: Arial,Helvetica; color: ".$color."; background-color: ".$backcolor."\" title=\"".$toolbox."\">".$tags[$i]["name"]."</a></li> ";
+						$cloud = $cloud."<li style=\"display: inline\"><img src=\"includes/images/marker".$legend_tag_color."_ball.png\" align=\"absbottom\"><a href=\"".$page."?c=$c&tag=".$tags[$i]["id"]."\" style=\"font-size: ".$size."em; font-family: Arial,Helvetica; color: ".$color."; background-color: ".$backcolor."\" title=\"".$toolbox."\">".$tags[$i]["name"]."</a></li> ";
 					}
 				} else {
 					if ($legend==false) {
 						$cloud = $cloud."<li style=\"display: inline\"><font style=\"font-size: ".$size."em; font-family: Arial,Helvetica; color: ".$color."; background-color: ".$backcolor."\">".$tags[$i]["name"]."</font></li> ";
 					} else {
 						$legend_tag_color=GetTagColor($dbh,$tags[$i]["id"]);
-						$cloud = $cloud."<li style=\"display: inline\"><img src=\"includes/images/marker".$legend_tag_color.".gif\" align=\"absbottom\"><font style=\"font-size: ".$size."em; font-family: Arial,Helvetica; color: ".$color."; background-color: ".$backcolor."\">".$tags[$i]["name"]."</font></li> ";
+						$cloud = $cloud."<li style=\"display: inline\"><img src=\"includes/images/marker".$legend_tag_color."_ball.png\" align=\"absbottom\"><font style=\"font-size: ".$size."em; font-family: Arial,Helvetica; color: ".$color."; background-color: ".$backcolor."\">".$tags[$i]["name"]."</font></li> ";
 					}
 				}
 			}
@@ -755,8 +755,8 @@ function GetCorrelated($qWhere,$crono,$c,$dbh) {
 		$query[0]="SELECT DISTINCT tag_id FROM tag_x_message,message WHERE tag_x_message.message_id ".$qWhere." AND message.message_id = tag_x_message.message_id AND channel_id = $c";
 		$query[1]="SELECT DISTINCT descriptor_id FROM descriptor_x_attachment,attachment WHERE attachment.message_id ".$qWhere." AND descriptor_x_attachment.attachment_id = attachment.attachment_id";
 	}
-	for ($i=0;$i<2;$i++) {
-		$result=mysql_query($query[$i],$dbh);
+	//for ($i=0;$i<2;$i++) {
+		$result=mysql_query($query[0],$dbh);
 		$x="";
 		while($row=mysql_fetch_array($result,MYSQL_NUM)) {
 			if ($x=="") {
@@ -768,7 +768,7 @@ function GetCorrelated($qWhere,$crono,$c,$dbh) {
 		if ($x!="") {
 			$ret[$i]=$x;
 		}
-	}
+	//}
 	return $ret;
 }
 

@@ -44,7 +44,7 @@ $get_tags_from_subject=false;
 //default user name (when uploading pictures)
 $default_user_name="web_upload";
 //
-$mail_server="{mymailserver:110/pop3/notls}";
+$mail_server="{134.0.12.74:110/pop3/notls}";
 //auto create email addresses?
 $auto_create_email=false;
 //main crono channel, used to link from tag channel
@@ -112,7 +112,7 @@ $search_button_text="?";
 $search_address_text="Buscar dirección";
 $address_not_found_text="Dirección no encontrada";
 $search_tag_text="Buscar tag";
-$edit_contents_text="Editar:";
+$edit_contents_text="Estudiar:";
 $enter_edit_button_text="Entrar";
 $edit_channel_button_text="Guardar cambios";
 $confirm_delete_message_text="Borrar mensaje?";
@@ -140,7 +140,7 @@ $thumbnail_text[2]="last";
 //
 //mapping
 //
-$google_maps_api_key="ABQIAAAANWpqB_OfMLpd8UIznvHvRRTpj6ynXcM1kijbC0C5NoHtkkdd5BSQNT9ada5EJHz2CLfxys19WPZGCg";
+$google_maps_api_key="your*api*key";
 $has_map=true;
 $map_channel_name="Ojovoz WebServer";
 $max_markers_on_map=50;
@@ -165,8 +165,8 @@ $get_user_from_message_subject=true;
 //
 //conversion
 $convert_to_mp3=true;
-$servpath="/usr/home/myserver.net/web/";
-$ffmpeg_path="/usr/local/home/srvcat/local/binaris/myserver.net/";
+$servpath="/usr/home/sautiyawakulima.net/web/";
+$ffmpeg_path="/usr/local/home/srvcat/local/binaris/yourserver.net/";
 $sample_rate="22050";
 //titles-languages
 $ov_languages="Español,English";
@@ -244,6 +244,6 @@ $ov_previous_page_text=array("Página anterior","Previous page");
 $ov_search_text=array("Buscar","Search");
 $ov_deselect_tags=array("Limpiar selección","Clear selection");
 //android
-$smtp_server="smtp.myserver.net";
+$smtp_server="smtp.yourserver.net";
 $smtp_server_port="578";
 ?>

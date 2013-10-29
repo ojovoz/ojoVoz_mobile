@@ -34,6 +34,7 @@ if (!isset($_SESSION['selection_list']) || $_GET['r'] == 1) {
 if (isset($_POST['q'])) {
 	if($_POST['q']!="" && $_POST['q']!=$ov_search_text[$language]) {
 		$_SESSION['q']=$_POST['q'];
+		$date=-1;
 	} else {
 		$_SESSION['q']="";
 	}
@@ -146,7 +147,7 @@ if (($c >= 0) && ($c != "")) {
 	if (!isset($_GET['date'])) {
 		$date=GetLatestDate($c,$crono,$qWhere,$channels_excluded_from_crono,$dbh,$children);
 	} else {
-		if ($_GET['date']=="") {
+		if ($_GET['date']=="" || $date==-1) {
 			$date=GetLatestDate($c,$crono,$qWhere,$channels_excluded_from_crono,$dbh,$children);
 		} else {
 			$date = $_GET['date'];
@@ -176,8 +177,16 @@ if (($c >= 0) && ($c != "")) {
   <title><? echo($global_channel_name); ?></title>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript" src="includes/general.js" language="javascript" type="text/javascript"></script>
-<script language="JavaScript" src="includes/swfobject.js" language="javascript" type="text/javascript"></script>
+<script src="includes/audio.min.js"></script>
+<script>
+  audiojs.events.ready(function() {
+    var as = audiojs.createAll();
+  });
+</script>
 <link rel="SHORTCUT ICON" href="http://sautiyawakulima.net/favicon.ico">
+<style>
+	.audiojs { width: <? echo($audio_width); ?>px; background: #497A2B; }
+</style>
 </head>
 <body bgcolor="#<? echo($bgcolor); ?>" text="#<? echo($textcolor); ?>" link="#<? echo($textcolor); ?>" vlink="#<? echo($textcolor); ?>" alink="#<? echo($textcolor); ?>" leftmargin="50" marginwidth="50">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -228,6 +237,8 @@ if ($has_rss && $crono==0) {
 ?>
           <a href="<? echo("rss.php?c=".$c); ?>"><img src="includes/images/feed-icon-28x28.png" title="<? echo($ov_rss_feed_title[$language]); ?>" alt="<? echo($ov_rss_feed_title[$language]); ?>" width="28" height="28" align="absmiddle" border="0"></a> 
           <? } ?>
+		  | 
+          <input type="text" name="q" id="q" value="<? if ($_SESSION['q']!="") echo($_SESSION['q']); else echo($bv_search_text[$language]); ?>" style="width:160px; height:22px; border:2px solid #000000" onClick="SelectText();">
         </h1>
         </font> 
       </form></td>
@@ -443,27 +454,7 @@ while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
 				if($ov_show_player) {
 					$width = $audio_width;
 					$height = $audio_height;
-?><div id="<? echo($attachment_id); ?>"></div>
-	<script type="text/javascript">
-		// <![CDATA[
-			var flashvars = {
-      			'file':   '<? echo($filename); ?>',
-      			'skin':   'includes/minima.zip',
-				'icons':  'false'
-   			};
-			var params = {
-      			'allowfullscreen':        'false',
-      			'allowscriptaccess':      'always',
-				'wmode':				  'opaque',
-				'bgcolor':				  '#000000'
-   			};
-			var attributes = {
-      			'id':                     '<? echo($attachment_id); ?>',
-      			'name':                   '<? echo($attachment_id); ?>'
-   			};
-			swfobject.embedSWF('includes/player.swf', '<? echo($attachment_id); ?>', '<? echo($width); ?>', '<? echo($height); ?>', '9', false, flashvars, params, attributes);
-		// ]]>
-		</script>
+?><audio src="<? echo($filename); ?>" preload="none"></audio>
 <br><?
 				} else {
 					echo("<font size=\"$ov_text_font_size\" face=\"$ov_text_font\"><a href=\"$filename\">$ov_audio_link_text[$language]</a></font><br>");

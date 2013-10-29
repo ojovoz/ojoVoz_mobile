@@ -152,17 +152,18 @@ if ($show_descriptors_in_map) {
 	$dc=DescriptorCloud($dbh,-3,1,$map_descriptor_color,substr($map_background_color,1),$descriptor_language,$descriptor_toolbox_1_time,$descriptor_toolbox_n_times,'map.php',$descriptor_category,$descriptor_cloud_refresh,$selection_list,$descriptor_cloud_title,$tag_min_size,$tag_max_size,$correlated_descriptors);
 }
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <html>
 <head>
   <title><? echo($global_channel_name); ?></title>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-  <script src="http://maps.google.com/maps?file=api&v=2&key=<? echo($google_maps_api_key); ?>" type="text/javascript"></script>
+  <script type="text/javascript"
+  	src="https://maps.googleapis.com/maps/api/js?key=<? echo($google_maps_api_key); ?>&sensor=false">
+  </script>
   <script language="JavaScript" src="includes/general.js" language="javascript" type="text/javascript"></script>
-  <script language="JavaScript" src="includes/qtobject.js" language="javascript" type="text/javascript"></script>
   <link rel="SHORTCUT ICON" href="http://sautiyawakulima.net/favicon.ico">
 </head>
-<body bgcolor="<? echo($bgcolor); ?>" text="#<? echo($textcolor); ?>" link="#<? echo($textcolor); ?>" vlink="#<? echo($textcolor); ?>" alink="#<? echo($textcolor); ?>" leftmargin="50" marginwidth="50" onUnload="GUnload()">
+<body bgcolor="<? echo($bgcolor); ?>" text="#<? echo($textcolor); ?>" link="#<? echo($textcolor); ?>" vlink="#<? echo($textcolor); ?>" alink="#<? echo($textcolor); ?>" leftmargin="50" marginwidth="50" onload="initialize()">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
     <td width="62%"><font size="<? echo($ov_text_font_size); ?>" face="<? echo($ov_text_font); ?>"> 
@@ -256,176 +257,79 @@ if (($show_tags_in_map==1 && $tc[0]!="") || $show_descriptors_in_map==1) {
 ?>
 <div id="map" style="width: 100%; height: 480px"></div>
 <script type="text/javascript">
-//<![CDATA[
-
-    if (GBrowserIsCompatible()) { 
+	var marker=null;
+	var openMarker=null;
+	var latLng=null;
+	var infoWindow=new google.maps.InfoWindow();
+	var bounds = new google.maps.LatLngBounds();
 	
-	  var icon01 = new GIcon();
-      icon01.image = "includes/images/marker00_ball.png";
-      icon01.shadow = "includes/images/shadow_ball.png";
-      icon01.iconSize = new GSize(16, 17);
-      icon01.shadowSize = new GSize(26, 18);
-      icon01.iconAnchor = new GPoint(8, 9);
-      icon01.infoWindowAnchor = new GPoint(8, 0);
-      icon01.infoShadowAnchor = new GPoint(8, 9);
-	  
-	  var icon_invisible = new GIcon();
-      icon_invisible.image = "includes/images/invisible.png";
-      icon_invisible.iconSize = new GSize(2,2);
-      icon_invisible.iconAnchor = new GPoint(0,0);
-      icon_invisible.infoWindowAnchor = new GPoint(0,0);
-	  
-	  var icon00 = new GIcon(icon01,"includes/images/marker00_ball.png");	 
-	  var icon02 = new GIcon(icon01,"includes/images/marker02_ball.png");
-	  var icon03 = new GIcon(icon01,"includes/images/marker03_ball.png");
-	  var icon04 = new GIcon(icon01,"includes/images/marker04_ball.png");
-	  var icon05 = new GIcon(icon01,"includes/images/marker05_ball.png");
-	  var icon06 = new GIcon(icon01,"includes/images/marker06_ball.png");
-	  var icon07 = new GIcon(icon01,"includes/images/marker07_ball.png");
-	  var icon08 = new GIcon(icon01,"includes/images/marker08_ball.png");
-	  var icon09 = new GIcon(icon01,"includes/images/marker09_ball.png");
-	  var icon10 = new GIcon(icon01,"includes/images/marker10_ball.png");
-
-      var map = new GMap2(document.getElementById("map"));
-      map.addControl(new GSmallZoomControl());
-	  map.setCenter(new GLatLng(0,0),0);
-	  var side_bar_html = "";
-	  var gmarkers = [];
-	  var htmls = [];
-	  var i = 0;
-	  
-	  function createMarker(point,name,html,color) {
-	  	switch(color) {
-			case "invisible":
-				var marker = new GMarker(point,icon_invisible,true);
-				break;
-			case "00":
-				var marker = new GMarker(point,icon00);
-				break;
-			case "01":
-				var marker = new GMarker(point,icon01);
-				break;
-			case "02":
-				var marker = new GMarker(point,icon02);
-				break;
-			case "03":
-				var marker = new GMarker(point,icon03);
-				break;
-			case "04":
-				var marker = new GMarker(point,icon04);
-				break;
-			case "05":
-				var marker = new GMarker(point,icon05);
-				break;
-			case "06":
-				var marker = new GMarker(point,icon06);
-				break;
-			case "07":
-				var marker = new GMarker(point,icon07);
-				break;
-			case "08":
-				var marker = new GMarker(point,icon08);
-				break;
-			case "09":
-				var marker = new GMarker(point,icon09);
-				break;
-			case "10":
-				var marker = new GMarker(point,icon10);
-				break;
-			default: var marker = new GMarker(point,icon06);
-		}
-        GEvent.addListener(marker, "click", function() {
-          marker.openInfoWindowHtml(html);
-        });
-        gmarkers[i] = marker;
-        htmls[i] = html;
-        side_bar_html += '<a href="javascript:myclick(' + i + ')">' + name + '</a><br>';
-        i++;
-        return marker;
-      }
-	  
-	  function myclick(i) {
-        gmarkers[i].openInfoWindowHtml(htmls[i]);
-      }
-	  
-	  var bounds = new GLatLngBounds();
-	  
-	  <?
-	  $query=GetMessagesInMap($qWhere,$max_markers_on_map,$from,$dbh,$message);
-	  $result = mysql_query($query, $dbh);
-	  $i=0;
-	  while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
-	  	echo("var point = new GLatLng($row[4],$row[5]);\n\r");
-		if ($row[11]==1) {
-			$asc="";
-		} else {
-			$asc="DESC";
-		}
-		if ($row[6] == 1) {
-			if ($row[9] > 215) {
-				$h=$row[10]*(215/$row[9]);
-				$w=215;
+	var image = new Array();
+	image[0]={url:'includes/images/marker00_ball.png', size:new google.maps.Size(16,17), origin:new google.maps.Point(0,0), anchor: new google.maps.Point(8,9)};
+	image[1]={url:'includes/images/marker01_ball.png', size:new google.maps.Size(16,17), origin:new google.maps.Point(0,0), anchor: new google.maps.Point(8,9)};
+	image[2]={url:'includes/images/marker02_ball.png', size:new google.maps.Size(16,17), origin:new google.maps.Point(0,0), anchor: new google.maps.Point(8,9)};
+	image[3]={url:'includes/images/marker03_ball.png', size:new google.maps.Size(16,17), origin:new google.maps.Point(0,0), anchor: new google.maps.Point(8,9)};
+	image[4]={url:'includes/images/marker04_ball.png', size:new google.maps.Size(16,17), origin:new google.maps.Point(0,0), anchor: new google.maps.Point(8,9)};
+	image[5]={url:'includes/images/marker05_ball.png', size:new google.maps.Size(16,17), origin:new google.maps.Point(0,0), anchor: new google.maps.Point(8,9)};
+	image[6]={url:'includes/images/marker06_ball.png', size:new google.maps.Size(16,17), origin:new google.maps.Point(0,0), anchor: new google.maps.Point(8,9)};
+	image[7]={url:'includes/images/marker07_ball.png', size:new google.maps.Size(16,17), origin:new google.maps.Point(0,0), anchor: new google.maps.Point(8,9)};
+	image[8]={url:'includes/images/marker08_ball.png', size:new google.maps.Size(16,17), origin:new google.maps.Point(0,0), anchor: new google.maps.Point(8,9)};
+	image[9]={url:'includes/images/marker09_ball.png', size:new google.maps.Size(16,17), origin:new google.maps.Point(0,0), anchor: new google.maps.Point(8,9)};
+	image[10]={url:'includes/images/marker10_ball.png', size:new google.maps.Size(16,17), origin:new google.maps.Point(0,0), anchor: new google.maps.Point(8,9)};
+	
+	var shadow={url:'includes/images/shadow_ball.png', size:new google.maps.Size(26,18), origin:new google.maps.Point(0,0), anchor: new google.maps.Point(8,9)};
+	var shape={coord:[1,1,16,17], type:'rect'};
+	
+	function initialize(){
+		latLng = new google.maps.LatLng(<? echo($default_latitude); ?>, <?  echo($default_longitude); ?>);
+		var mapOptions = {center: latLng, zoom: 8, mapTypeId: google.maps.MapTypeId.ROADMAP};
+    	var map = new google.maps.Map(document.getElementById("map"),mapOptions);
+		
+		<?
+		$query=GetMessagesInMap($qWhere,$max_markers_on_map,$from,$dbh,$message);
+		$result = mysql_query($query, $dbh);
+		$i=0;
+		while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
+			$lat=preg_replace("/[^0-9.,\-]/", "", $row[4]);
+			$lng=preg_replace("/[^0-9.,\-]/", "", $row[5]);
+			echo("latLng = new google.maps.LatLng($lat, $lng);\n\r");
+			echo("bounds.extend(latLng);\n\r");
+			if ($row[11]==1) {
+				$asc="";
 			} else {
-				$w = $row[9];
-				$h = $row[10];
+				$asc="DESC";
 			}
-			$d=explode(" ",$row[1]);
-			$img="<a href=\"calc.php?c=".$row[7]."&date=".$d[0]."&id=".$row[14]."\"><img src=\"channels/".$row[3]."\" height=\"$h\" width=\"$w\" border=\"0\"></a>";
-		} else {
-			$img = "";
+			if ($row[6] == 1) {
+				if ($row[9] > 200) {
+					$h=$row[10]*(200/$row[9]);
+					$w=200;
+				}
+				$d=explode(" ",$row[1]);
+				$img="<a href=\"calc.php?c=".$row[7]."&date=".$d[0]."&id=".$row[14]."\"><img src=\"channels/".$row[3]."\" height=\"$h\" width=\"$w\" border=\"0\"></a>";
+			} else {
+				$img = "";
+			}
+			$label = $img."<br><font color=\"$map_data_color\" size=\"2\" face=\"Arial, Helvetica, sans-serif\"> ".$row[1]."</font>";
+			$color=intval(GetMessageColor($dbh,$row[14]));
+			if($color>10) { $color=6; }
+			echo("marker = new google.maps.Marker({position: latLng, map:map, shadow:shadow, shape:shape, icon:image[$color], html:'$label'});\n\r");
+			echo("google.maps.event.addListener(marker, 'click', function () {\n\r");
+			echo("infoWindow.setContent(this.html);\n\r");
+			echo("infoWindow.open(map,this);\n\r");
+			echo("});\n\r");
+			if ($message==$row[14]) {
+				echo("openMarker = marker;\n\r");
+			}
 		}
-		$label = $img."<br><font color=\"$map_data_color\" size=\"2\" face=\"Arial, Helvetica, sans-serif\"> ".$row[1]."</font>";
-		$name = "m".$i;
-		$color=GetMessageColor($dbh,$row[14]);
-		echo("var marker = createMarker(point,'$name','$label','$color');\n\r");
-		echo("map.addOverlay(marker);\n\r");
-		echo("bounds.extend(point);\n\r");
-		if ($message==$row[14]) {
-			$click=$i;
+		?>
+		map.fitBounds(bounds);
+		
+		if(openMarker!=null){
+			google.maps.event.trigger(openMarker, 'click');
 		}
-		$i++;
-	  }
-	  if ($address=="") {
-	  ?>
-	  map.setZoom(map.getBoundsZoomLevel(bounds)-2);
-	  var clat = (bounds.getNorthEast().lat() + bounds.getSouthWest().lat()) /2;
-      var clng = (bounds.getNorthEast().lng() + bounds.getSouthWest().lng()) /2;
-      map.setCenter(new GLatLng(clat,clng));
-	  map.setMapType(G_HYBRID_MAP);
-	  <?
-	  } else {
-	  ?>
-	  var geo = new GClientGeocoder();
-	  geo.getLatLng("<? echo($address); ?>", function (point) { 
-	  	if (point) {
-			map.setZoom(17);
-			map.setCenter(point);
-			var marker = createMarker(point,'','','invisible');
-			map.addOverlay(marker);
-			marker.openInfoWindowHtml("<b><font face=\"Arial, Helvetica, sans-serif\" color=\"<? echo($form_color); ?>\"><? echo($display_address); ?></font></b>");
-		} else {
-			map.setZoom(map.getBoundsZoomLevel(bounds)-1);
-	  		var clat = (bounds.getNorthEast().lat() + bounds.getSouthWest().lat()) /2;
-      		var clng = (bounds.getNorthEast().lng() + bounds.getSouthWest().lng()) /2;
-      		map.setCenter(new GLatLng(clat,clng));
-			document.forms[0].address.value="<? echo($address_not_found_text); ?>"
-		}
-	  });
-	  <?
-	  }
-	  ?>
 	}
-	  
-//]]>
-    </script>
-	<br>
-	<? if ($click!=-1) { ?>
-<script type="text/javascript">
-//<![CDATA[
-	<? echo("myclick($click);"); ?>
-//]]>
+	
+	
 </script>
-	<?
-	} ?>
+<br>
 </body>
 </html>

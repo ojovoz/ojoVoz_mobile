@@ -11,12 +11,11 @@ if (isset($_POST['locate'])) {
 		LocateAttachment($dbh,$id,$latitude,$longitude);
 		$address=GetReverseGeocoding($latitude,$longitude);
 		$aid=UpdateMessageAddress($dbh,$id,$address);
-		$map_filename="";
-		/* $map_filename=GrabMapImageLocate($latitude,$longitude,$aid,$static_map_width,$static_map_height,$google_maps_api_key);
+		$map_filename=GrabMapImageLocate($latitude,$longitude,$aid,$static_map_width,$static_map_height,$google_maps_api_key);
 		if ($map_filename!="") {
 			$query="UPDATE attachment SET map_filename = '$map_filename' WHERE attachment_id=$aid";
 			$result = mysql_query($query, $dbh);
-		} */
+		}
 		$located=true;
 	}
 } 
@@ -61,18 +60,16 @@ if ($located==false) {
 	$already_located=$point[2];
 ?>
 
-<!DOCTYPE html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <title><? echo($global_channel_name); ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<script type="text/javascript"
-  src="https://maps.googleapis.com/maps/api/js?key=<? echo($google_maps_api_key); ?>&sensor=false">
-</script>
+<script src="http://maps.google.com/maps?file=api&v=2&key=<? echo($google_maps_api_key); ?>" type="text/javascript"></script>
 <script language="JavaScript" src="./../includes/general.js" language="javascript" type="text/javascript"></script>
 </head>
 
-<body onload="initialize()">
+<body>
 <form name="form1" method="post" action="">
   <input name="address" type="text" id="address" style="color: <? echo($form_color); ?>; font-size: <? echo($font_size); ?>em;" value="<? if ($address=="") { echo($search_address_text); } else { echo($display_address); } ?>" onFocus="DeletePrompt(2,'<? echo($search_address_text); ?>')"> 
   <input name="search" type="submit" id="search" style="color: <? echo($form_color); ?>; font-size: <? echo($font_size); ?>em;" value="<? echo($search_button_text); ?>">
@@ -84,53 +81,8 @@ if ($located==false) {
 <br>
 <div id="map" style="width: 640px; height: 480px;"></div>
 <script type="text/javascript">
+//<![CDATA[
 
-	var marker=null;
-	var latLng=null;
-	var geocoder=null;
-	
-	function initialize(){
-		latLng = new google.maps.LatLng(<? echo($latitude); ?>, <?  echo($longitude); ?>);
-		var mapOptions = {center: latLng, zoom: 8, mapTypeId: google.maps.MapTypeId.ROADMAP};
-    	var map = new google.maps.Map(document.getElementById("map"),mapOptions);
-		
-		<?
-		if ($address!=""){
-		?>
-		geocoder = new google.maps.Geocoder();
-		geocoder.geocode({'address':'<? echo($address); ?>'},function(results,status){
-      		if (status==google.maps.GeocoderStatus.OK) {
-        		map.setCenter(results[0].geometry.location);
-        		marker = new google.maps.Marker({map:map,position:results[0].geometry.location});
-				document.forms[1].latitude.value=results[0].geometry.location.lat();
-				document.forms[1].longitude.value=results[0].geometry.location.lng();
-				document.forms[1].located.value='1';
-      		} else {
-				marker = new google.maps.Marker({position:latLng, map:map});
-				document.forms[0].address.value="<? echo($address_not_found_text); ?>"
-				document.forms[1].located.value='0';
-			}
-    	});
-		<?
-		} else {
-		?>
-		marker = new google.maps.Marker({position:latLng, map:map});
-		document.forms[1].latitude.value=latLng.lat();
-		document.forms[1].longitude.value=latLng.lng();
-		document.forms[1].located.value='1';
-		<?
-		}
-		?>
-		
-		google.maps.event.addListener(map,'click',function(event) {
-			document.forms[1].latitude.value = event.latLng.lat();
-			document.forms[1].longitude.value = event.latLng.lng();
-			document.forms[1].located.value='1';
-			marker.setPosition(event.latLng);
-		});
-	}
-
-	/*
     if (GBrowserIsCompatible()) { 
 	
 	  var icon = new GIcon();
@@ -209,7 +161,7 @@ if ($located==false) {
 	  
 	}
 	  
-*/
+//]]>
     </script>
 <p>
 <form action="" method="post">  <input name="locate" type="submit" id="locate" style="color: <? echo($form_color); ?>; font-size: <? echo($font_size); ?>em;" value="<? echo($locate_button_text); ?>"> 

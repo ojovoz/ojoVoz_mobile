@@ -27,7 +27,7 @@ if (isset($_POST['submit'])) {
 <blockquote>
   <p>
     <select name="c" style="font-face: <? echo($ov_text_font); ?>; font-size: <? echo($font_size); ?>em;">
-	<option value="-1" selected>Choose your user name:</option>
+	<option value="-1" selected>Elija una comunidad:</option>
 <?
 //get combo lines
 $lines = GetComboListUpload($dbh);
@@ -37,7 +37,7 @@ for ($i=0;$i<sizeof($lines);$i++) {
 ?> 
 </select>
 </p>
-  <p><font face="<? echo($ov_text_font); ?>" size="<?  echo($ov_text_font_size); ?>"><b>Pass: </b></font> 
+  <p><font face="<? echo($ov_text_font); ?>" size="<?  echo($ov_text_font_size); ?>"><b>Contraseña: </b></font> 
     <input type="password" name="p" maxlength="15" style="font-face: <? echo($ov_text_font); ?>; font-size: <? echo($font_size); ?>em;">
 </p>
     <p align="left"> 
