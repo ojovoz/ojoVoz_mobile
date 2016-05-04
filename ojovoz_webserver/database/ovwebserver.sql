@@ -167,7 +167,7 @@ CREATE TABLE IF NOT EXISTS `tag` (
   `times_clicked` smallint(5) NOT NULL DEFAULT '0',
   `tag_group_id` bigint(20) NOT NULL DEFAULT '-1',
   `in_map` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `color_in_map` char(2) NOT NULL DEFAULT '16',
+  `color_in_map` char(2) NOT NULL DEFAULT '01',
   `in_megafone` tinyint(4) NOT NULL DEFAULT '0',
   `is_study` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`tag_id`)
