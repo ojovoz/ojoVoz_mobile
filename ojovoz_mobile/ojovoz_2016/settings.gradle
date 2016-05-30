@@ -1,0 +1,1 @@
+include ':app', ':apache-httpcomponents-httpcore', ':httpclient-4.2', ':activation', ':additionnal', ':mail'
