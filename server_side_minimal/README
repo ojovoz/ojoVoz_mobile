@@ -1,7 +1,0 @@
-Estos son los scripts necesarios para una configuración mínima de ojoVoz en tu servidor. Debes ponerlos dentro de una carpeta llamada "mobile", que a su vez será una subcarpeta de la carpeta principal de tu aplicación ojoVoz. Por ejemplo: http://myserver.net/myapp/mobile
-Por favor consulta los comentarios incluídos en cada script para mayores detalles.
-
----
-
-These are the server-side scripts necessary for the minimal configuration of ojoVoz on your server. You need to put them inside a folder called "mobile", which will be a subfolder of your main ojoVoz application. For example: http://myserver.net/myapp/mobile
-Please refer to the comments on the scripts for more details.
