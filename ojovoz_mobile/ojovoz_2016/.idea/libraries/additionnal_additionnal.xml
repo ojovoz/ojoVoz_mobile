@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="additionnal.additionnal">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/additionnal/additionnal.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

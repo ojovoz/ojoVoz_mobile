@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="omTextColor">#FFFFFF</color>
+    <drawable name="omBlank">#000000</drawable>
+    <string name="app_name" translatable="false">ojoVoz</string>
+    <string name="omCancelButtonText">Cancel</string>
+    <string name="omChooseTagText">Choose a tag</string>
+    <string name="omDefineIdTitle">Define ID</string>
+    <string name="omDefineServerTitle">Define server</string>
+    <string name="omDialogTitle">Type your name</string>
+    <string name="omEmpty" translatable="false"/>
+    <string name="omIdLabel">ID</string>
+    <string name="omLocationStr">GPS unavailable</string>
+    <string name="omMenuOptNameText">My name</string>
+    <string name="omMenuOptSendText">Send messages</string>
+    <string name="omMessageSavedText">Message saved</string>
+    <string name="omNewTagText">Enter new tag</string>
+    <string name="omNoMessagesText">No messages to send</string>
+    <string name="omOKButtonText">OK</string>
+    <string name="omPhotoButtonText">Take a picture</string>
+    <string name="omPleaseConnectText">Please connect to the Internet</string>
+    <string name="omSaveButtonText">Save message</string>
+    <string name="omSendingMessagesDialogText">Sending messages</string>
+    <string name="omServerLabel">Server</string>
+    <string name="omSoundButtonText">Record voice</string>
+    <string name="omSoundFinishedStr">Voice recorded</string>
+    <string name="omSoundStr">Recording voice ...</string>
+    <string name="omTagsDownloaded">Tags downloaded successfully</string>
+    <string name="omTextFieldLabel">Name</string>
+    <style name="omButtonTextStyle">size:30dp</style>
+</resources>
