@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ojoVoz</string>
+    <string name="omCancelButtonText">Kufuta</string>
+    <string name="omChooseTagText">Kuchagua neno</string>
+    <string name="omDefineIdTitle">Kuandika ID</string>
+    <string name="omDefineServerTitle">Kuandika server</string>
+    <string name="omDialogTitle">Kuandika jina lako</string>
+    <string name="omIdLabel">ID</string>
+    <string name="omLocationStr">GPS hazipatikani</string>
+    <string name="omMenuOptNameText">Jina langu</string>
+    <string name="omMenuOptSendText">Ujumbe</string>
+    <string name="omMessageSavedText">Ujumbe kuokolewa</string>
+    <string name="omNewTagText">Mpya ya neno</string>
+    <string name="omNoMessagesText">Hakuna kutuma ujumbe</string>
+    <string name="omOKButtonText">Sawa</string>
+    <string name="omPhotoButtonText">Piga picha</string>
+    <string name="omPleaseConnectText">Tafadhali kuungana na mtandao</string>
+    <string name="omSaveButtonText">Kuokoa ujumbe</string>
+    <string name="omSendingMessagesDialogText">Ujumbe ni kuwa alimtuma</string>
+    <string name="omServerLabel">Server</string>
+    <string name="omSoundButtonText">Rekodi ya sauti</string>
+    <string name="omSoundFinishedStr">Sauti imekuwa kumbukumbu</string>
+    <string name="omSoundStr">Kurekodi ...</string>
+    <string name="omTagsDownloaded">Neno kuokolewa</string>
+    <string name="omTextFieldLabel">Jina</string>
+</resources>
