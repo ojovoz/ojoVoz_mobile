@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016\app\src\main\AndroidManifest.xml:2:1-37:12
+ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016\app\src\main\AndroidManifest.xml:2:1-38:12
 	package
 		ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016\app\src\main\AndroidManifest.xml:3:5-30
 		INJECTED from C:\Users\Eugenio\StudioProjects\ojovoz_2016\app\src\main\AndroidManifest.xml
@@ -57,7 +57,7 @@ ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016\app\src\main\AndroidManif
 	android:name
 		ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016\app\src\main\AndroidManifest.xml:15:20-74
 application
-ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016\app\src\main\AndroidManifest.xml:18:5-35:19
+ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016\app\src\main\AndroidManifest.xml:18:5-36:19
 	android:label
 		ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016\app\src\main\AndroidManifest.xml:20:9-41
 	android:configChanges
@@ -83,7 +83,9 @@ ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016\app\src\main\AndroidManif
 	android:name
 		ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016\app\src\main\AndroidManifest.xml:28:27-74
 activity#ojovoz.messagesActivity
-ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016\app\src\main\AndroidManifest.xml:31:9-34:20
+ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016\app\src\main\AndroidManifest.xml:31:9-35:20
+	android:screenOrientation
+		ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016\app\src\main\AndroidManifest.xml:34:13-49
 	android:label
 		ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016\app\src\main\AndroidManifest.xml:32:13-45
 	android:name

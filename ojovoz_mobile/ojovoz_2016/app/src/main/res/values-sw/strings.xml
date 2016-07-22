@@ -12,7 +12,7 @@
     <string name="omMenuOptSendText">Ujumbe</string>
     <string name="omMessageSavedText">Ujumbe kuokolewa</string>
     <string name="omNewTagText">Mpya ya neno</string>
-    <string name="omNoMessagesText">Hakuna kutuma ujumbe</string>
+    <string name="omNoMessagesText">Hakuna ujumbe</string>
     <string name="omOKButtonText">Sawa</string>
     <string name="omPhotoButtonText">Piga picha</string>
     <string name="omPleaseConnectText">Tafadhali kuungana na mtandao</string>
@@ -24,4 +24,7 @@
     <string name="omSoundFinishedStr">Sauti imekuwa kumbukumbu</string>
     <string name="omTextFieldLabel">Jina</string>
     <string name="omTagsDownloaded">Neno kuokolewa</string>
+    <string name="omPleaseWait">Tafadhali subiri ...</string>
+    <string name="omSend">Kutuma</string>
+    <string name="omDelete">Kufuta</string>
 </resources>

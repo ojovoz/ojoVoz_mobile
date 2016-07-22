@@ -1,7 +1,15 @@
 [
     {
+        "merged": "C:\\Users\\Eugenio\\StudioProjects\\ojovoz_2016\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_stop.png",
+        "source": "C:\\Users\\Eugenio\\StudioProjects\\ojovoz_2016\\app\\src\\main\\res\\drawable-hdpi\\ic_stop.png"
+    },
+    {
         "merged": "C:\\Users\\Eugenio\\StudioProjects\\ojovoz_2016\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_ov.png",
         "source": "C:\\Users\\Eugenio\\StudioProjects\\ojovoz_2016\\app\\src\\main\\res\\drawable-hdpi\\ic_ov.png"
+    },
+    {
+        "merged": "C:\\Users\\Eugenio\\StudioProjects\\ojovoz_2016\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_play.png",
+        "source": "C:\\Users\\Eugenio\\StudioProjects\\ojovoz_2016\\app\\src\\main\\res\\drawable-hdpi\\ic_play.png"
     },
     {
         "merged": "C:\\Users\\Eugenio\\StudioProjects\\ojovoz_2016\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\common_full_open_on_phone.png",

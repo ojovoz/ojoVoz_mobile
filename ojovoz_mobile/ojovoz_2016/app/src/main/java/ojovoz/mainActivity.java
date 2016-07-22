@@ -543,9 +543,11 @@ public class mainActivity extends Activity {
 	private void displayMessages() {
 		final String bundledMessages=getPreference("log");
 		if (bundledMessages != "" && bundledMessages != null) {
-			final Context context = this;
-			Intent intent = new Intent(context, messagesActivity.class);
-			startActivity(intent);
+
+            final Context context = this;
+            Intent i=new Intent(context,messagesActivity.class);
+            startActivity(i);
+
 		} else {
 			Toast.makeText(this, R.string.omNoMessagesText,Toast.LENGTH_SHORT).show();
 		}

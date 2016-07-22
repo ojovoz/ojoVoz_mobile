@@ -18,10 +18,13 @@
     <string name="omMenuOptSendText">Mensajes</string>
     <string name="omMessageSavedText">Mensaje guardado</string>
     <string name="omNewTagText">Nueva palabra</string>
-    <string name="omNoMessagesText">No hay mensajes que enviar</string>
+    <string name="omNoMessagesText">No hay mensajes </string>
     <string name="omPleaseConnectText">Favor de conectarse a Internet</string>
     <string name="omSendingMessagesDialogText">Enviando mensajes</string>
     <string name="omSoundFinishedStr">Voz grabada</string>
     <string name="omSoundStr">Grabando voz ...</string>
     <string name="omTagsDownloaded">Tags descargadas exitosamente</string>
+    <string name="omPleaseWait">Espere, por favor ...</string>
+    <string name="omSend">Enviar</string>
+    <string name="omDelete">Borrar</string>
 </resources>

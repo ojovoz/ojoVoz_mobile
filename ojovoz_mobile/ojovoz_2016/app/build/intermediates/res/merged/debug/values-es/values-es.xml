@@ -5,6 +5,7 @@
     <string name="omChooseTagText">Elige una palabra</string>
     <string name="omDefineIdTitle">Definir ID</string>
     <string name="omDefineServerTitle">Definir servidor</string>
+    <string name="omDelete">Borrar</string>
     <string name="omDialogTitle">Escribe tu nombre</string>
     <string name="omIdLabel">ID</string>
     <string name="omLocationStr">GPS no disponible</string>
@@ -12,11 +13,13 @@
     <string name="omMenuOptSendText">Mensajes</string>
     <string name="omMessageSavedText">Mensaje guardado</string>
     <string name="omNewTagText">Nueva palabra</string>
-    <string name="omNoMessagesText">No hay mensajes que enviar</string>
+    <string name="omNoMessagesText">No hay mensajes </string>
     <string name="omOKButtonText">OK</string>
     <string name="omPhotoButtonText">Tomar una foto</string>
     <string name="omPleaseConnectText">Favor de conectarse a Internet</string>
+    <string name="omPleaseWait">Espere, por favor ...</string>
     <string name="omSaveButtonText">Guardar mensaje</string>
+    <string name="omSend">Enviar</string>
     <string name="omSendingMessagesDialogText">Enviando mensajes</string>
     <string name="omServerLabel">Servidor</string>
     <string name="omSoundButtonText">Grabar voz</string>

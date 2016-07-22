@@ -22,5 +22,4 @@ public class soundPlayer {
         playing = !playing;
     }
 
-
 }

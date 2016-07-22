@@ -5,6 +5,7 @@
     <string name="omChooseTagText">Kuchagua neno</string>
     <string name="omDefineIdTitle">Kuandika ID</string>
     <string name="omDefineServerTitle">Kuandika server</string>
+    <string name="omDelete">Kufuta</string>
     <string name="omDialogTitle">Kuandika jina lako</string>
     <string name="omIdLabel">ID</string>
     <string name="omLocationStr">GPS hazipatikani</string>
@@ -12,11 +13,13 @@
     <string name="omMenuOptSendText">Ujumbe</string>
     <string name="omMessageSavedText">Ujumbe kuokolewa</string>
     <string name="omNewTagText">Mpya ya neno</string>
-    <string name="omNoMessagesText">Hakuna kutuma ujumbe</string>
+    <string name="omNoMessagesText">Hakuna ujumbe</string>
     <string name="omOKButtonText">Sawa</string>
     <string name="omPhotoButtonText">Piga picha</string>
     <string name="omPleaseConnectText">Tafadhali kuungana na mtandao</string>
+    <string name="omPleaseWait">Tafadhali subiri ...</string>
     <string name="omSaveButtonText">Kuokoa ujumbe</string>
+    <string name="omSend">Kutuma</string>
     <string name="omSendingMessagesDialogText">Ujumbe ni kuwa alimtuma</string>
     <string name="omServerLabel">Server</string>
     <string name="omSoundButtonText">Rekodi ya sauti</string>

@@ -35,7 +35,8 @@
         </activity>
         <activity
             android:name="ojovoz.messagesActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 
