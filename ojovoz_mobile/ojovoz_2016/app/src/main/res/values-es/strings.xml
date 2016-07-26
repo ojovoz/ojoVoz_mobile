@@ -27,4 +27,6 @@
     <string name="omPleaseWait">Espere, por favor ...</string>
     <string name="omSend">Enviar</string>
     <string name="omDelete">Borrar</string>
+    <string name="omRemainingMessages">mensajes</string>
+    <string name="omDeleteSelectedMessages">¿Borrar mensajes seleccionados?</string>
 </resources>

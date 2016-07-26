@@ -79,20 +79,27 @@
                     "startLine": 8,
                     "startColumn": 4,
                     "startOffset": 370,
-                    "endColumn": 56,
-                    "endOffset": 422
+                    "endColumn": 78,
+                    "endOffset": 444
                 },
                 "from": {
-                    "file": "C:\\Users\\Eugenio\\StudioProjects\\ojovoz_2016\\app\\src\\main\\res\\values-en\\strings.xml"
+                    "file": "C:\\Users\\Eugenio\\StudioProjects\\ojovoz_2016\\app\\src\\main\\res\\values-en\\strings.xml",
+                    "position": {
+                        "startLine": 30,
+                        "startColumn": 4,
+                        "startOffset": 1667,
+                        "endColumn": 78,
+                        "endOffset": 1741
+                    }
                 }
             },
             {
                 "to": {
                     "startLine": 9,
                     "startColumn": 4,
-                    "startOffset": 427,
-                    "endColumn": 40,
-                    "endOffset": 463
+                    "startOffset": 449,
+                    "endColumn": 56,
+                    "endOffset": 501
                 },
                 "from": {
                     "file": "C:\\Users\\Eugenio\\StudioProjects\\ojovoz_2016\\app\\src\\main\\res\\values-en\\strings.xml"
@@ -102,9 +109,9 @@
                 "to": {
                     "startLine": 10,
                     "startColumn": 4,
-                    "startOffset": 468,
-                    "endColumn": 57,
-                    "endOffset": 521
+                    "startOffset": 506,
+                    "endColumn": 40,
+                    "endOffset": 542
                 },
                 "from": {
                     "file": "C:\\Users\\Eugenio\\StudioProjects\\ojovoz_2016\\app\\src\\main\\res\\values-en\\strings.xml"
@@ -114,9 +121,9 @@
                 "to": {
                     "startLine": 11,
                     "startColumn": 4,
-                    "startOffset": 526,
-                    "endColumn": 53,
-                    "endOffset": 575
+                    "startOffset": 547,
+                    "endColumn": 57,
+                    "endOffset": 600
                 },
                 "from": {
                     "file": "C:\\Users\\Eugenio\\StudioProjects\\ojovoz_2016\\app\\src\\main\\res\\values-en\\strings.xml"
@@ -126,9 +133,9 @@
                 "to": {
                     "startLine": 12,
                     "startColumn": 4,
-                    "startOffset": 580,
-                    "endColumn": 54,
-                    "endOffset": 630
+                    "startOffset": 605,
+                    "endColumn": 53,
+                    "endOffset": 654
                 },
                 "from": {
                     "file": "C:\\Users\\Eugenio\\StudioProjects\\ojovoz_2016\\app\\src\\main\\res\\values-en\\strings.xml"
@@ -138,9 +145,9 @@
                 "to": {
                     "startLine": 13,
                     "startColumn": 4,
-                    "startOffset": 635,
-                    "endColumn": 60,
-                    "endOffset": 691
+                    "startOffset": 659,
+                    "endColumn": 54,
+                    "endOffset": 709
                 },
                 "from": {
                     "file": "C:\\Users\\Eugenio\\StudioProjects\\ojovoz_2016\\app\\src\\main\\res\\values-en\\strings.xml"
@@ -150,9 +157,9 @@
                 "to": {
                     "startLine": 14,
                     "startColumn": 4,
-                    "startOffset": 696,
-                    "endColumn": 54,
-                    "endOffset": 746
+                    "startOffset": 714,
+                    "endColumn": 60,
+                    "endOffset": 770
                 },
                 "from": {
                     "file": "C:\\Users\\Eugenio\\StudioProjects\\ojovoz_2016\\app\\src\\main\\res\\values-en\\strings.xml"
@@ -162,9 +169,9 @@
                 "to": {
                     "startLine": 15,
                     "startColumn": 4,
-                    "startOffset": 751,
-                    "endColumn": 57,
-                    "endOffset": 804
+                    "startOffset": 775,
+                    "endColumn": 54,
+                    "endOffset": 825
                 },
                 "from": {
                     "file": "C:\\Users\\Eugenio\\StudioProjects\\ojovoz_2016\\app\\src\\main\\res\\values-en\\strings.xml"
@@ -174,9 +181,9 @@
                 "to": {
                     "startLine": 16,
                     "startColumn": 4,
-                    "startOffset": 809,
-                    "endColumn": 45,
-                    "endOffset": 850
+                    "startOffset": 830,
+                    "endColumn": 57,
+                    "endOffset": 883
                 },
                 "from": {
                     "file": "C:\\Users\\Eugenio\\StudioProjects\\ojovoz_2016\\app\\src\\main\\res\\values-en\\strings.xml"
@@ -186,9 +193,9 @@
                 "to": {
                     "startLine": 17,
                     "startColumn": 4,
-                    "startOffset": 855,
-                    "endColumn": 60,
-                    "endOffset": 911
+                    "startOffset": 888,
+                    "endColumn": 45,
+                    "endOffset": 929
                 },
                 "from": {
                     "file": "C:\\Users\\Eugenio\\StudioProjects\\ojovoz_2016\\app\\src\\main\\res\\values-en\\strings.xml"
@@ -198,8 +205,8 @@
                 "to": {
                     "startLine": 18,
                     "startColumn": 4,
-                    "startOffset": 916,
-                    "endColumn": 78,
+                    "startOffset": 934,
+                    "endColumn": 60,
                     "endOffset": 990
                 },
                 "from": {
@@ -211,27 +218,20 @@
                     "startLine": 19,
                     "startColumn": 4,
                     "startOffset": 995,
-                    "endColumn": 56,
-                    "endOffset": 1047
+                    "endColumn": 78,
+                    "endOffset": 1069
                 },
                 "from": {
-                    "file": "C:\\Users\\Eugenio\\StudioProjects\\ojovoz_2016\\app\\src\\main\\res\\values-en\\strings.xml",
-                    "position": {
-                        "startLine": 26,
-                        "startColumn": 4,
-                        "startOffset": 1461,
-                        "endColumn": 56,
-                        "endOffset": 1513
-                    }
+                    "file": "C:\\Users\\Eugenio\\StudioProjects\\ojovoz_2016\\app\\src\\main\\res\\values-en\\strings.xml"
                 }
             },
             {
                 "to": {
                     "startLine": 20,
                     "startColumn": 4,
-                    "startOffset": 1052,
-                    "endColumn": 57,
-                    "endOffset": 1105
+                    "startOffset": 1074,
+                    "endColumn": 56,
+                    "endOffset": 1126
                 },
                 "from": {
                     "file": "C:\\Users\\Eugenio\\StudioProjects\\ojovoz_2016\\app\\src\\main\\res\\values-en\\strings.xml"
@@ -241,9 +241,9 @@
                 "to": {
                     "startLine": 21,
                     "startColumn": 4,
-                    "startOffset": 1110,
-                    "endColumn": 39,
-                    "endOffset": 1145
+                    "startOffset": 1131,
+                    "endColumn": 60,
+                    "endOffset": 1187
                 },
                 "from": {
                     "file": "C:\\Users\\Eugenio\\StudioProjects\\ojovoz_2016\\app\\src\\main\\res\\values-en\\strings.xml"
@@ -253,9 +253,9 @@
                 "to": {
                     "startLine": 22,
                     "startColumn": 4,
-                    "startOffset": 1150,
-                    "endColumn": 72,
-                    "endOffset": 1218
+                    "startOffset": 1192,
+                    "endColumn": 57,
+                    "endOffset": 1245
                 },
                 "from": {
                     "file": "C:\\Users\\Eugenio\\StudioProjects\\ojovoz_2016\\app\\src\\main\\res\\values-en\\strings.xml"
@@ -265,9 +265,9 @@
                 "to": {
                     "startLine": 23,
                     "startColumn": 4,
-                    "startOffset": 1223,
-                    "endColumn": 48,
-                    "endOffset": 1267
+                    "startOffset": 1250,
+                    "endColumn": 39,
+                    "endOffset": 1285
                 },
                 "from": {
                     "file": "C:\\Users\\Eugenio\\StudioProjects\\ojovoz_2016\\app\\src\\main\\res\\values-en\\strings.xml"
@@ -277,9 +277,9 @@
                 "to": {
                     "startLine": 24,
                     "startColumn": 4,
-                    "startOffset": 1272,
-                    "endColumn": 58,
-                    "endOffset": 1326
+                    "startOffset": 1290,
+                    "endColumn": 72,
+                    "endOffset": 1358
                 },
                 "from": {
                     "file": "C:\\Users\\Eugenio\\StudioProjects\\ojovoz_2016\\app\\src\\main\\res\\values-en\\strings.xml"
@@ -289,9 +289,9 @@
                 "to": {
                     "startLine": 25,
                     "startColumn": 4,
-                    "startOffset": 1331,
-                    "endColumn": 61,
-                    "endOffset": 1388
+                    "startOffset": 1363,
+                    "endColumn": 48,
+                    "endOffset": 1407
                 },
                 "from": {
                     "file": "C:\\Users\\Eugenio\\StudioProjects\\ojovoz_2016\\app\\src\\main\\res\\values-en\\strings.xml"
@@ -301,9 +301,9 @@
                 "to": {
                     "startLine": 26,
                     "startColumn": 4,
-                    "startOffset": 1393,
+                    "startOffset": 1412,
                     "endColumn": 58,
-                    "endOffset": 1447
+                    "endOffset": 1466
                 },
                 "from": {
                     "file": "C:\\Users\\Eugenio\\StudioProjects\\ojovoz_2016\\app\\src\\main\\res\\values-en\\strings.xml"
@@ -313,9 +313,9 @@
                 "to": {
                     "startLine": 27,
                     "startColumn": 4,
-                    "startOffset": 1452,
-                    "endColumn": 73,
-                    "endOffset": 1521
+                    "startOffset": 1471,
+                    "endColumn": 61,
+                    "endOffset": 1528
                 },
                 "from": {
                     "file": "C:\\Users\\Eugenio\\StudioProjects\\ojovoz_2016\\app\\src\\main\\res\\values-en\\strings.xml"
@@ -325,9 +325,33 @@
                 "to": {
                     "startLine": 28,
                     "startColumn": 4,
-                    "startOffset": 1526,
+                    "startOffset": 1533,
+                    "endColumn": 58,
+                    "endOffset": 1587
+                },
+                "from": {
+                    "file": "C:\\Users\\Eugenio\\StudioProjects\\ojovoz_2016\\app\\src\\main\\res\\values-en\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 29,
+                    "startColumn": 4,
+                    "startOffset": 1592,
+                    "endColumn": 73,
+                    "endOffset": 1661
+                },
+                "from": {
+                    "file": "C:\\Users\\Eugenio\\StudioProjects\\ojovoz_2016\\app\\src\\main\\res\\values-en\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 30,
+                    "startColumn": 4,
+                    "startOffset": 1666,
                     "endColumn": 49,
-                    "endOffset": 1571
+                    "endOffset": 1711
                 },
                 "from": {
                     "file": "C:\\Users\\Eugenio\\StudioProjects\\ojovoz_2016\\app\\src\\main\\res\\values-en\\strings.xml"

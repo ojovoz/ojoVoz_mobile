@@ -6,6 +6,7 @@
     <string name="omDefineIdTitle">Defineix ID</string>
     <string name="omDefineServerTitle">Defineix servidor</string>
     <string name="omDelete">Esborrar</string>
+    <string name="omDeleteSelectedMessages">Esborrar missatges seleccionats?</string>
     <string name="omDialogTitle">Escriu el teu nom</string>
     <string name="omIdLabel">ID</string>
     <string name="omLocationStr">GPS no disponible</string>
@@ -18,6 +19,7 @@
     <string name="omPhotoButtonText">Fer una foto</string>
     <string name="omPleaseConnectText">Connectar-se a Internet si us plau</string>
     <string name="omPleaseWait">Un moment, si us plau ...</string>
+    <string name="omRemainingMessages">missatges ...</string>
     <string name="omSaveButtonText">Guardar missatge</string>
     <string name="omSend">Enviar</string>
     <string name="omSendingMessagesDialogText">Enviant missatges</string>

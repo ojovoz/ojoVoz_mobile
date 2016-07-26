@@ -27,4 +27,6 @@
     <string name="omPleaseWait">Please wait ...</string>
     <string name="omSend">Send</string>
     <string name="omDelete">Delete</string>
+    <string name="omRemainingMessages">messages ...</string>
+    <string name="omDeleteSelectedMessages">Delete selected messages?</string>
 </resources>

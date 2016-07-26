@@ -8,6 +8,7 @@
     <string name="omDefineIdTitle">Define ID</string>
     <string name="omDefineServerTitle">Define server</string>
     <string name="omDelete">Delete</string>
+    <string name="omDeleteSelectedMessages">Delete selected messages?</string>
     <string name="omDialogTitle">Type your name</string>
     <string name="omEmpty" translatable="false"/>
     <string name="omIdLabel">ID</string>
@@ -21,6 +22,7 @@
     <string name="omPhotoButtonText">Take a picture</string>
     <string name="omPleaseConnectText">Please connect to the Internet</string>
     <string name="omPleaseWait">Please wait ...</string>
+    <string name="omRemainingMessages">messages ...</string>
     <string name="omSaveButtonText">Save message</string>
     <string name="omSend">Send</string>
     <string name="omSendingMessagesDialogText">Sending messages</string>

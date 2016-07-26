@@ -27,4 +27,6 @@
     <string name="omPleaseWait">Un moment, si us plau ...</string>
     <string name="omSend">Enviar</string>
     <string name="omDelete">Esborrar</string>
+    <string name="omRemainingMessages">missatges ...</string>
+    <string name="omDeleteSelectedMessages">Esborrar missatges seleccionats?</string>
 </resources>

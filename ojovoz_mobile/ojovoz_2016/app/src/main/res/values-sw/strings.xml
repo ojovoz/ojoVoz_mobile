@@ -27,4 +27,6 @@
     <string name="omPleaseWait">Tafadhali subiri ...</string>
     <string name="omSend">Kutuma</string>
     <string name="omDelete">Kufuta</string>
+    <string name="omRemainingMessages">ujumbe ...</string>
+    <string name="omDeleteSelectedMessages">Kufuta ujumbe kuchaguliwa?</string>
 </resources>

@@ -6,6 +6,7 @@
     <string name="omDefineIdTitle">Kuandika ID</string>
     <string name="omDefineServerTitle">Kuandika server</string>
     <string name="omDelete">Kufuta</string>
+    <string name="omDeleteSelectedMessages">Kufuta ujumbe kuchaguliwa?</string>
     <string name="omDialogTitle">Kuandika jina lako</string>
     <string name="omIdLabel">ID</string>
     <string name="omLocationStr">GPS hazipatikani</string>
@@ -18,6 +19,7 @@
     <string name="omPhotoButtonText">Piga picha</string>
     <string name="omPleaseConnectText">Tafadhali kuungana na mtandao</string>
     <string name="omPleaseWait">Tafadhali subiri ...</string>
+    <string name="omRemainingMessages">ujumbe ...</string>
     <string name="omSaveButtonText">Kuokoa ujumbe</string>
     <string name="omSend">Kutuma</string>
     <string name="omSendingMessagesDialogText">Ujumbe ni kuwa alimtuma</string>
