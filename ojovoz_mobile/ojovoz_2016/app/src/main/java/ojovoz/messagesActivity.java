@@ -3,6 +3,7 @@ package ojovoz;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -36,6 +37,8 @@ public class messagesActivity extends Activity {
     Vector messages = null;
     Vector selectedMessages = new Vector();
     int maxMessages = 20;
+
+    Vector checkBoxes = new Vector();
 
     ImageView lastPlayed = null;
     int lastPlayedId;
@@ -75,7 +78,28 @@ public class messagesActivity extends Activity {
 
                     messages = new Vector();
                     if (populateMessageVector()) {
+
                         TableLayout msgList = (TableLayout) findViewById(R.id.messagesLayout);
+
+                        TableRow tr1 = new TableRow(messagesActivity.this);
+                        TableRow.LayoutParams lp1 = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.MATCH_PARENT);
+                        lp1.span=3;
+                        tr1.setBackgroundColor(Color.parseColor("#222222"));
+                        CheckBox cb1 = new CheckBox(messagesActivity.this);
+                        cb1.setChecked(true);
+                        cb1.setPadding(30, 10, 10, 10);
+                        cb1.setOnClickListener(new View.OnClickListener() {
+
+                            @Override
+                            public void onClick(View v) {
+                                CheckBox cb = (CheckBox)v;
+                                toggleAllCheckboxes(cb.isChecked());
+                            }
+
+                        });
+                        tr1.addView(cb1, lp1);
+                        msgList.addView(tr1, lp1);
+
                         for (int i = 0; i < messages.size(); i++) {
 
                             Vector row = (Vector) messages.get(i);
@@ -87,7 +111,7 @@ public class messagesActivity extends Activity {
                             if ((i % 2) == 0) {
                                 trow.setBackgroundColor(Color.parseColor("#000000"));
                             } else {
-                                trow.setBackgroundColor(Color.parseColor("#111111"));
+                                trow.setBackgroundColor(Color.parseColor("#222222"));
                             }
 
                             CheckBox checkBox = new CheckBox(messagesActivity.this);
@@ -103,6 +127,7 @@ public class messagesActivity extends Activity {
 
                             });
                             trow.addView(checkBox, lp);
+                            checkBoxes.add(checkBox);
 
                             if (i == maxMessages) {
 
@@ -120,6 +145,14 @@ public class messagesActivity extends Activity {
                                 File imgFile = new File(img);
                                 imgThumb.setImageBitmap(decodeSampledBitmapFromFile(imgFile.getAbsolutePath(), 150, 150));
                                 imgThumb.setPadding(10, 10, 10, 10);
+                                imgThumb.setOnClickListener(new View.OnClickListener(){
+
+                                    @Override
+                                    public void onClick(View v) {
+                                        toggleOneCheckbox(v.getId());
+                                    }
+
+                                });
                                 trow.addView(imgThumb, 150, 150);
 
                                 ImageView imgSound = new ImageView(messagesActivity.this);
@@ -155,7 +188,6 @@ public class messagesActivity extends Activity {
 
         }
 
-
     }
 
     public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
@@ -189,10 +221,6 @@ public class messagesActivity extends Activity {
         options.inJustDecodeBounds = false;
         return BitmapFactory.decodeFile(imgFile.getAbsolutePath(), options);
     }
-
-    /*
-    playing sounds: https://www.badprog.com/android-mediaplayer-example-of-playing-sounds
-     */
 
     public String getPreference(String keyName) {
         String value = "";
@@ -230,7 +258,7 @@ public class messagesActivity extends Activity {
                     row.add(s);
 
                     messages.add(row);
-                    selectedMessages.add(i,1);
+                    selectedMessages.add(i, 1);
                 }
             }
             return true;
@@ -244,7 +272,7 @@ public class messagesActivity extends Activity {
         super.onCreateOptionsMenu(menu);
         menu.add(0, 0, 0, R.string.omSend);
         menu.add(1, 1, 1, R.string.omDelete);
-        menu.add(2, 2, 2, R.string.omCancelButtonText);
+        menu.add(2, 2, 2, R.string.omGoBack);
         return true;
     }
 
@@ -254,12 +282,25 @@ public class messagesActivity extends Activity {
             case 0:
                 break;
             case 1:
-                showDialogDelete(this,getBaseContext().getString(R.string.omDelete),getBaseContext().getString(R.string.omDeleteSelectedMessages));
+                if(messagesSelected()) {
+                    showDialogDelete(this, getBaseContext().getString(R.string.omDelete), getBaseContext().getString(R.string.omDeleteSelectedMessages));
+                } else {
+                    Toast.makeText(this, R.string.omNoMessagesSelected, Toast.LENGTH_SHORT).show();
+                }
                 break;
             case 2:
                 this.finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public boolean messagesSelected(){
+        for(int i=0; i<selectedMessages.size(); i++){
+            if((int)selectedMessages.get(i)==1){
+                return true;
+            }
+        }
+        return false;
     }
 
     public void toggleState(int i, View v) {
@@ -323,12 +364,12 @@ public class messagesActivity extends Activity {
         File fileX = new File(f);
         long imgFileDate = fileX.lastModified();
         fileX.delete();
-        if(isImage) {
+        if (isImage) {
             String defaultGalleryPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath() + File.separator + "Camera";
             File imgs = new File(defaultGalleryPath);
             File imgsArray[] = imgs.listFiles();
-            for (int i=0; i < imgsArray.length; i++) {
-                if(Math.abs(imgsArray[i].lastModified() - imgFileDate) <= 3000){
+            for (int i = 0; i < imgsArray.length; i++) {
+                if (Math.abs(imgsArray[i].lastModified() - imgFileDate) <= 3000) {
                     imgsArray[i].delete();
                     break;
                 }
@@ -337,6 +378,7 @@ public class messagesActivity extends Activity {
     }
 
     public void deleteSelectedMessages() {
+        int n = 0;
         final String allMessages[];
         String newMessageList = "";
         final String bundledMessages = getPreference("log");
@@ -345,27 +387,34 @@ public class messagesActivity extends Activity {
             allMessages = bundledMessages.split("\\*");
 
             for (int i = 0; i < allMessages.length; i++) {
-                if(i<maxMessages){
-                    if((int)selectedMessages.get(i)==1){
+                if (i < maxMessages) {
+                    if ((int) selectedMessages.get(i) == 1) {
                         String messageElements[] = allMessages[i].split(";");
-                        deleteFileOM(messageElements[4],true);
-                        deleteFileOM(messageElements[5],false);
+                        deleteFileOM(messageElements[4], true);
+                        deleteFileOM(messageElements[5], false);
                     } else {
                         newMessageList = newMessageList + allMessages[i] + "*";
+                        n++;
                     }
                 } else {
-                    if((int)selectedMessages.get(maxMessages)==1){
+                    if ((int) selectedMessages.get(maxMessages) == 1) {
                         String messageElements[] = allMessages[i].split(";");
-                        deleteFileOM(messageElements[4],true);
-                        deleteFileOM(messageElements[5],false);
+                        deleteFileOM(messageElements[4], true);
+                        deleteFileOM(messageElements[5], false);
                     } else {
                         newMessageList = newMessageList + allMessages[i] + "*";
+                        n++;
                     }
                 }
             }
-            savePreference("log",newMessageList,false);
+            savePreference("log", newMessageList, false);
         }
-        this.finish();
+        if (n > 0) {
+            this.recreate();
+        } else {
+            this.finish();
+        }
+
     }
 
     public void updateSelectedMessageList(int i, View v) {
@@ -391,5 +440,26 @@ public class messagesActivity extends Activity {
             }
         });
         builder.show();
+    }
+
+    public void toggleAllCheckboxes(boolean v){
+        for(int i=0; i<checkBoxes.size(); i++){
+            CheckBox cb = (CheckBox)checkBoxes.get(i);
+            cb.setChecked(v);
+            int n = v ? 1:0;
+            selectedMessages.set(i,n);
+        }
+    }
+
+    public void toggleOneCheckbox(int n){
+        for(int i=0; i<checkBoxes.size(); i++){
+            CheckBox cb = (CheckBox)checkBoxes.get(i);
+            if(cb.getId()==n){
+                cb.setChecked(!cb.isChecked());
+                int v = cb.isChecked() ? 1:0;
+                selectedMessages.set(i,v);
+                break;
+            }
+        }
     }
 }

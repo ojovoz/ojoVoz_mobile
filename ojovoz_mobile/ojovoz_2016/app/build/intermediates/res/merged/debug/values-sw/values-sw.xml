@@ -8,12 +8,14 @@
     <string name="omDelete">Kufuta</string>
     <string name="omDeleteSelectedMessages">Kufuta ujumbe kuchaguliwa?</string>
     <string name="omDialogTitle">Kuandika jina lako</string>
+    <string name="omGoBack">Rudi nyuma</string>
     <string name="omIdLabel">ID</string>
     <string name="omLocationStr">GPS hazipatikani</string>
     <string name="omMenuOptNameText">Jina langu</string>
     <string name="omMenuOptSendText">Ujumbe</string>
     <string name="omMessageSavedText">Ujumbe kuokolewa</string>
     <string name="omNewTagText">Mpya ya neno</string>
+    <string name="omNoMessagesSelected">Hakuna ujumbe kuchaguliwa</string>
     <string name="omNoMessagesText">Hakuna ujumbe</string>
     <string name="omOKButtonText">Sawa</string>
     <string name="omPhotoButtonText">Piga picha</string>

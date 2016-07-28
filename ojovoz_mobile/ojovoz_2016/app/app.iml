@@ -103,8 +103,8 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="apache-httpcomponents-httpcore" exported="" />
     <orderEntry type="module" module-name="mail" exported="" />
+    <orderEntry type="module" module-name="apache-httpcomponents-httpcore" exported="" />
     <orderEntry type="module" module-name="httpclient-4.2" exported="" />
     <orderEntry type="module" module-name="activation" exported="" />
     <orderEntry type="module" module-name="additionnal" exported="" />

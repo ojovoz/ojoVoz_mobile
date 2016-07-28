@@ -29,4 +29,6 @@
     <string name="omDelete">Esborrar</string>
     <string name="omRemainingMessages">missatges ...</string>
     <string name="omDeleteSelectedMessages">Esborrar missatges seleccionats?</string>
+    <string name="omGoBack">Tornar</string>
+    <string name="omNoMessagesSelected">No hi han missatges seleccionats</string>
 </resources>

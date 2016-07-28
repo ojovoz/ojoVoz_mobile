@@ -8,12 +8,14 @@
     <string name="omDelete">Esborrar</string>
     <string name="omDeleteSelectedMessages">Esborrar missatges seleccionats?</string>
     <string name="omDialogTitle">Escriu el teu nom</string>
+    <string name="omGoBack">Tornar</string>
     <string name="omIdLabel">ID</string>
     <string name="omLocationStr">GPS no disponible</string>
     <string name="omMenuOptNameText">Nom</string>
     <string name="omMenuOptSendText">Missatges</string>
     <string name="omMessageSavedText">Missatge guardat</string>
     <string name="omNewTagText">Nova paraula</string>
+    <string name="omNoMessagesSelected">No hi han missatges seleccionats</string>
     <string name="omNoMessagesText">No hi han missatges </string>
     <string name="omOKButtonText">OK</string>
     <string name="omPhotoButtonText">Fer una foto</string>

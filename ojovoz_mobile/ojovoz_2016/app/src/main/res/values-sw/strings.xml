@@ -29,4 +29,6 @@
     <string name="omDelete">Kufuta</string>
     <string name="omRemainingMessages">ujumbe ...</string>
     <string name="omDeleteSelectedMessages">Kufuta ujumbe kuchaguliwa?</string>
+    <string name="omGoBack">Rudi nyuma</string>
+    <string name="omNoMessagesSelected">Hakuna ujumbe kuchaguliwa</string>
 </resources>
