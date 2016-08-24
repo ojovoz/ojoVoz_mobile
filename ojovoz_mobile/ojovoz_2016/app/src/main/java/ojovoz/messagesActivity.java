@@ -620,7 +620,7 @@ public class messagesActivity extends Activity {
                 final String smtpPort = retParts[3];
 
                 allMessages = bundledMessages.split("\\*");
-                dialogMax = allMessages.length;
+                dialogMax = getNSelectedMessages();
 
                 dialog = new ProgressDialog(this);
                 dialog.setCancelable(true);
@@ -704,7 +704,7 @@ public class messagesActivity extends Activity {
                             }
                         }
                         if (!cancelUpload) {
-                            //
+
                         }
                     }
                 });
@@ -718,12 +718,6 @@ public class messagesActivity extends Activity {
             sending = false;
         }
 
-        if(getPreference("log").equals("")){
-            this.finish();
-        } else {
-            this.recreate();
-        }
-
     }
 
     Handler progressHandler = new Handler() {
@@ -733,9 +727,29 @@ public class messagesActivity extends Activity {
                 sending = false;
                 dialog.dismiss();
                 upload.interrupt();
+                messageCheck();
             }
         }
     };
+
+    private int getNSelectedMessages(){
+        int n=0;
+        for (int i = 0; i < selectedMessages.size(); i++) {
+            if((int)selectedMessages.get(i)==1){
+                n++;
+            }
+        }
+        return n;
+    }
+
+    private void messageCheck(){
+        String messageCheck = getPreference("log");
+        if(messageCheck=="" || messageCheck==null){
+            this.finish();
+        } else {
+            this.recreate();
+        }
+    }
 
     private void updateMessages(String currentId) {
         String newMsg = "";
@@ -745,11 +759,7 @@ public class messagesActivity extends Activity {
             String messageElements[] = allMessages[i].split(";");
             if (messageElements.length == 7) {
                 if (!messageElements[1].equals(currentId)) {
-                    if (newMsg.equals("")) {
-                        newMsg = allMessages[i];
-                    } else {
-                        newMsg = newMsg + "*" + allMessages[i];
-                    }
+                    newMsg = newMsg + allMessages[i] + "*";
                 }
             }
         }
