@@ -19,7 +19,7 @@
     <string name="omMessageSavedText">Mensaje guardado</string>
     <string name="omNewTagText">Nueva palabra</string>
     <string name="omNoMessagesText">No hay mensajes </string>
-    <string name="omPleaseConnectText">Favor de conectarse a Internet</string>
+    <string name="omPleaseConnectText">Revisa la conexión a Internet</string>
     <string name="omSendingMessagesDialogText">Enviando mensajes</string>
     <string name="omSoundFinishedStr">Voz grabada</string>
     <string name="omSoundStr">Grabando voz ...</string>
@@ -31,4 +31,6 @@
     <string name="omDeleteSelectedMessages">¿Borrar mensajes seleccionados?</string>
     <string name="omGoBack">Volver</string>
     <string name="omNoMessagesSelected">No hay mensajes seleccionados</string>
+    <string name="omNextPage">Siguiente</string>
+    <string name="omPreviousPage">Anterior</string>
 </resources>

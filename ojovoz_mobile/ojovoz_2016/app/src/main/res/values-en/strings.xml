@@ -19,7 +19,7 @@
     <string name="omMessageSavedText">Message saved</string>
     <string name="omNewTagText">Enter new tag</string>
     <string name="omNoMessagesText">No messages </string>
-    <string name="omPleaseConnectText">Please connect to the Internet</string>
+    <string name="omPleaseConnectText">Check Internet connection</string>
     <string name="omSendingMessagesDialogText">Sending messages</string>
     <string name="omSoundFinishedStr">Voice recorded</string>
     <string name="omSoundStr">Recording voice ...</string>
@@ -31,4 +31,6 @@
     <string name="omDeleteSelectedMessages">Delete selected messages?</string>
     <string name="omGoBack">Go back</string>
     <string name="omNoMessagesSelected">No messages selected</string>
+    <string name="omNextPage">Next</string>
+    <string name="omPreviousPage">Previous</string>
 </resources>

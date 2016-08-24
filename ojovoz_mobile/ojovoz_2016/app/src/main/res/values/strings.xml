@@ -24,7 +24,7 @@
     <string name="omMenuOptNameText">My name</string>
     <string name="omMessageSavedText">Message saved</string>
     <string name="omSendingMessagesDialogText">Sending messages</string>
-    <string name="omPleaseConnectText">Please connect to the Internet</string>
+    <string name="omPleaseConnectText">Check Internet connection</string>
     <string name="omNoMessagesText">No messages </string>
     <string name="omTagsDownloaded">Tags downloaded successfully</string>
     <string name="omEmpty" translatable="false"></string>
@@ -35,5 +35,7 @@
     <string name="omDeleteSelectedMessages">Delete selected messages?</string>
     <string name="omGoBack">Go back</string>
     <string name="omNoMessagesSelected">No messages selected</string>
+    <string name="omNextPage">Next</string>
+    <string name="omPreviousPage">Previous</string>
 
 </resources>

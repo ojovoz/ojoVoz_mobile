@@ -15,12 +15,14 @@
     <string name="omMenuOptSendText">Messages</string>
     <string name="omMessageSavedText">Message saved</string>
     <string name="omNewTagText">Enter new tag</string>
+    <string name="omNextPage">Next</string>
     <string name="omNoMessagesSelected">No messages selected</string>
     <string name="omNoMessagesText">No messages </string>
     <string name="omOKButtonText">OK</string>
     <string name="omPhotoButtonText">Take a picture</string>
-    <string name="omPleaseConnectText">Please connect to the Internet</string>
+    <string name="omPleaseConnectText">Check Internet connection</string>
     <string name="omPleaseWait">Please wait ...</string>
+    <string name="omPreviousPage">Previous</string>
     <string name="omRemainingMessages">messages ...</string>
     <string name="omSaveButtonText">Save message</string>
     <string name="omSend">Send</string>

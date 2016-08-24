@@ -15,7 +15,7 @@
     <string name="omNoMessagesText">Hakuna ujumbe</string>
     <string name="omOKButtonText">Sawa</string>
     <string name="omPhotoButtonText">Piga picha</string>
-    <string name="omPleaseConnectText">Tafadhali kuungana na mtandao</string>
+    <string name="omPleaseConnectText">Kuangalia internet connection</string>
     <string name="omSaveButtonText">Kuokoa ujumbe</string>
     <string name="omSendingMessagesDialogText">Ujumbe ni kuwa alimtuma</string>
     <string name="omServerLabel">Server</string>
@@ -31,4 +31,6 @@
     <string name="omDeleteSelectedMessages">Kufuta ujumbe kuchaguliwa?</string>
     <string name="omGoBack">Rudi nyuma</string>
     <string name="omNoMessagesSelected">Hakuna ujumbe kuchaguliwa</string>
+    <string name="omNextPage">Ijayo</string>
+    <string name="omPreviousPage">Uliopita</string>
 </resources>

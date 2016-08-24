@@ -81,12 +81,6 @@ public class mainActivity extends Activity {
     private long lastGPSFix = -1;
     private Timer gpsTimer;
 
-    private ProgressDialog dialog;
-    private int uploadIncrement = 1;
-    private Thread upload;
-    private boolean cancelUpload;
-    private boolean sending = false;
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putString("photoFile", photoFile);
@@ -138,7 +132,11 @@ public class mainActivity extends Activity {
         user = getPreference("user");
 
         tag = "";
-        tagList = getPreference("tags") + ";" + getBaseContext().getString(R.string.omNewTagText);
+        String storedTags = getPreference("tags");
+        if (storedTags.equals("") && !server.equals("") && !phone_id.equals("")){
+            getTags(false);
+        }
+        tagList = storedTags + ";" + getBaseContext().getString(R.string.omNewTagText);
         tags = tagList.split(";");
         tagListView = (Button) findViewById(R.id.omTags);
         tagListView.setOnClickListener(new View.OnClickListener() {
@@ -175,16 +173,14 @@ public class mainActivity extends Activity {
         }
     }
 
-    public void getTags() {
-        new makeHTTPRequest().execute(server + "/mobile/get_tags.php?id=" + phone_id, "tags");
-
-
-        /*
-        if (ret != null && ret != "") {
-            savePreference("tags", ret, false);
-            Toast.makeText(this, R.string.omTagsDownloaded, Toast.LENGTH_SHORT).show();
+    public void getTags(boolean showMessage) {
+        if(isOnline()) {
+            new makeHTTPRequest().execute(server + "/mobile/get_tags.php?id=" + phone_id, "tags");
+        } else {
+            if(showMessage) {
+                Toast.makeText(this, R.string.omPleaseConnectText, Toast.LENGTH_SHORT).show();
+            }
         }
-        */
     }
 
     public void showSelectTagsDialog() {
@@ -221,7 +217,6 @@ public class mainActivity extends Activity {
             public void onClick(DialogInterface dialog, int which) {
             }
         });
-        //adding OK Cancel buttons http://stackoverflow.com/questions/15020878/i-want-to-show-ok-and-cancel-button-in-my-alert-dialog
         AlertDialog dialog = builder.create();
         dialog.show();
     }
@@ -270,12 +265,12 @@ public class mainActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 0:
-                if (!sending && !recording) {
+                if (!recording) {
                     displayMessages();
                 }
                 break;
             case 1:
-                if (!sending && !recording) {
+                if (!recording) {
                     dlg = new PromptDialog(this, R.string.omDialogTitle, R.string.omTextFieldLabel, user) {
                         @Override
                         public boolean onOkClicked(String input) {
@@ -285,7 +280,7 @@ public class mainActivity extends Activity {
                             } else if (input.equals("delete")) {
                                 deleteMessages();
                             } else if (input.equals("tags")) {
-                                getTags();
+                                getTags(true);
                             } else {
                                 mainActivity.this.user = input;
                                 savePreference("user", input, false);
@@ -540,18 +535,6 @@ public class mainActivity extends Activity {
         }
     }
 
-    public void clearDirectory(String dir) {
-        File root = new File(dir);
-        File[] Files = root.listFiles();
-        if (Files != null) {
-            int j;
-            for (j = 0; j < Files.length; j++) {
-                Files[j].getAbsolutePath();
-                Files[j].delete();
-            }
-        }
-    }
-
     private void displayMessages() {
         final String bundledMessages = getPreference("log");
         if (bundledMessages != "" && bundledMessages != null) {
@@ -566,139 +549,10 @@ public class mainActivity extends Activity {
     }
 
     private void sendMessages() {
-        /*
 
-        WAITING FOR AN ASYNC TASK TO FINISH: http://stackoverflow.com/questions/14827532/waiting-till-the-async-task-finish-its-work
+        //WAITING FOR AN ASYNC TASK TO FINISH: http://stackoverflow.com/questions/14827532/waiting-till-the-async-task-finish-its-work
 
-
-        int dialogMax;
-        final String allMessages[];
-        String dialogTitle = getBaseContext().getString(R.string.omSendingMessagesDialogText);
-
-        cancelUpload = false;
-        sending = true;
-
-        final String bundledMessages = getPreference("log");
-        if (bundledMessages != "" && bundledMessages != null) {
-
-            String ret = doHTTPRequest(server + "/mobile/get_email_settings.php?id=" + phone_id);
-            String retParts[] = ret.split(";");
-            if (retParts.length == 4) {
-                final String email = retParts[0];
-                final String pass = retParts[1];
-                final String smtpServer = retParts[2];
-                final String smtpPort = retParts[3];
-
-                allMessages = bundledMessages.split("\\*");
-                dialogMax = allMessages.length;
-
-                dialog = new ProgressDialog(this);
-                dialog.setCancelable(true);
-                dialog.setCanceledOnTouchOutside(false);
-                dialog.setMessage(dialogTitle);
-                dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                dialog.setProgress(0);
-                dialog.setMax(dialogMax);
-                dialog.show();
-                dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface d) {
-                        cancelUpload = true;
-                    }
-                });
-
-                upload = new Thread(new Runnable() {
-                    public void run() {
-                        for (int i = 0; i < allMessages.length; i++) {
-                            if (!cancelUpload) {
-                                String thisMessage = allMessages[i];
-                                if (!thisMessage.equals("") && thisMessage != null) {
-                                    String messageElements[] = thisMessage.split(";");
-                                    Mail m = new Mail(email, pass, smtpServer, smtpPort);
-                                    String[] toArr = {email};
-                                    m.setTo(toArr);
-                                    m.setFrom(email);
-                                    m.setSubject("ojovoz");
-                                    m.setBody(messageElements[0] + ";" + messageElements[1] + ";" + messageElements[2] + ";" + messageElements[3] + ";" + messageElements[6]);
-                                    boolean proceed = true;
-                                    try {
-                                        if (!messageElements[4].equals("null") && !messageElements[4].equals("")) {
-                                            File f1 = new File(messageElements[4]);
-                                            if (f1.exists()) {
-                                                m.addAttachment(messageElements[4]);
-                                            } else {
-                                                proceed = false;
-                                            }
-                                        } else {
-                                            proceed = false;
-                                        }
-                                        if (!messageElements[5].equals("null") && !messageElements[5].equals("")) {
-                                            File f2 = new File(messageElements[5]);
-                                            if (f2.exists()) {
-                                                m.addAttachment(messageElements[5]);
-                                            } else {
-                                                proceed = false;
-                                            }
-                                        } else {
-                                            proceed = false;
-                                        }
-                                    } catch (Exception e) {
-                                        proceed = false;
-                                    }
-                                    if (proceed) {
-                                        try {
-                                            if (m.send()) {
-                                                updateMessages(messageElements[1]);
-                                                deleteFileOM(messageElements[4], true);
-                                                deleteFileOM(messageElements[5], false);
-
-                                            } else {
-                                                cancelUpload = true;
-                                                sending = false;
-                                            }
-                                        } catch (Exception e) {
-                                            cancelUpload = true;
-                                            sending = false;
-                                        }
-                                    } else {
-                                        updateMessages(messageElements[1]);
-                                        deleteFileOM(messageElements[4], true);
-                                        deleteFileOM(messageElements[5], false);
-                                    }
-                                }
-                                progressHandler.sendMessage(progressHandler.obtainMessage());
-                            } else {
-                                sending = false;
-                                upload.interrupt();
-                            }
-                        }
-                        if (!cancelUpload) {
-                            clearDirectory(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + File.separator + "ojovoz" + File.separator);
-                        }
-                    }
-                });
-                upload.start();
-            } else {
-                Toast.makeText(this, R.string.omPleaseConnectText, Toast.LENGTH_SHORT).show();
-                sending = false;
-            }
-        } else {
-            Toast.makeText(this, R.string.omNoMessagesText, Toast.LENGTH_SHORT).show();
-            sending = false;
-        }
-        */
     }
-
-    Handler progressHandler = new Handler() {
-        public void handleMessage(Message msg) {
-            dialog.incrementProgressBy(uploadIncrement);
-            if (dialog.getProgress() == dialog.getMax()) {
-                sending = false;
-                dialog.dismiss();
-                upload.interrupt();
-            }
-        }
-    };
 
     public boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -707,26 +561,6 @@ public class mainActivity extends Activity {
             return true;
         }
         return false;
-    }
-
-    private void updateMessages(String currentId) {
-        String newMsg = "";
-        String msg = getPreference("log");
-        String allMessages[] = msg.split("\\*");
-        for (int i = 0; i < allMessages.length; i++) {
-            String messageElements[] = allMessages[i].split(";");
-            if (messageElements.length == 7) {
-                if (!messageElements[1].equals(currentId)) {
-                    if (newMsg.equals("")) {
-                        newMsg = allMessages[i];
-                    } else {
-                        newMsg = newMsg + "*" + allMessages[i];
-                    }
-                }
-            }
-        }
-        msg = newMsg;
-        savePreference("log", msg, false);
     }
 
     private void deleteFileOM(String f, boolean isImage) {
@@ -860,7 +694,11 @@ public class mainActivity extends Activity {
 
             if (pref == "tags") {
                 savePreference("tags", ret, false);
-                Toast.makeText(mainActivity.this, R.string.omTagsDownloaded, Toast.LENGTH_SHORT).show();
+                tagList = ret + ";" + getBaseContext().getString(R.string.omNewTagText);
+                tags = tagList.split(";");
+                if(!ret.equals("")) {
+                    Toast.makeText(mainActivity.this, R.string.omTagsDownloaded, Toast.LENGTH_SHORT).show();
+                }
             }
         }
 
