@@ -3,12 +3,15 @@ package ojovoz;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -44,7 +47,7 @@ import ojovoz.skeleton.R;
  */
 public class messagesActivity extends Activity {
 
-    Vector messages = null;
+    Vector messages = new Vector();
     Vector selectedMessages = new Vector();
     int maxMessages = 3;
     int from = 0;
@@ -54,6 +57,7 @@ public class messagesActivity extends Activity {
     ImageView lastPlayed = null;
     int lastPlayedId;
     MediaPlayer sndPlayer = new MediaPlayer();
+    boolean playing = false;
 
     private ProgressDialog dialog;
     private int uploadIncrement = 1;
@@ -97,8 +101,10 @@ public class messagesActivity extends Activity {
                 @Override
                 public void run() {
 
-                    messages = new Vector();
-                    if (populateMessageVector()) {
+                    if (messages.size() == 0) {
+                        populateMessageVector();
+                    }
+                    if (messages.size() > 0) {
 
                         TableLayout msgList = (TableLayout) findViewById(R.id.messagesLayout);
 
@@ -107,7 +113,7 @@ public class messagesActivity extends Activity {
                         lp1.span = 3;
                         tr1.setBackgroundColor(Color.parseColor("#222222"));
                         CheckBox cb1 = new CheckBox(messagesActivity.this);
-                        cb1.setChecked(true);
+                        cb1.setChecked(messagesSelectedInPage());
                         cb1.setPadding(30, 10, 10, 10);
                         cb1.setOnClickListener(new View.OnClickListener() {
 
@@ -139,7 +145,7 @@ public class messagesActivity extends Activity {
                             if (n < maxMessages) {
                                 CheckBox checkBox = new CheckBox(messagesActivity.this);
                                 checkBox.setId(n);
-                                checkBox.setChecked(true);
+                                checkBox.setChecked(messageSelected(i));
                                 checkBox.setPadding(30, 10, 10, 10);
                                 checkBox.setOnClickListener(new View.OnClickListener() {
 
@@ -258,6 +264,8 @@ public class messagesActivity extends Activity {
                             msgList.addView(trow, lp);
 
                         }
+                    } else {
+                        finishActivity();
                     }
                 }
             });
@@ -318,7 +326,7 @@ public class messagesActivity extends Activity {
         prefEditor.commit();
     }
 
-    private boolean populateMessageVector() {
+    private void populateMessageVector() {
         final String allMessages[];
         final String bundledMessages = getPreference("log");
 
@@ -337,16 +345,10 @@ public class messagesActivity extends Activity {
                     row.add(s);
 
                     messages.add(row);
-                    if (i >= from && i < (from + maxMessages)) {
-                        selectedMessages.add(i, 1);
-                    } else {
-                        selectedMessages.add(i, 0);
-                    }
+                    selectedMessages.add(i, 1);
+
                 }
             }
-            return true;
-        } else {
-            return false;
         }
     }
 
@@ -363,17 +365,27 @@ public class messagesActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 0:
-                if(!sending) {
+                if (!sending) {
                     if (messagesSelected()) {
-                        sendSelectedMessages();
+                        if (isOnline()) {
+                            if(playing){
+                                stopLastSound();
+                            }
+                            sendSelectedMessages();
+                        } else {
+                            Toast.makeText(this, R.string.omPleaseConnectText, Toast.LENGTH_SHORT).show();
+                        }
                     } else {
                         Toast.makeText(this, R.string.omNoMessagesSelected, Toast.LENGTH_SHORT).show();
                     }
                 }
                 break;
             case 1:
-                if(!sending) {
+                if (!sending) {
                     if (messagesSelected()) {
+                        if(playing){
+                            stopLastSound();
+                        }
                         showDialogDelete(this, getBaseContext().getString(R.string.omDelete), getBaseContext().getString(R.string.omDeleteSelectedMessages));
                     } else {
                         Toast.makeText(this, R.string.omNoMessagesSelected, Toast.LENGTH_SHORT).show();
@@ -381,11 +393,35 @@ public class messagesActivity extends Activity {
                 }
                 break;
             case 2:
-                if(!sending) {
+                if (!sending) {
+                    if(playing){
+                        stopLastSound();
+                    }
                     this.finish();
                 }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void stopSoundPlayer(){
+        if(lastPlayedId>=0) {
+            lastPlayedId = -1;
+            lastPlayed = null;
+        }
+        if(sndPlayer!=null) {
+            sndPlayer.stop();
+            sndPlayer.release();
+            sndPlayer = null;
+        }
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnected()) {
+            return true;
+        }
+        return false;
     }
 
     public boolean messagesSelected() {
@@ -395,6 +431,28 @@ public class messagesActivity extends Activity {
             }
         }
         return false;
+    }
+
+    public boolean messageSelected(int i){
+        if ((int) selectedMessages.get(i) == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void stopLastSound(){
+        Vector row = new Vector();
+
+        if (lastPlayed != null && lastPlayedId != -1) {
+            lastPlayed.setImageResource(R.drawable.ic_play);
+            lastPlayed.invalidate();
+            row = (Vector) messages.get(lastPlayedId);
+            soundPlayer sndStop = (soundPlayer) row.get(1);
+            sndStop.playing = false;
+            stopSoundPlayer();
+        }
+        playing=false;
     }
 
     public void toggleState(int i, View v) {
@@ -411,9 +469,7 @@ public class messagesActivity extends Activity {
                 row = (Vector) messages.get(lastPlayedId);
                 soundPlayer sndStop = (soundPlayer) row.get(1);
                 sndStop.playing = false;
-                sndPlayer.stop();
-                sndPlayer.release();
-                sndPlayer = null;
+                stopSoundPlayer();
             }
             lastPlayed = img;
             lastPlayedId = img.getId() + from;
@@ -430,26 +486,31 @@ public class messagesActivity extends Activity {
                 sndPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mp) {
-                        sndPlayer.stop();
-                        sndPlayer.release();
-                        lastPlayed.setImageResource(R.drawable.ic_play);
-                        lastPlayed.invalidate();
+                        if(sndPlayer!=null) {
+                            sndPlayer.stop();
+                            sndPlayer.release();
+                        }
+                        if(lastPlayed!=null) {
+                            lastPlayed.setImageResource(R.drawable.ic_play);
+                            lastPlayed.invalidate();
+                        }
                         lastPlayed = null;
-                        Vector row = (Vector) messages.get(lastPlayedId);
-                        soundPlayer sndStop = (soundPlayer) row.get(1);
-                        sndStop.playing = false;
+                        if(lastPlayedId>=0) {
+                            Vector row = (Vector) messages.get(lastPlayedId);
+                            soundPlayer sndStop = (soundPlayer) row.get(1);
+                            sndStop.playing = false;
+                        }
                     }
                 });
+                playing=true;
             } catch (IOException e) {
             }
 
             img.setImageResource(R.drawable.ic_stop);
         } else {
             img.setImageResource(R.drawable.ic_play);
-            lastPlayed = null;
-            sndPlayer.stop();
-            sndPlayer.release();
-            sndPlayer = null;
+            stopSoundPlayer();
+            playing=false;
         }
         img.invalidate();
     }
@@ -547,27 +608,32 @@ public class messagesActivity extends Activity {
     }
 
     public void previousPage() {
+        if(playing){
+            stopLastSound();
+        }
         from = from - maxMessages;
         newPage();
     }
 
     public void nextPage() {
+        if(playing){
+            stopLastSound();
+        }
         from = from + maxMessages;
         newPage();
     }
 
     public void newPage() {
-        messages = new Vector();
-        selectedMessages = new Vector();
         checkBoxes = new Vector();
-        lastPlayed = null;
-        lastPlayedId = -1;
 
         TableLayout msgList = (TableLayout) findViewById(R.id.messagesLayout);
         msgList.removeAllViewsInLayout();
 
         //Toast.makeText(this, R.string.omPleaseWait, Toast.LENGTH_SHORT).show();
 
+        populateTableLayout();
+
+        /*
         new Handler().postDelayed(new Runnable() {
 
             @Override
@@ -580,6 +646,7 @@ public class messagesActivity extends Activity {
                 }.start();
             }
         }, 50);
+        */
     }
 
     public void sendSelectedMessages() {
@@ -608,9 +675,9 @@ public class messagesActivity extends Activity {
             try {
                 ret = new makeHTTPRequest().execute(server + "/mobile/get_email_settings.php?id=" + phone_id).get();
             } catch (InterruptedException e) {
-                cancelUpload=true;
+                cancelUpload = true;
             } catch (ExecutionException e) {
-                cancelUpload=true;
+                cancelUpload = true;
             }
             String retParts[] = ret.split(";");
             if (retParts.length == 4) {
@@ -643,7 +710,7 @@ public class messagesActivity extends Activity {
                         for (int i = 0; i < allMessages.length; i++) {
                             if (!cancelUpload) {
                                 String thisMessage = allMessages[i];
-                                if (!thisMessage.equals("") && thisMessage != null && ((int)selectedMessages.get(i) == 1)) {
+                                if (!thisMessage.equals("") && thisMessage != null && ((int) selectedMessages.get(i) == 1)) {
                                     String messageElements[] = thisMessage.split(";");
                                     Mail m = new Mail(email, pass, smtpServer, smtpPort);
                                     String[] toArr = {email};
@@ -703,8 +770,8 @@ public class messagesActivity extends Activity {
                                 upload.interrupt();
                             }
                         }
-                        if (!cancelUpload) {
-
+                        if (cancelUpload) {
+                            finishActivity();
                         }
                     }
                 });
@@ -732,19 +799,41 @@ public class messagesActivity extends Activity {
         }
     };
 
-    private int getNSelectedMessages(){
-        int n=0;
+    private void finishActivity() {
+        this.finish();
+    }
+
+    private int getNSelectedMessages() {
+        int n = 0;
         for (int i = 0; i < selectedMessages.size(); i++) {
-            if((int)selectedMessages.get(i)==1){
+            if ((int) selectedMessages.get(i) == 1) {
                 n++;
             }
         }
         return n;
     }
 
-    private void messageCheck(){
+    private boolean messagesSelectedInPage() {
+        int n = 0;
+        for (int i = from; i < selectedMessages.size(); i++) {
+            if(i==from+maxMessages){
+                break;
+            }
+            if ((int) selectedMessages.get(i) == 1) {
+                n++;
+            }
+
+        }
+        if(n>0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void messageCheck() {
         String messageCheck = getPreference("log");
-        if(messageCheck=="" || messageCheck==null){
+        if (messageCheck == "" || messageCheck == null) {
             this.finish();
         } else {
             this.recreate();
