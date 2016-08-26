@@ -15,7 +15,7 @@
     <string name="omNoMessagesText">No messages to send</string>
     <string name="omOKButtonText">OK</string>
     <string name="omPhotoButtonText">Take a picture</string>
-    <string name="omPleaseConnectText">Please connect to the Internet</string>
+    <string name="omPleaseConnectText">Check internet connection</string>
     <string name="omSaveButtonText">Save message</string>
     <string name="omSendingMessagesDialogText">Sending messages</string>
     <string name="omServerLabel">Server</string>

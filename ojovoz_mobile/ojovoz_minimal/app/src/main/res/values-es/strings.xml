@@ -19,7 +19,7 @@
     <string name="omMessageSavedText">Mensaje guardado</string>
     <string name="omNewTagText">Nueva palabra</string>
     <string name="omNoMessagesText">No hay mensajes que enviar</string>
-    <string name="omPleaseConnectText">Favor de conectarse a Internet</string>
+    <string name="omPleaseConnectText">Revisar la conexión a internet</string>
     <string name="omSendingMessagesDialogText">Enviando mensajes</string>
     <string name="omSoundFinishedStr">Voz grabada</string>
     <string name="omSoundStr">Grabando voz ...</string>

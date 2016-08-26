@@ -15,7 +15,7 @@
     <string name="omNoMessagesText">No hi han missatges per enviar</string>
     <string name="omOKButtonText">OK</string>
     <string name="omPhotoButtonText">Fer una foto</string>
-    <string name="omPleaseConnectText">Connectar-se a Internet si us plau</string>
+    <string name="omPleaseConnectText">Revisar la connexió a internet</string>
     <string name="omSaveButtonText">Guardar missatge</string>
     <string name="omSendingMessagesDialogText">Enviant missatges</string>
     <string name="omServerLabel">Servidor</string>

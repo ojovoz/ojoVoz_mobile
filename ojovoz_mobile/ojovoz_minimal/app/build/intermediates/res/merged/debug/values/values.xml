@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="black">#000000</color>
+    <color name="lightblue">#aaaaff</color>
+    <color name="lightgray">#dddddd</color>
     <color name="omTextColor">#FFFFFF</color>
+    <color name="white">#ffffff</color>
+    <color name="yellow">#ffff00</color>
     <drawable name="omBlank">#000000</drawable>
     <string name="app_name" translatable="false">ojoVoz</string>
     <string name="omCancelButtonText">Cancel</string>
@@ -18,7 +23,7 @@
     <string name="omNoMessagesText">No messages to send</string>
     <string name="omOKButtonText">OK</string>
     <string name="omPhotoButtonText">Take a picture</string>
-    <string name="omPleaseConnectText">Please connect to the Internet</string>
+    <string name="omPleaseConnectText">Check internet connection</string>
     <string name="omSaveButtonText">Save message</string>
     <string name="omSendingMessagesDialogText">Sending messages</string>
     <string name="omServerLabel">Server</string>

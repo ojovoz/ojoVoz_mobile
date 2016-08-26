@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.EditText;
 
@@ -27,7 +28,8 @@ public abstract class PromptDialog extends AlertDialog.Builder implements OnClic
 		input = new EditText(context);
 		input.setSingleLine();
 		input.setText(user);
-		//input.setSelectAllOnFocus(true);
+		input.setBackgroundColor(Color.parseColor("#aaaaff"));
+		input.setTextColor(Color.parseColor("#000000"));
 		input.setOnClickListener(new View.OnClickListener() {
 			
 			@Override

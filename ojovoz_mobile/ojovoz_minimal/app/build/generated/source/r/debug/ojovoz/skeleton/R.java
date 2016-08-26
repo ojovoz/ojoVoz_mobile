@@ -11,11 +11,17 @@ public final class R {
     public static final class attr {
     }
     public static final class color {
-        public static final int omTextColor=0x7f050000;
+        public static final int black=0x7f050000;
+        public static final int lightblue=0x7f050001;
+        public static final int lightgray=0x7f050002;
+        public static final int omTextColor=0x7f050003;
+        public static final int white=0x7f050004;
+        public static final int yellow=0x7f050005;
     }
     public static final class drawable {
-        public static final int ic_ov=0x7f020000;
-        public static final int omBlank=0x7f020001;
+        public static final int button_background=0x7f020000;
+        public static final int ic_ov=0x7f020001;
+        public static final int omBlank=0x7f020002;
     }
     public static final class id {
         public static final int LinearLayout1=0x7f070000;

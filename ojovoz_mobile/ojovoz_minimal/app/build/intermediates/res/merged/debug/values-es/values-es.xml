@@ -15,7 +15,7 @@
     <string name="omNoMessagesText">No hay mensajes que enviar</string>
     <string name="omOKButtonText">OK</string>
     <string name="omPhotoButtonText">Tomar una foto</string>
-    <string name="omPleaseConnectText">Favor de conectarse a Internet</string>
+    <string name="omPleaseConnectText">Revisar la conexión a internet</string>
     <string name="omSaveButtonText">Guardar mensaje</string>
     <string name="omSendingMessagesDialogText">Enviando mensajes</string>
     <string name="omServerLabel">Servidor</string>
