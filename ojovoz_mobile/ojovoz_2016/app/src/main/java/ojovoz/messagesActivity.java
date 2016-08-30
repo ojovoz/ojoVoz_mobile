@@ -69,12 +69,24 @@ public class messagesActivity extends Activity {
     private String phone_id = "";
     private PromptDialog dlg = null;
 
+    String mail = "";
+    String pass = "";
+    String smtpServer = "";
+    String smtpPort = "";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.messages);
 
         Toast.makeText(this, R.string.omPleaseWait, Toast.LENGTH_SHORT).show();
+
+        server = getPreference("server");
+        phone_id = getPreference("id");
+        mail = getPreference("mail");
+        pass = getPreference("pass");
+        smtpServer = getPreference("smtpServer");
+        smtpPort = getPreference("smtpPort");
 
         new Handler().postDelayed(new Runnable() {
 
@@ -90,6 +102,14 @@ public class messagesActivity extends Activity {
         }, 50);
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (playing) {
+            stopLastSound();
+        }
     }
 
     void populateTableLayout() {
@@ -368,7 +388,7 @@ public class messagesActivity extends Activity {
                 if (!sending) {
                     if (messagesSelected()) {
                         if (isOnline()) {
-                            if(playing){
+                            if (playing) {
                                 stopLastSound();
                             }
                             sendSelectedMessages();
@@ -383,7 +403,7 @@ public class messagesActivity extends Activity {
             case 1:
                 if (!sending) {
                     if (messagesSelected()) {
-                        if(playing){
+                        if (playing) {
                             stopLastSound();
                         }
                         showDialogDelete(this, getBaseContext().getString(R.string.omDelete), getBaseContext().getString(R.string.omDeleteSelectedMessages));
@@ -394,7 +414,7 @@ public class messagesActivity extends Activity {
                 break;
             case 2:
                 if (!sending) {
-                    if(playing){
+                    if (playing) {
                         stopLastSound();
                     }
                     this.finish();
@@ -403,12 +423,12 @@ public class messagesActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void stopSoundPlayer(){
-        if(lastPlayedId>=0) {
+    public void stopSoundPlayer() {
+        if (lastPlayedId >= 0) {
             lastPlayedId = -1;
             lastPlayed = null;
         }
-        if(sndPlayer!=null) {
+        if (sndPlayer != null) {
             sndPlayer.stop();
             sndPlayer.release();
             sndPlayer = null;
@@ -433,7 +453,7 @@ public class messagesActivity extends Activity {
         return false;
     }
 
-    public boolean messageSelected(int i){
+    public boolean messageSelected(int i) {
         if ((int) selectedMessages.get(i) == 1) {
             return true;
         } else {
@@ -441,7 +461,7 @@ public class messagesActivity extends Activity {
         }
     }
 
-    public void stopLastSound(){
+    public void stopLastSound() {
         Vector row = new Vector();
 
         if (lastPlayed != null && lastPlayedId != -1) {
@@ -452,7 +472,7 @@ public class messagesActivity extends Activity {
             sndStop.playing = false;
             stopSoundPlayer();
         }
-        playing=false;
+        playing = false;
     }
 
     public void toggleState(int i, View v) {
@@ -486,23 +506,23 @@ public class messagesActivity extends Activity {
                 sndPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mp) {
-                        if(sndPlayer!=null) {
+                        if (sndPlayer != null) {
                             sndPlayer.stop();
                             sndPlayer.release();
                         }
-                        if(lastPlayed!=null) {
+                        if (lastPlayed != null) {
                             lastPlayed.setImageResource(R.drawable.ic_play);
                             lastPlayed.invalidate();
                         }
                         lastPlayed = null;
-                        if(lastPlayedId>=0) {
+                        if (lastPlayedId >= 0) {
                             Vector row = (Vector) messages.get(lastPlayedId);
                             soundPlayer sndStop = (soundPlayer) row.get(1);
                             sndStop.playing = false;
                         }
                     }
                 });
-                playing=true;
+                playing = true;
             } catch (IOException e) {
             }
 
@@ -510,7 +530,7 @@ public class messagesActivity extends Activity {
         } else {
             img.setImageResource(R.drawable.ic_play);
             stopSoundPlayer();
-            playing=false;
+            playing = false;
         }
         img.invalidate();
     }
@@ -608,7 +628,7 @@ public class messagesActivity extends Activity {
     }
 
     public void previousPage() {
-        if(playing){
+        if (playing) {
             stopLastSound();
         }
         from = from - maxMessages;
@@ -616,7 +636,7 @@ public class messagesActivity extends Activity {
     }
 
     public void nextPage() {
-        if(playing){
+        if (playing) {
             stopLastSound();
         }
         from = from + maxMessages;
@@ -658,33 +678,20 @@ public class messagesActivity extends Activity {
         cancelUpload = false;
         sending = true;
 
-        server = getPreference("server");
-        if (server.equals("")) {
-            defineServer("");
-        }
-
-        phone_id = getPreference("id");
-        if (phone_id.equals("")) {
-            definePhoneId("");
-        }
-
         final String bundledMessages = getPreference("log");
         if (!server.equals("") && !phone_id.equals("")) {
 
-            String ret = null;
-            try {
-                ret = new makeHTTPRequest().execute(server + "/mobile/get_email_settings.php?id=" + phone_id).get();
-            } catch (InterruptedException e) {
-                cancelUpload = true;
-            } catch (ExecutionException e) {
-                cancelUpload = true;
+            if(mail.equals("") || pass.equals("") || smtpServer.equals("") || smtpPort.equals("")){
+                try {
+                    new makeHTTPRequest().execute(server + "/mobile/get_email_settings.php?id=" + phone_id).get();
+                } catch (InterruptedException e) {
+                    cancelUpload = true;
+                } catch (ExecutionException e) {
+                    cancelUpload = true;
+                }
             }
-            String retParts[] = ret.split(";");
-            if (retParts.length == 4) {
-                final String email = retParts[0];
-                final String pass = retParts[1];
-                final String smtpServer = retParts[2];
-                final String smtpPort = retParts[3];
+
+            if (!mail.equals("") && !pass.equals("") && !smtpServer.equals("") && !smtpPort.equals("")) {
 
                 allMessages = bundledMessages.split("\\*");
                 dialogMax = getNSelectedMessages();
@@ -712,10 +719,10 @@ public class messagesActivity extends Activity {
                                 String thisMessage = allMessages[i];
                                 if (!thisMessage.equals("") && thisMessage != null && ((int) selectedMessages.get(i) == 1)) {
                                     String messageElements[] = thisMessage.split(";");
-                                    Mail m = new Mail(email, pass, smtpServer, smtpPort);
-                                    String[] toArr = {email};
+                                    Mail m = new Mail(mail, pass, smtpServer, smtpPort);
+                                    String[] toArr = {mail};
                                     m.setTo(toArr);
-                                    m.setFrom(email);
+                                    m.setFrom(mail);
                                     m.setSubject("ojovoz");
                                     m.setBody(messageElements[0] + ";" + messageElements[1] + ";" + messageElements[2] + ";" + messageElements[3] + ";" + messageElements[6]);
                                     boolean proceed = true;
@@ -816,7 +823,7 @@ public class messagesActivity extends Activity {
     private boolean messagesSelectedInPage() {
         int n = 0;
         for (int i = from; i < selectedMessages.size(); i++) {
-            if(i==from+maxMessages){
+            if (i == from + maxMessages) {
                 break;
             }
             if ((int) selectedMessages.get(i) == 1) {
@@ -824,7 +831,7 @@ public class messagesActivity extends Activity {
             }
 
         }
-        if(n>0){
+        if (n > 0) {
             return true;
         } else {
             return false;
@@ -856,30 +863,6 @@ public class messagesActivity extends Activity {
         savePreference("log", msg, false);
     }
 
-    public void defineServer(String current) {
-        dlg = new PromptDialog(this, R.string.omDefineServerTitle, R.string.omServerLabel, current) {
-            @Override
-            public boolean onOkClicked(String input) {
-                messagesActivity.this.server = input;
-                savePreference("server", input, false);
-                return true;
-            }
-        };
-        dlg.show();
-    }
-
-    public void definePhoneId(String current) {
-        dlg = new PromptDialog(this, R.string.omDefineIdTitle, R.string.omIdLabel, current) {
-            @Override
-            public boolean onOkClicked(String input) {
-                messagesActivity.this.phone_id = input;
-                savePreference("id", input, false);
-                return true;
-            }
-        };
-        dlg.show();
-    }
-
     private class makeHTTPRequest extends AsyncTask<String, Void, String> {
 
 
@@ -893,6 +876,27 @@ public class messagesActivity extends Activity {
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(String ret) {
+
+            String retParts[] = ret.split(";");
+            if(retParts.length==4) {
+                mail = retParts[0];
+                savePreference("mail", mail, false);
+                pass = retParts[1];
+                savePreference("pass", pass, false);
+                smtpServer = retParts[2];
+                savePreference("smtpServer", smtpServer, false);
+                smtpPort = retParts[3];
+                savePreference("smtpPort", smtpPort, false);
+            } else {
+                mail="";
+                savePreference("mail", "", false);
+                pass="";
+                savePreference("pass", "", false);
+                smtpServer="";
+                savePreference("smtpServer", "", false);
+                smtpPort="";
+                savePreference("smtpPort", "", false);
+            }
 
         }
 
@@ -908,7 +912,7 @@ public class messagesActivity extends Activity {
                 urlConnection.connect();
                 ret = readStream(urlConnection.getInputStream());
             } catch (Exception e) {
-                //ret = e.toString();
+                ret = "";
             } finally {
                 if (urlConnection != null) {
                     urlConnection.disconnect();

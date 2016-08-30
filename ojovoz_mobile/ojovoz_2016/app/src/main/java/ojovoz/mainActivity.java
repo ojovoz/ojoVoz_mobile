@@ -71,6 +71,11 @@ public class mainActivity extends Activity {
     private String server = "";
     private String phone_id = "";
 
+    String mail = "";
+    String pass = "";
+    String smtpServer = "";
+    String smtpPort = "";
+
     private LocationManager lm;
     private LocationListener locationListener;
     private Location currentBestLocation = null;
@@ -130,6 +135,16 @@ public class mainActivity extends Activity {
         }
 
         user = getPreference("user");
+
+        mail = getPreference("mail");
+        pass = getPreference("pass");
+        smtpServer = getPreference("smtpServer");
+        smtpPort = getPreference("smtpPort");
+        if (mail.equals("") || pass.equals("") || smtpServer.equals("") || smtpPort.equals("")){
+            if(!server.equals("") && !phone_id.equals("")) {
+                getEmailParams();
+            }
+        }
 
         tag = "";
         String storedTags = getPreference("tags");
@@ -301,6 +316,8 @@ public class mainActivity extends Activity {
             public boolean onOkClicked(String input) {
                 mainActivity.this.server = input;
                 savePreference("server", input, false);
+                getEmailParams();
+                getTags(false);
                 return true;
             }
         };
@@ -676,6 +693,21 @@ public class mainActivity extends Activity {
         }
     }
 
+    public void getEmailParams() {
+        if (isOnline()) {
+            new makeHTTPRequest().execute(server + "/mobile/get_email_settings.php?id=" + phone_id, "mail");
+        } else {
+            mail = "";
+            savePreference("mail", "", false);
+            pass = "";
+            savePreference("pass", "", false);
+            smtpServer = "";
+            savePreference("smtpServer", "", false);
+            smtpPort = "";
+            savePreference("smtpPort", "", false);
+        }
+    }
+
     private class makeHTTPRequest extends AsyncTask<String, Void, String> {
 
         private String pref;
@@ -699,6 +731,27 @@ public class mainActivity extends Activity {
                 if(!ret.equals("")) {
                     Toast.makeText(mainActivity.this, R.string.omTagsDownloaded, Toast.LENGTH_SHORT).show();
                 }
+            } else if (pref == "mail") {
+                String retParts[] = ret.split(";");
+                if(retParts.length==4) {
+                    mail = retParts[0];
+                    savePreference("mail", mail, false);
+                    pass = retParts[1];
+                    savePreference("pass", pass, false);
+                    smtpServer = retParts[2];
+                    savePreference("smtpServer", smtpServer, false);
+                    smtpPort = retParts[3];
+                    savePreference("smtpPort", smtpPort, false);
+                } else {
+                    mail="";
+                    savePreference("mail", "", false);
+                    pass="";
+                    savePreference("pass", "", false);
+                    smtpServer="";
+                    savePreference("smtpServer", "", false);
+                    smtpPort="";
+                    savePreference("smtpPort", "", false);
+                }
             }
         }
 
@@ -714,7 +767,7 @@ public class mainActivity extends Activity {
                 urlConnection.connect();
                 ret = readStream(urlConnection.getInputStream());
             } catch (Exception e) {
-                //ret = e.toString();
+                ret = "";
             } finally {
                 if (urlConnection != null) {
                     urlConnection.disconnect();
