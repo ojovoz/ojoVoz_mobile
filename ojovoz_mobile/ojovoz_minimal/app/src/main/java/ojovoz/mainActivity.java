@@ -69,6 +69,11 @@ public class mainActivity extends Activity {
 	private String server="";
 	private String phone_id="";
 
+	private String mail="";
+	private String pass="";
+	private String smtpServer="";
+	private String smtpPort="";
+
 	private LocationManager lm;
 	private LocationListener locationListener;
 	private Location currentBestLocation=null;
@@ -135,6 +140,16 @@ public class mainActivity extends Activity {
 
 		user = getPreference("user");
 
+		mail=getPreference("mail");
+        pass=getPreference("pass");
+        smtpServer=getPreference("smtpServer");
+        smtpPort=getPreference("smtpPort");
+        if (mail.equals("") || pass.equals("") || smtpServer.equals("") || smtpPort.equals("")){
+            if(!server.equals("") && !phone_id.equals("")) {
+                getEmailParams();
+            }
+        }
+
 		tag="";
         String storedTags = getPreference("tags");
         if (storedTags.equals("") && !server.equals("") && !phone_id.equals("")){
@@ -184,6 +199,21 @@ public class mainActivity extends Activity {
             if(showMessage) {
                 Toast.makeText(this, R.string.omPleaseConnectText, Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    public void getEmailParams() {
+        if(isOnline()){
+            new makeHTTPRequest().execute(server + "/mobile/get_email_settings.php?id=" + phone_id, "mail");
+        } else {
+            mail="";
+            savePreference("mail", "", false);
+            pass="";
+            savePreference("pass", "", false);
+            smtpServer="";
+            savePreference("smtpServer", "", false);
+            smtpPort="";
+            savePreference("smtpPort", "", false);
         }
     }
 
@@ -309,6 +339,8 @@ public class mainActivity extends Activity {
 			public boolean onOkClicked(String input) {
 				mainActivity.this.server = input;
 				savePreference("server",input,false);
+                getEmailParams();
+                getTags(false);
 				return true;
 			}
 		};
@@ -528,30 +560,20 @@ public class mainActivity extends Activity {
 		cancelUpload = false;
 		sending=true;
 
-        if (server.equals("")) {
-            defineServer("");
-        }
-
-        if (phone_id.equals("")) {
-            definePhoneId("");
-        }
-
 		final String bundledMessages=getPreference("log");
 		if(bundledMessages != "" && bundledMessages != null) {
             String ret = null;
-            try {
-                ret = new makeHTTPRequest().execute(server + "/mobile/get_email_settings.php?id=" + phone_id,"").get();
-            } catch (InterruptedException e) {
-                cancelUpload = true;
-            } catch (ExecutionException e) {
-                cancelUpload = true;
+            if(mail.equals("") || pass.equals("") || smtpServer.equals("") || smtpPort.equals("")){
+                try {
+                    new makeHTTPRequest().execute(server + "/mobile/get_email_settings.php?id=" + phone_id,"mail").get();
+                } catch (InterruptedException e) {
+                    cancelUpload = true;
+                } catch (ExecutionException e) {
+                    cancelUpload = true;
+                }
             }
-			String retParts[] = ret.split(";");
-			if(retParts.length==4) {
-				final String email = retParts[0];
-				final String pass = retParts[1];
-				final String smtpServer = retParts[2];
-				final String smtpPort = retParts[3];
+
+			if(!mail.equals("") && !pass.equals("") && !smtpServer.equals("") && !smtpPort.equals("")) {
 
 				allMessages=bundledMessages.split("\\*");
 				dialogMax=allMessages.length;
@@ -578,10 +600,10 @@ public class mainActivity extends Activity {
 								String thisMessage=allMessages[i];
 								if(!thisMessage.equals("") && thisMessage != null){
 									String messageElements[] = thisMessage.split(";");
-									Mail m = new Mail(email, pass, smtpServer, smtpPort);
-									String[] toArr = {email};
+									Mail m = new Mail(mail, pass, smtpServer, smtpPort);
+									String[] toArr = {mail};
 									m.setTo(toArr);
-									m.setFrom(email);
+									m.setFrom(mail);
 									m.setSubject("ojovoz");
 									m.setBody(messageElements[0]+";"+messageElements[1]+";"+messageElements[2]+";"+messageElements[3]+";"+messageElements[6]);
                                     boolean proceed=true;
@@ -824,6 +846,27 @@ public class mainActivity extends Activity {
                 if(!ret.equals("")) {
                     Toast.makeText(mainActivity.this, R.string.omTagsDownloaded, Toast.LENGTH_SHORT).show();
                 }
+            } else if (pref == "mail") {
+                String retParts[] = ret.split(";");
+                if(retParts.length==4) {
+                    mail = retParts[0];
+                    savePreference("mail", mail, false);
+                    pass = retParts[1];
+                    savePreference("pass", pass, false);
+                    smtpServer = retParts[2];
+                    savePreference("smtpServer", smtpServer, false);
+                    smtpPort = retParts[3];
+                    savePreference("smtpPort", smtpPort, false);
+                } else {
+                    mail="";
+                    savePreference("mail", "", false);
+                    pass="";
+                    savePreference("pass", "", false);
+                    smtpServer="";
+                    savePreference("smtpServer", "", false);
+                    smtpPort="";
+                    savePreference("smtpPort", "", false);
+                }
             }
         }
 
@@ -839,7 +882,7 @@ public class mainActivity extends Activity {
                 urlConnection.connect();
                 ret = readStream(urlConnection.getInputStream());
             } catch (Exception e) {
-                //ret = e.toString();
+                ret="";
             } finally {
                 if (urlConnection != null) {
                     urlConnection.disconnect();
