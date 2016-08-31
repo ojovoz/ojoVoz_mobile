@@ -576,6 +576,7 @@ public class messagesActivity extends Activity {
         if (n > 0) {
             this.recreate();
         } else {
+            clearDirectory(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + File.separator + "ojovoz" + File.separator);
             this.finish();
         }
 
@@ -708,6 +709,8 @@ public class messagesActivity extends Activity {
                     @Override
                     public void onCancel(DialogInterface d) {
                         cancelUpload = true;
+                        upload.interrupt();
+                        finishActivity();
                     }
                 });
 
@@ -715,7 +718,7 @@ public class messagesActivity extends Activity {
                     public void run() {
 
                         for (int i = 0; i < allMessages.length; i++) {
-                            if (!cancelUpload) {
+                            if (!cancelUpload && isOnline()) {
                                 String thisMessage = allMessages[i];
                                 if (!thisMessage.equals("") && thisMessage != null && ((int) selectedMessages.get(i) == 1)) {
                                     String messageElements[] = thisMessage.split(";");
@@ -775,6 +778,8 @@ public class messagesActivity extends Activity {
                             } else {
                                 sending = false;
                                 upload.interrupt();
+                                finishActivity();
+                                break;
                             }
                         }
                         if (cancelUpload) {
@@ -841,9 +846,22 @@ public class messagesActivity extends Activity {
     private void messageCheck() {
         String messageCheck = getPreference("log");
         if (messageCheck == "" || messageCheck == null) {
+            clearDirectory(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + File.separator + "ojovoz" + File.separator);
             this.finish();
         } else {
             this.recreate();
+        }
+    }
+
+    public void clearDirectory(String dir) {
+        File root = new File(dir);
+        File[] Files = root.listFiles();
+        if(Files != null) {
+            int j;
+            for(j = 0; j < Files.length; j++) {
+                Files[j].getAbsolutePath();
+                Files[j].delete();
+            }
         }
     }
 
