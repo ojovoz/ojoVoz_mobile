@@ -49,7 +49,7 @@ public class messagesActivity extends Activity {
 
     Vector messages = new Vector();
     Vector selectedMessages = new Vector();
-    int maxMessages = 3;
+    int maxMessages = 10;
     int from = 0;
 
     Vector checkBoxes = new Vector();
@@ -79,7 +79,7 @@ public class messagesActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.messages);
 
-        Toast.makeText(this, R.string.omPleaseWait, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, R.string.omPleaseWait, Toast.LENGTH_SHORT).show();
 
         server = getPreference("server");
         phone_id = getPreference("id");
@@ -88,6 +88,9 @@ public class messagesActivity extends Activity {
         smtpServer = getPreference("smtpServer");
         smtpPort = getPreference("smtpPort");
 
+        populateTableLayout();
+
+        /*
         new Handler().postDelayed(new Runnable() {
 
             @Override
@@ -100,7 +103,7 @@ public class messagesActivity extends Activity {
                 }.start();
             }
         }, 50);
-
+        */
 
     }
 
