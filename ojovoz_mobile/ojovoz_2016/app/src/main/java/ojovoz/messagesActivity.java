@@ -79,7 +79,7 @@ public class messagesActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.messages);
 
-        //Toast.makeText(this, R.string.omPleaseWait, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.omPleaseWait, Toast.LENGTH_SHORT).show();
 
         server = getPreference("server");
         phone_id = getPreference("id");
@@ -88,9 +88,8 @@ public class messagesActivity extends Activity {
         smtpServer = getPreference("smtpServer");
         smtpPort = getPreference("smtpPort");
 
-        populateTableLayout();
+        //populateTableLayout();
 
-        /*
         new Handler().postDelayed(new Runnable() {
 
             @Override
@@ -102,17 +101,16 @@ public class messagesActivity extends Activity {
                     }
                 }.start();
             }
-        }, 50);
-        */
+        }, 100);
 
     }
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         if (playing) {
             stopLastSound();
         }
+        super.onBackPressed();
     }
 
     void populateTableLayout() {

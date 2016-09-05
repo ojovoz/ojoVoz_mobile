@@ -55,8 +55,8 @@
       <file leaf-file-name="mainActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/ojovoz/mainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="753" column="17" selection-start-line="734" selection-start-column="16" selection-end-line="753" selection-end-column="17" />
+            <state vertical-scroll-proportion="35.793102">
+              <caret line="187" column="30" selection-start-line="187" selection-start-column="30" selection-end-line="187" selection-end-column="30" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -67,54 +67,28 @@
       <file leaf-file-name="messagesActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/ojovoz/messagesActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7715582">
-              <caret line="105" column="10" selection-start-line="105" selection-start-column="10" selection-end-line="105" selection-end-column="10" />
+            <state vertical-scroll-proportion="0.6429652">
+              <caret line="103" column="13" selection-start-line="103" selection-start-column="13" selection-end-line="103" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#3093#11804#0" expanded="true" />
-                <element signature="e#4024#4335#0" expanded="true" />
-                <element signature="e#4334#4335#0" expanded="true" />
-                <element signature="e#5597#5892#0" expanded="true" />
-                <element signature="e#5891#5892#0" expanded="true" />
-                <element signature="e#6470#6754#0" expanded="true" />
-                <element signature="e#6753#6754#0" expanded="true" />
-                <element signature="e#7174#7455#0" expanded="true" />
-                <element signature="e#7454#7455#0" expanded="true" />
-                <element signature="e#8573#8596#0" expanded="true" />
-                <element signature="e#8661#8931#0" expanded="true" />
-                <element signature="e#8930#8931#0" expanded="true" />
-                <element signature="e#9173#9217#0" expanded="true" />
-                <element signature="e#10712#10731#0" expanded="true" />
-                <element signature="e#10799#11065#0" expanded="true" />
-                <element signature="e#11064#11065#0" expanded="true" />
-                <element signature="e#11310#11354#0" expanded="true" />
-                <element signature="e#11803#11804#0" expanded="true" />
-                <element signature="e#14741#14756#0" expanded="true" />
-                <element signature="e#14785#14802#0" expanded="true" />
-                <element signature="e#14831#14848#0" expanded="true" />
-                <element signature="e#15383#15411#0" expanded="true" />
-                <element signature="e#15541#15570#0" expanded="true" />
-                <element signature="e#15918#15963#0" expanded="true" />
-                <element signature="e#15965#16026#0" expanded="true" />
-                <element signature="e#16103#16132#0" expanded="true" />
-                <element signature="e#18989#19863#0" expanded="true" />
-                <element signature="e#19862#19863#0" expanded="true" />
-                <element signature="e#22600#22627#0" expanded="true" />
-                <element signature="e#22670#22693#0" expanded="true" />
-                <element signature="e#22695#22866#0" expanded="true" />
-                <element signature="e#22865#22866#0" expanded="true" />
-                <element signature="e#24674#24738#0" expanded="true" />
-                <element signature="e#26017#26320#0" expanded="true" />
-                <element signature="e#26319#26320#0" expanded="true" />
-                <element signature="e#26360#30671#0" expanded="true" />
-                <element signature="e#30670#30671#0" expanded="true" />
-                <element signature="e#30764#30792#0" expanded="true" />
-                <element signature="e#30919#30947#0" expanded="true" />
-                <element signature="e#31054#31399#0" expanded="true" />
-                <element signature="e#31398#31399#0" expanded="true" />
-                <element signature="e#31436#31437#0" expanded="true" />
-                <element signature="e#31465#31466#0" expanded="true" />
+                <element signature="e#2166#2187#0" expanded="true" />
+                <element signature="e#2541#2833#0" expanded="true" />
+                <element signature="e#2629#2800#0" expanded="true" />
+                <element signature="e#2799#2800#0" expanded="true" />
+                <element signature="e#2832#2833#0" expanded="true" />
+                <element signature="e#14764#14781#0" expanded="true" />
+                <element signature="e#15944#16005#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-22.884615">
+              <caret line="35" column="43" selection-start-line="35" selection-start-column="43" selection-end-line="35" selection-end-column="43" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -2394,7 +2368,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/ojovoz/soundPlayer.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/messages.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/ojovoz/PromptDialog.java" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/ojovoz/getServerData.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/ojovoz/serverData.java" />
@@ -2406,6 +2379,7 @@
         <option value="$PROJECT_DIR$/app/src/main/res/values-en/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values-es/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/ojovoz/mainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/ojovoz/messagesActivity.java" />
       </list>
     </option>
@@ -2441,9 +2415,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane" />
       <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -2460,6 +2434,30 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="ojovoz_2016" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ojovoz_2016" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ojovoz_2016" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="manifests" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidManifestsGroupNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -3124,13 +3122,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.15361446">
-          <caret line="6" column="39" selection-start-line="6" selection-start-column="39" selection-end-line="6" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apache-httpcomponents-httpcore/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -3221,10 +3212,18 @@
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-22.884615">
+          <caret line="35" column="43" selection-start-line="35" selection-start-column="43" selection-end-line="35" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/ojovoz/mainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="753" column="17" selection-start-line="734" selection-start-column="16" selection-end-line="753" selection-end-column="17" />
+        <state vertical-scroll-proportion="35.793102">
+          <caret line="187" column="30" selection-start-line="187" selection-start-column="30" selection-end-line="187" selection-end-column="30" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -3233,53 +3232,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/ojovoz/messagesActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7715582">
-          <caret line="105" column="10" selection-start-line="105" selection-start-column="10" selection-end-line="105" selection-end-column="10" />
+        <state vertical-scroll-proportion="0.6429652">
+          <caret line="103" column="13" selection-start-line="103" selection-start-column="13" selection-end-line="103" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3093#11804#0" expanded="true" />
-            <element signature="e#4024#4335#0" expanded="true" />
-            <element signature="e#4334#4335#0" expanded="true" />
-            <element signature="e#5597#5892#0" expanded="true" />
-            <element signature="e#5891#5892#0" expanded="true" />
-            <element signature="e#6470#6754#0" expanded="true" />
-            <element signature="e#6753#6754#0" expanded="true" />
-            <element signature="e#7174#7455#0" expanded="true" />
-            <element signature="e#7454#7455#0" expanded="true" />
-            <element signature="e#8573#8596#0" expanded="true" />
-            <element signature="e#8661#8931#0" expanded="true" />
-            <element signature="e#8930#8931#0" expanded="true" />
-            <element signature="e#9173#9217#0" expanded="true" />
-            <element signature="e#10712#10731#0" expanded="true" />
-            <element signature="e#10799#11065#0" expanded="true" />
-            <element signature="e#11064#11065#0" expanded="true" />
-            <element signature="e#11310#11354#0" expanded="true" />
-            <element signature="e#11803#11804#0" expanded="true" />
-            <element signature="e#14741#14756#0" expanded="true" />
-            <element signature="e#14785#14802#0" expanded="true" />
-            <element signature="e#14831#14848#0" expanded="true" />
-            <element signature="e#15383#15411#0" expanded="true" />
-            <element signature="e#15541#15570#0" expanded="true" />
-            <element signature="e#15918#15963#0" expanded="true" />
-            <element signature="e#15965#16026#0" expanded="true" />
-            <element signature="e#16103#16132#0" expanded="true" />
-            <element signature="e#18989#19863#0" expanded="true" />
-            <element signature="e#19862#19863#0" expanded="true" />
-            <element signature="e#22600#22627#0" expanded="true" />
-            <element signature="e#22670#22693#0" expanded="true" />
-            <element signature="e#22695#22866#0" expanded="true" />
-            <element signature="e#22865#22866#0" expanded="true" />
-            <element signature="e#24674#24738#0" expanded="true" />
-            <element signature="e#26017#26320#0" expanded="true" />
-            <element signature="e#26319#26320#0" expanded="true" />
-            <element signature="e#26360#30671#0" expanded="true" />
-            <element signature="e#30670#30671#0" expanded="true" />
-            <element signature="e#30764#30792#0" expanded="true" />
-            <element signature="e#30919#30947#0" expanded="true" />
-            <element signature="e#31054#31399#0" expanded="true" />
-            <element signature="e#31398#31399#0" expanded="true" />
-            <element signature="e#31436#31437#0" expanded="true" />
-            <element signature="e#31465#31466#0" expanded="true" />
+            <element signature="e#2166#2187#0" expanded="true" />
+            <element signature="e#2541#2833#0" expanded="true" />
+            <element signature="e#2629#2800#0" expanded="true" />
+            <element signature="e#2799#2800#0" expanded="true" />
+            <element signature="e#2832#2833#0" expanded="true" />
+            <element signature="e#14764#14781#0" expanded="true" />
+            <element signature="e#15944#16005#0" expanded="true" />
           </folding>
         </state>
       </provider>

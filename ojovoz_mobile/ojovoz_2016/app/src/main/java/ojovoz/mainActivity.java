@@ -179,13 +179,13 @@ public class mainActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         if (recording) {
             try {
                 soundRecorder.stop();
             } catch (IOException e) {
             }
         }
+        super.onBackPressed();
     }
 
     public void getTags(boolean showMessage) {
