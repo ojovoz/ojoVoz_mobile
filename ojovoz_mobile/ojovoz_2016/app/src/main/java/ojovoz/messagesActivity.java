@@ -79,7 +79,7 @@ public class messagesActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.messages);
 
-        Toast.makeText(this, R.string.omPleaseWait, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, R.string.omPleaseWait, Toast.LENGTH_SHORT).show();
 
         server = getPreference("server");
         phone_id = getPreference("id");
@@ -107,10 +107,10 @@ public class messagesActivity extends Activity {
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         if (playing) {
             stopLastSound();
         }
-        super.onBackPressed();
     }
 
     void populateTableLayout() {
@@ -687,9 +687,9 @@ public class messagesActivity extends Activity {
                 try {
                     new makeHTTPRequest().execute(server + "/mobile/get_email_settings.php?id=" + phone_id).get();
                 } catch (InterruptedException e) {
-                    cancelUpload = true;
+                    mail = pass = smtpServer = smtpPort = "";
                 } catch (ExecutionException e) {
-                    cancelUpload = true;
+                    mail = pass = smtpServer = smtpPort = "";
                 }
             }
 
@@ -774,8 +774,9 @@ public class messagesActivity extends Activity {
                                         deleteFile(messageElements[4], true);
                                         deleteFile(messageElements[5], false);
                                     }
+                                    progressHandler.sendMessage(progressHandler.obtainMessage());
                                 }
-                                progressHandler.sendMessage(progressHandler.obtainMessage());
+
                             } else {
                                 sending = false;
                                 upload.interrupt();
@@ -801,6 +802,7 @@ public class messagesActivity extends Activity {
     }
 
     Handler progressHandler = new Handler() {
+        @Override
         public void handleMessage(Message msg) {
             dialog.incrementProgressBy(uploadIncrement);
             if (dialog.getProgress() == dialog.getMax()) {
