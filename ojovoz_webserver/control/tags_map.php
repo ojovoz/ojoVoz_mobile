@@ -36,7 +36,7 @@ $queryt[1]="SELECT tag_group_id*-1, tag_group_name, color_in_map FROM tag_group 
 for($i=0;$i<sizeof($queryt);$i++) {
 	$result=mysql_query($queryt[$i],$dbh);
 	while($row=mysql_fetch_array($result,MYSQL_NUM)) {
-		?><a href="remove_tag_map.php?id=<? echo($row[0]); ?>">remove</a> <? echo($row[1]); ?> <a href="tag_color.php?id=<? echo($row[0]); ?>"><img src="../includes/images/marker<? echo($row[2]); ?>.gif" align="absmiddle" border="0" title="click to change..."></a><br><?
+		?><a href="remove_tag_map.php?id=<? echo($row[0]); ?>">remove</a> <? echo($row[1]); ?> <a href="tag_color.php?id=<? echo($row[0]); ?>"><img src="../includes/images/marker<? echo($row[2]); ?>s.png" align="absmiddle" border="0" title="click to change..."></a><br><?
 	}
 }
 ?></font></p>

@@ -5,27 +5,6 @@ $dbh = initDB();
 
 import_request_variables("gp");
 
-$cc=GetColorCombination($c,$dbh);
-	
-switch($cc) {
-	case "0":
-		$bgcolor="FFFFFF";
-		$textcolor="000000";
-		break;
-	case "1":
-		$bgcolor="CCCCFF";
-		$textcolor="000066";
-		break;
-	case "2":
-		$bgcolor="FAE49D";
-		$textcolor="000000";
-		break;
-	case "3":
-		$bgcolor="000000";
-		$textcolor="FFFF00";
-		break;
-} 
-
 if (!isset($_GET['date'])) {
 	$date=GetLatestDate($c,0,"",$channels_excluded_from_crono,$dbh,"");
 } else {
@@ -36,9 +15,8 @@ if (!isset($_GET['date'])) {
 	}
 }
 
-
-
-$lang=GetUserLanguage($c,$dbh);
+//$lang=GetUserLanguage($c,$dbh);
+$lang=0;
 
 if (isset($delete)) {
 	if ($delete > 0) {
@@ -50,6 +28,11 @@ if (isset($delete)) {
 if (isset($edit)) {
 	if (isset($delete_att)) {
 		DeleteAttachments($delete_att,$dbh);
+	}
+	if (isset($approve_msg)) {
+		ApproveMessage($m,1,$dbh);
+	} else {
+		ApproveMessage($m,0,$dbh);
 	}
 	/*
 	if (isset($publish_att)) {
@@ -69,124 +52,25 @@ if (isset($edit)) {
 <title><? echo($global_channel_name); ?></title>
 <meta http-equiv="Content-Type"
  content="text/html; charset=iso-8859-1">
-<script language="JavaScript" src="./../includes/general.js" language="javascript" type="text/javascript"></script>
-<link rel="stylesheet" href="./themes/base/jquery.ui.all.css">
-<script src="jquery-1.4.4.js"></script>
-<script src="./ui/jquery.ui.core.js"></script>
-<script src="./ui/jquery.ui.widget.js"></script>
-<script src="./ui/jquery.ui.position.js"></script>
-<script src="./ui/jquery.ui.autocomplete.js"></script>
-<script language="JavaScript">
-<!--
-var sug=0;
-
-function ShowSuggestion(str,v) {
-	if (str.length==0) { 
-  		document.getElementById("Suggestions" + v).innerHTML="";
-  		return;
-  	}
-	str_array = str.split(",")
-	last_str = str_array[str_array.length-1]
-	
-	if (last_str.length==0) {
-		document.getElementById("Suggestions" + v).innerHTML="";
-  		return;
-	}
-	xmlHttp=GetXmlHttpObject()
-	if (xmlHttp==null) {
-	  return;
-  	} 
-	sug = v;
-	var url="get_suggestion.php";
-	url=url+"?q="+last_str;
-	url=url+"&sid="+Math.random();
-	xmlHttp.onreadystatechange=stateChanged;
-	xmlHttp.open("GET",url,true);
-	xmlHttp.send(null);
-}
-
-function GetXmlHttpObject() {
-  var xmlHttp=null;
-  try {
-    // Firefox, Opera 8.0+, Safari
-    xmlHttp=new XMLHttpRequest();
-  }
-  catch (e) {
-    // Internet Explorer
-    try {
-      xmlHttp=new ActiveXObject("Msxml2.XMLHTTP");
-    }
-    catch (e) {
-      	xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
-    }
-  }
-  return xmlHttp;
-}
-
-function stateChanged() { 
-	if (xmlHttp.readyState==4) { 
-		var element = "Suggestions"+sug
-		if (xmlHttp.responseText.length > 0) {
-			document.getElementById(element).innerHTML=" "+xmlHttp.responseText;
-		} else {
-			document.getElementById(element).innerHTML="";
-		}
-	}
-}
-
+<script src="./../includes/general.js"></script>
+<script src="./../includes/audio.min.js"></script>
+<script>
+  audiojs.events.ready(function() {
+    var as = audiojs.createAll();
+  });
+</script>
+<script>
 function confirmDelete(m,c,date,t) {
 	if (confirm(t)) {
 	      document.location = "edit_channel.php?c=" + c + "&delete=" + m + "&date=" + date
 	}
 } 
-
-$(function() {
-	var availableTags = [
-		<?
-		$tags=GetAllTags($dbh);
-		for($i=0;$i<sizeof($tags);$i++) {
-			echo("\"".$tags[$i]."\"");
-			if ($i==(sizeof($tags)-1)) {
-			} else {
-				echo(",");
-			}
-		}
-		?>
-	];
-	function split( val ) {
-		return val.split( /,\s*/ );
-	}
-	function extractLast( term ) {
-		return split( term ).pop();
-	}
-		$( "#tags" ).autocomplete({
-		minLength: 0,
-		source: function( request, response ) {
-			// delegate back to autocomplete, but extract the last term
-			response( $.ui.autocomplete.filter(
-				availableTags, extractLast( request.term ) ) );
-		},
-		focus: function() {
-			// prevent value inserted on focus
-			return false;
-		},
-		select: function( event, ui ) {
-			var terms = split( this.value );
-			// remove the current input
-			terms.pop();
-			// add the selected item
-			terms.push( ui.item.value );
-			// add placeholder to get the comma-and-space at the end
-			terms.push( "" );
-			this.value = terms.join( ", " );
-			return false;
-		}
-	});
-});
-//-->
 </script>
+<style>
+	.audiojs { width: <? echo($edit_audio_width); ?>px; background: #497A2B; }
+</style>
 </head>
-<body bgcolor="#<? echo($bgcolor); ?>" text="#<? echo($textcolor); ?>" link="#<? echo($textcolor); ?>" vlink="#<? echo($textcolor); ?>" alink="#<? echo($textcolor); ?>">
+<body bgcolor="#FFFFFF" text="#000000" link="#000000" vlink="#000000" alink="#000000">
 <table align="left" border="0" width="100%">
 <tr>
 <td>
@@ -297,6 +181,11 @@ $tagList=GetMessageTagsCSV($message_id,$dbh);
 		} else {
 			$is_located=false;
 		}
+		if(!$is_published){
+			$approved=false;
+		} else {
+			$approved=true;
+		}
 		if ($content_type == 1 && $image_width > 1) {
 			if ($image_width > $max_image_width_edit) {
 				$height = $image_height*($max_image_width_edit/$image_width);
@@ -305,12 +194,14 @@ $tagList=GetMessageTagsCSV($message_id,$dbh);
 				$height = $image_height;
   				$width = $image_width;
 			}
+			/*
 			if ($is_published==1) {
 				$publish_photo[$n_publish_photo] = "<input type=\"checkbox\" name=\"publish_att[]\" value=\"".$attachment_id."\" checked> $ov_photo_is_published_text[$lang]";
 			} else {
 				$publish_photo[$n_publish_photo] = "<input type=\"checkbox\" name=\"publish_att[]\" value=\"".$attachment_id."\"> $ov_photo_is_published_text[$lang]";
 			}
 			$n_publish_photo++;
+			*/
 ?>
 <td height="215" valign="middle"><img src="<? echo($filename); ?>" border="0" width="<? echo($width); ?>" height="<? echo($height); ?>"></td>
 <? 
@@ -329,7 +220,7 @@ $tagList=GetMessageTagsCSV($message_id,$dbh);
 				$columns++;
 ?>
 <td valign="bottom"><font face="<? echo($ov_text_font); ?>" size="<? echo($ov_text_font_size); ?>"><? echo($ov_edit_message_text[$lang]); ?></font><br><textarea name="t" cols="32" rows="11" style="font-face: <? echo($ov_text_font); ?>; font-size: <? echo($font_size); ?>em;"><? echo(str_replace("<br>","
-",$message_text)); ?></textarea></td>
+",stripslashes($message_text))); ?></textarea></td>
 <?
 				$first_av = 0;
 			}
@@ -350,7 +241,7 @@ $tagList=GetMessageTagsCSV($message_id,$dbh);
 					$check_audio[$n_check_audio] = "<input type=\"checkbox\" name=\"delete_att[]\" value=\"".$attachment_id."\"> $ov_delete_audio_text[$lang]";
 					$n_check_audio++;
 				}
-				$alt="<td valign=\"bottom\"><font face=\"$ov_text_font\" size=\"$ov_text_font_size\"><a href=\"$filename\">$ov_audio_link_text[$lang]</a></font></td>";
+				$alt="<tr><td valign=\"bottom\"><audio src=\"$filename\" preload=\"none\"></audio></td></tr>";
 			}
 			echo($alt);
 		}
@@ -359,7 +250,7 @@ $tagList=GetMessageTagsCSV($message_id,$dbh);
 		$second_row[$columns]=-1;
 		$columns++;
 ?><td valign="bottom"><font face="<? echo($ov_text_font); ?>" size="<? echo($ov_text_font_size); ?>"><? echo($ov_edit_message_text[$lang]); ?></font><br><textarea name="t" cols="32" rows="11" style="font-face: <? echo($ov_text_font); ?>; font-size: <? echo($font_size); ?>em;"><? echo(preg_replace("<br>","
-",$message_text)); ?></textarea></td>
+",stripslashes($message_text))); ?></textarea></td>
 <?
 	}
 ?>
@@ -384,6 +275,7 @@ for($s_col=0;$s_col<sizeof($second_row);$s_col++){
 </table><br>
 <input name="delete_message" type="button" id="delete_message" value="<? echo($ov_delete_message_text[$lang]); ?>" onClick="confirmDelete(<? echo("$message_id,$c,'$date','$ov_confirm_delete_message_text[$lang]'"); ?>)" style="font-face: <? echo($ov_text_font); ?>; font-size: <? echo($font_size); ?>em;">
 <font face="<? echo($ov_text_font); ?>" size="<?  echo($ov_text_font_size); ?>">      
+<input type="checkbox" name="approve_msg[]" value="<? echo($message_id); ?>" <? if ($approved) { echo("checked");} ?>> <? echo($ov_approve_message_text[$lang]); ?>
 <?
 		for ($i=0; $i<$n_check_photo;$i++) {
 			if ($n_check_photo > 1) {

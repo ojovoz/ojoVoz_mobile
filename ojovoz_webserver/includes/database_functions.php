@@ -411,6 +411,11 @@ function GetChannelName($dbh,$c) {
 	return $ret;
 }
 
+function GetMessagesQueryPermalink($id) {
+	$query="SELECT message.message_text, message.message_date, message.message_sender, message.message_subject, message.message_id FROM message WHERE message_id = $id";
+	return $query;
+}
+
 function GetMessagesQuery($c,$from,$nmessages,$crono,$qWhere,$order,$exc,$children="") {
 	if ($crono == 0) {
 		if ($qWhere != "") {
@@ -587,19 +592,38 @@ function GetTagsInMap($dbh) {
 	return $ret;
 }
 
-function GetMessagesInMap($qWhere,$m,$from,$dbh,$message=-1) {
-	if (!isset($from)) {
-		$from=0;
+function IsPublished($dbh,$t) {
+	$query = "SELECT attachment_id FROM attachment,tag_x_message WHERE tag_x_message.tag_id = $t AND attachment.message_id = tag_x_message.message_id AND is_published = 1";
+	$result = mysql_query($query, $dbh);
+	if (mysql_num_rows($result) > 0) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function GetMessagesInMap($qWhere,$m,$dbh,$message=-1,$from="",$to="") {
+	if($from!="" && $to!=""){
+		if(strtotime($from)>strtotime($to)){
+			$from=date("Y-m-t",strtotime($from));
+			$to=date("Y-m",strtotime($to))."-01";
+			$temp=$from;
+			$from=$to;
+			$to=$temp;
+		}
+		$date_filter=" AND DATE(message.message_date) BETWEEN '$from' AND '$to'";
+	} else {
+		$date_filter="";
 	}
 	if ($qWhere == "") {
 		$filter = GetTagsInMap($dbh);		
 		if ($message!=-1) {
-			$query = "(SELECT DISTINCT message_text, message_date, message_sender, filename, latitude, longitude, content_type, channel.channel_id, channel_name, image_width, image_height, channel.is_ascending, channel.messages_per_page, message.message_order, message.message_id FROM channel, message, attachment WHERE channel.channel_id = message.channel_id AND channel.is_visible=1 AND attachment.message_id = message.message_id AND latitude <> '' AND longitude <> '' AND content_type=1 ".$filter." ORDER BY message_date DESC LIMIT $from,$m) UNION (SELECT message_text, message_date, message_sender, filename, latitude, longitude, content_type, channel.channel_id, channel_name, image_width, image_height, channel.is_ascending, channel.messages_per_page, message.message_order, message.message_id FROM channel, message, attachment WHERE attachment.message_id = $message AND latitude <> '' AND longitude <> '' AND content_type=1 AND message.message_id = attachment.message_id AND channel.channel_id = message.channel_id)";
+			$query = "(SELECT DISTINCT message_text, message_date, message_sender, filename, latitude, longitude, content_type, channel.channel_id, channel_name, image_width, image_height, channel.is_ascending, channel.messages_per_page, message.message_order, message.message_id FROM channel, message, attachment WHERE channel.channel_id = message.channel_id AND channel.is_visible=1 AND attachment.message_id = message.message_id AND latitude <> '' AND longitude <> '' AND is_published = 1 AND content_type=1 ".$filter.$date_filter." ORDER BY message_date DESC LIMIT 0,$m) UNION (SELECT message_text, message_date, message_sender, filename, latitude, longitude, content_type, channel.channel_id, channel_name, image_width, image_height, channel.is_ascending, channel.messages_per_page, message.message_order, message.message_id FROM channel, message, attachment WHERE attachment.message_id = $message AND latitude <> '' AND longitude <> '' AND is_published = 1 AND content_type=1 AND message.message_id = attachment.message_id AND channel.channel_id = message.channel_id)";
 		} else {
-			$query = "SELECT DISTINCT message_text, message_date, message_sender, filename, latitude, longitude, content_type, channel.channel_id, channel_name, image_width, image_height, channel.is_ascending, channel.messages_per_page, message.message_order, message.message_id FROM channel, message, attachment WHERE channel.channel_id = message.channel_id AND channel.is_visible=1 AND attachment.message_id = message.message_id AND latitude <> '' AND longitude <> '' AND content_type=1 ".$filter." ORDER BY message_date DESC LIMIT $from,$m";
+			$query = "SELECT DISTINCT message_text, message_date, message_sender, filename, latitude, longitude, content_type, channel.channel_id, channel_name, image_width, image_height, channel.is_ascending, channel.messages_per_page, message.message_order, message.message_id FROM channel, message, attachment WHERE channel.channel_id = message.channel_id AND channel.is_visible=1 AND attachment.message_id = message.message_id AND latitude <> '' AND longitude <> '' AND is_published = 1 AND content_type=1 ".$filter.$date_filter." ORDER BY message_date DESC LIMIT 0,$m";
 		}
 	} else {
-		$query = "SELECT DISTINCT message_text, message_date, message_sender, filename, latitude, longitude, content_type, channel.channel_id, channel_name, image_width, image_height, channel.is_ascending, channel.messages_per_page, message.message_order, message.message_id FROM channel, message, attachment WHERE channel.channel_id = message.channel_id AND channel.is_visible=1 AND attachment.message_id = message.message_id AND message.message_id ".$qWhere." AND latitude <> '' AND longitude <> '' AND content_type=1 ORDER BY message_date DESC LIMIT $from,$m";		
+		$query = "SELECT DISTINCT message_text, message_date, message_sender, filename, latitude, longitude, content_type, channel.channel_id, channel_name, image_width, image_height, channel.is_ascending, channel.messages_per_page, message.message_order, message.message_id FROM channel, message, attachment WHERE channel.channel_id = message.channel_id AND channel.is_visible=1 AND attachment.message_id = message.message_id AND message.message_id ".$qWhere." AND latitude <> '' AND longitude <> '' AND is_published = 1 AND content_type=1".$date_filter." ORDER BY message_date DESC LIMIT 0,$m";		
 	}
 	return $query;
 }
@@ -749,6 +773,11 @@ function DeleteAttachments($delete_att,$dbh) {
 	  		$result = mysql_query($query, $dbh);
 		}
   	}
+}
+
+function ApproveMessage($m,$v,$dbh) {
+	$query="UPDATE attachment SET is_published=$v WHERE message_id=$m";
+	$result = mysql_query($query, $dbh);
 }
 
 function PublishAttachments($m,$publish_att,$dbh) {
@@ -1079,7 +1108,7 @@ function GetQMessageList($selection_list,$dbh) {
 
 function GetChannelFolder($c,$pass,$dbh) {
 	$ret="";
-	$query="SELECT channel_folder FROM channel WHERE channel_id=$c AND channel_pass='$pass'";
+	$query="SELECT channel_folder FROM channel WHERE channel_id=$c AND channel_pass_edit='$pass'";
 	$result=mysql_query($query,$dbh);
 	if ($row=mysql_fetch_array($result,MYSQL_NUM)) {
 		$ret=$row[0];
@@ -1345,7 +1374,7 @@ function GetTagNames($tag_list,$dbh,$l=0) {
 }
 
 function GetTagTranslationFromName($t,$l,$dbh) {
-	$ret="";
+	$ret=$t;
 	$query="SELECT tag_id FROM tag WHERE tag_name='$t'";
 	$result = mysql_query($query, $dbh);
 	if($row=mysql_fetch_array($result,MYSQL_NUM)) {
@@ -1466,6 +1495,47 @@ function CalculateChannelDates($c,$crono,$qWhere,$exc,$dbh,$children,$date,$loc)
 		}
 	}
 	return $r=array($dates,$days);
+}
+
+function CalculateMapDates($qWhere,$dbh,$loc) {
+	$r="";
+	$children=GetChildChannels($default_channel_id,$dbh);
+	if ($qWhere == "") {
+		if ($children=="") {
+	    	$query = "SELECT DISTINCT(DATE(message_date)) AS d FROM message, channel WHERE message.channel_id = channel.channel_id AND channel.is_visible = 1 ORDER BY d DESC";
+		} else {
+			$query = "SELECT DISTINCT(DATE(message_date)) AS d FROM message, channel WHERE message.channel_id IN (".$children.") AND message.channel_id = channel.channel_id AND channel.is_visible = 1 ORDER BY d DESC";
+		}
+	} else if ($qWhere != "") {
+		if ($children=="") {
+			$query = "SELECT DISTINCT(DATE(message_date)) AS d FROM message, channel WHERE message.channel_id = channel.channel_id AND channel.is_visible = 1 AND message_id ".$qWhere." ORDER BY d DESC";
+		} else {
+			$query = "SELECT DISTINCT(DATE(message_date)) AS d FROM message, channel WHERE message.channel_id = channel.channel_id AND channel.is_visible = 1 AND channel.channel_id IN (".$children.") AND message_id ".$qWhere." ORDER BY d DESC";
+		}
+	}
+	$result = mysql_query($query, $dbh);
+	$prev_month="";
+	$prev_year="";
+	$dates_from=array();
+	$dates_to=array();
+	$i=0;
+	while($row=mysql_fetch_array($result,MYSQL_NUM)) {
+		$this_date=explode("-",$row[0]);
+		$this_month=$this_date[1];
+		$this_year=$this_date[0];
+		if($this_year!="0000") {
+			if ($this_month != $prev_month || $this_year != $prev_year) {
+				$prev_month = $this_month;
+				$prev_year = $this_year;
+				$d=strtotime($row[0]);
+				setlocale(LC_TIME, $loc);
+				$dates_from[$i] = date("Y",$d)." ".strftime("%B",$d).",".date("Y-m",$d)."-01";
+				$dates_to[$i] = date("Y",$d)." ".strftime("%B",$d).",".date("Y-m-t",$d);
+				$i++;
+			}
+		}
+	}
+	return $r=array($dates_from,$dates_to);
 }
 
 function GetMegafoneLanguage($megafone,$dbh) {
@@ -1643,6 +1713,16 @@ function UpdateMessageAddress($dbh,$id,$address) {
 	$result = mysql_query($query, $dbh);
 	if($row=mysql_fetch_array($result,MYSQL_NUM)) {
 		$ret=$row[0];
+	}
+	return $ret;
+}
+
+function GetDefaultImage($id,$dbh) {
+	$ret="";
+	$query="SELECT filename FROM attachment WHERE message_id=$id AND content_type=1";
+	$result = mysql_query($query, $dbh);
+	if($row=mysql_fetch_array($result,MYSQL_NUM)) {
+		$ret="channels/".$row[0];
 	}
 	return $ret;
 }

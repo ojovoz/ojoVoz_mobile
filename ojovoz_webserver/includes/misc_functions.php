@@ -274,4 +274,36 @@ function ShowLanguageOptions($page,$c,$date,$languages,$lang,$from="",$id="") {
 	}
 	return $ret;
 }
+
+function CheckOrientation($folder,$subfolder,$index,$extension) {
+	$filename=$folder.$subfolder.$index.$extension;
+	$exif=exif_read_data("channels/".$filename);
+	$orientation=$exif['Orientation'];
+	if($orientation!=1 && $orientation!="" && $orientation!="1"){
+		$new_filename=$folder.$subfolder.mktime().$extension;
+		$img=imagecreatefromjpeg("channels/".$filename);
+		$img=imagerotate($img,-90,0);
+		unlink("channels/".$filename);
+		imagejpeg($img,"channels/".$new_filename,100);
+		imagedestroy($img);
+		$filename=$new_filename;
+	}
+	return $filename;
+}
+
+function ScaleDown($folder,$subfolder,$index,$extension,$w_src,$h_src,$w_dest,$h_dest) {
+	$w_dest=round($w_dest);
+	$h_dest=round($h_dest);
+	$filename=$folder.$subfolder.$index.$extension;
+	$new_filename=$folder.$subfolder.mktime().$extension;
+	$img=imagecreatefromjpeg("channels/".$filename);
+	$new_img=imagecreatetruecolor($w_dest,$h_dest);
+	imagecopyresized($new_img,$img,0,0,0,0,$w_dest,$h_dest,$w_src,$h_src);
+	unlink("channels/".$filename);
+	imagejpeg($new_img,"channels/".$new_filename,100);
+	imagedestroy($img);
+	imagedestroy($new_img);
+	$filename=$new_filename;
+	return $filename;
+}
 ?>

@@ -115,11 +115,11 @@ function clean_address(&$val, $index) {
 	}
 }
 
-function CheckMessagesRandomChannel($get_tags_from_subject,$server,$dbh,$tz,$get_user_from_message_subject,$get_date_from_exif,$convert_to_mp3,$servpath,$sample_rate,$channel_folder,$static_map_width,$static_map_height,$api_key,$get_reverse_geocoding,$ffmpeg_path) {
+function CheckMessagesRandomChannel($get_tags_from_subject,$server,$dbh,$tz,$get_user_from_message_subject,$get_date_from_exif,$convert_to_mp3,$servpath,$sample_rate,$channel_folder,$static_map_width,$static_map_height,$api_key,$get_reverse_geocoding,$ffmpeg_path,$max_messages_from_inbox) {
 	$query="SELECT channel_mail,channel_pass,channel_id,channel_folder FROM channel WHERE is_active=1 AND is_crono=0 AND is_visible=1 AND channel_mail<>'' ORDER BY RAND() LIMIT 0,1";
 	$result=mysql_query($query,$dbh);
 	if ($row=mysql_fetch_array($result,MYSQL_NUM)) {
-		CheckMessages($row[0],$row[1],$row[2],$row[3],$get_tags_from_subject,$server,$dbh,$tz,$get_user_from_message_subject,$get_date_from_exif,$convert_to_mp3,$servpath,$sample_rate,$channel_folder,$static_map_width,$static_map_height,$api_key,$get_reverse_geocoding,$ffmpeg_path);
+		CheckMessages($row[0],$row[1],$row[2],$row[3],$get_tags_from_subject,$server,$dbh,$tz,$get_user_from_message_subject,$get_date_from_exif,$convert_to_mp3,$servpath,$sample_rate,$channel_folder,$static_map_width,$static_map_height,$api_key,$get_reverse_geocoding,$ffmpeg_path,$max_messages_from_inbox);
 	}
 }
 
@@ -136,9 +136,12 @@ function DecodeSubject($s) {
 	return $ret;
 }
 
-function CheckMessages($user,$pass,$c,$folder,$get_tags_from_subject,$server,$dbh,$tz,$get_user_from_message_subject,$get_date_from_exif,$convert_to_mp3,$servpath,$sample_rate,$channel_folder,$static_map_width,$static_map_height,$api_key,$get_reverse_geocoding,$ffmpeg_path) {
+function CheckMessages($user,$pass,$c,$folder,$get_tags_from_subject,$server,$dbh,$tz,$get_user_from_message_subject,$get_date_from_exif,$convert_to_mp3,$servpath,$sample_rate,$channel_folder,$static_map_width,$static_map_height,$api_key,$get_reverse_geocoding,$ffmpeg_path,$max_messages_from_inbox) {
 	if ($inbox = imap_open ($server, $user, $pass)) {
 		$total = imap_num_msg($inbox);
+		if($total>$max_messages_from_inbox){
+			$total=$max_messages_from_inbox;
+		}
 		for($x=1; $x<=$total; $x++) {
 			$headers = imap_header($inbox, $x);
 			$structure = imap_fetchstructure($inbox, $x);
@@ -224,6 +227,23 @@ function CheckMessages($user,$pass,$c,$folder,$get_tags_from_subject,$server,$db
 							$sz = getimagesize("channels/".$file);
 							$w = $sz[0];
 							$h = $sz[1];
+							/*
+							$newfile="";
+							$newfile = CheckOrientation($folder,$subfolder,$index,$extension);
+							if($newfile!=$file && $newfile!=""){
+								$tempw=$w;
+								$w=$h;
+								$h=$tempw;
+								$file=$newfile;
+							}
+							if ($w > 640) {
+								$h_dest = $h*(640/$w);
+  								$w_dest = 640;
+								$file = ScaleDown($folder,$subfolder,$index,$extension,$w,$h,$w_dest,$h_dest);
+								$w = $w_dest;
+								$h = $h_dest;
+							}
+							*/
 						} else if (($extension == ".amr" || $extension == ".3gp") && $convert_to_mp3 == true) {
 							$file1=$subfolder.$index.$extension;
 							$file2=$subfolder.$index.".mp3";
@@ -235,7 +255,8 @@ function CheckMessages($user,$pass,$c,$folder,$get_tags_from_subject,$server,$db
 							$w = 0;
 							$h = 0;
 						}
-						$query = "INSERT INTO attachment (message_id, filename, content_type,image_width,image_height) VALUES ($current_message,'$file','$att_type',$w,$h)";
+						$is_published=GetPublishedDefault($c,$dbh);
+						$query = "INSERT INTO attachment (message_id, filename, content_type,image_width,image_height,is_published) VALUES ($current_message,'$file','$att_type',$w,$h,$is_published)";
 						$result = mysql_query($query, $dbh);
 						IncreaseFileIndex($c,$dbh);
 					}

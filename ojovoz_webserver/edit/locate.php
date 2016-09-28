@@ -28,9 +28,9 @@ if ($located==false) {
 		$id=$_POST['id'];
 	}
 	if (isset($_GET['date'])) {
-		$from=$_GET['date'];
+		$date=$_GET['date'];
 	} else if (isset($_POST['date'])) {
-		$from=$_POST['date'];
+		$date=$_POST['date'];
 	}
 	if (isset($_GET['lang'])) {
 		$from=$_GET['lang'];
@@ -66,16 +66,13 @@ if ($located==false) {
 <head>
 <title><? echo($global_channel_name); ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<script type="text/javascript"
-  src="https://maps.googleapis.com/maps/api/js?key=<? echo($google_maps_api_key); ?>&sensor=false">
-</script>
+<link rel="stylesheet" href="./../includes/leaflet/leaflet.css" />
+<script src="./../includes/leaflet/leaflet.js"></script>
 <script language="JavaScript" src="./../includes/general.js" language="javascript" type="text/javascript"></script>
 </head>
 
 <body onload="initialize()">
 <form name="form1" method="post" action="">
-  <input name="address" type="text" id="address" style="color: <? echo($form_color); ?>; font-size: <? echo($font_size); ?>em;" value="<? if ($address=="") { echo($search_address_text); } else { echo($display_address); } ?>" onFocus="DeletePrompt(2,'<? echo($search_address_text); ?>')"> 
-  <input name="search" type="submit" id="search" style="color: <? echo($form_color); ?>; font-size: <? echo($font_size); ?>em;" value="<? echo($search_button_text); ?>">
   <input name="c" type="hidden" id="c" value="<? echo($c); ?>">
   <input name="date" type="hidden" id="date" value="<? echo($date); ?>">
   <input name="id" type="hidden" id="id" value="<? echo($id); ?>">
@@ -85,9 +82,55 @@ if ($located==false) {
 <div id="map" style="width: 640px; height: 480px;"></div>
 <script type="text/javascript">
 
-	var marker=null;
 	var latLng=null;
-	var geocoder=null;
+	var popup = L.popup();
+	
+	<? if($already_located==1){
+?>		
+	var ovMap = L.map('map').setView([<? echo($latitude); ?>, <?  echo($longitude); ?>], 13);
+<?		
+	} else {
+?>
+	var ovMap = L.map('map').setView([<? echo($default_latitude); ?>, <?  echo($default_longitude); ?>], 13);
+<?
+	}
+?>
+	
+	
+	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=<? echo($mapbox_api_key); ?>', {
+		maxZoom: 18,
+		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+			'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery (C) <a href="http://mapbox.com">Mapbox</a>',
+		id: '<? echo($mapbox_id); ?>',
+		accessToken: '<? echo($mapbox_api_key); ?>'
+	}).addTo(ovMap);
+	
+	function onMapClick(e) {
+		popup
+			.setLatLng(e.latlng)
+			.setContent(e.latlng.toString())
+			.openOn(ovMap);
+		document.forms[1].latitude.value=e.latlng.lat;
+		document.forms[1].longitude.value=e.latlng.lng;
+		document.forms[1].located.value='1';
+	}
+
+	ovMap.on('click', onMapClick);
+	
+	<? if($already_located==1) {
+?>
+	var popupOrigin = L.popup();
+	var coords = L.latLng(<? echo($latitude); ?>, <? echo($longitude); ?>);
+	popupOrigin
+		.setLatLng(coords)
+		.setContent(coords.toString())
+		.openOn(ovMap);
+<?
+	}
+?>
+	
+	/*
 	
 	function initialize(){
 		latLng = new google.maps.LatLng(<? echo($latitude); ?>, <?  echo($longitude); ?>);
@@ -129,100 +172,20 @@ if ($located==false) {
 			marker.setPosition(event.latLng);
 		});
 	}
-
-	/*
-    if (GBrowserIsCompatible()) { 
-	
-	  var icon = new GIcon();
-      icon.image = "./../includes/images/marker00.png";
-      icon.shadow = "http://www.google.com/mapfiles/shadow50.png";
-      icon.iconSize = new GSize(12, 20);
-      icon.shadowSize = new GSize(24, 18);
-      icon.iconAnchor = new GPoint(6, 18);
-      icon.infoWindowAnchor = new GPoint(6, 1);
-      icon.infoShadowAnchor = new GPoint(18, 16);
-      icon.transparent = "http://www.google.com/intl/en_ALL/mapfiles/markerTransparent.png";
-	  
-	  var invisible = new GIcon();
-      invisible.image = "./../includes/images/invisible.png";
-      invisible.iconSize = new GSize(2,2);
-      invisible.iconAnchor = new GPoint(0,0);
-      invisible.infoWindowAnchor = new GPoint(0,0);
-
-      var map = new GMap2(document.getElementById("map"));
-      map.addControl(new GSmallZoomControl());
-	  map.setCenter(new GLatLng(<? echo($latitude); ?>,<? echo($longitude); ?>));
-	  <?
-	  if ($address!="") { 
-	  ?>
-	  var geo = new GClientGeocoder();
-	  geo.getLatLng("<? echo($address); ?>", function (point) { 
-	  if (point) {
-	  	map.setZoom(15);
-		map.setCenter(point);
-		map.clearOverlays();
-		var marker = new GMarker(point,icon,true);
-		map.addOverlay(marker);
-		marker.openInfoWindowHtml("<b><font face=\"Arial, Helvetica, sans-serif\" color=\"<? echo($form_color); ?>\"><? echo($display_address); ?></font></b>");
-		document.forms[1].latitude.value=point.y;
-		document.forms[1].longitude.value=point.x;
-		document.forms[1].located.value='1';
-	  } else {
-	    map.setCenter(new GLatLng(<? echo($latitude); ?>,<? echo($longitude); ?>));
-		document.forms[0].address.value="<? echo($address_not_found_text); ?>"
-		document.forms[1].located.value='0';
-	  }
-	  });
-	  <?
-	  }
-	  if ($already_located==1) {
-	  ?>
-	  var newMarker = new GMarker(new GLatLng(<? echo($latitude); ?>,<? echo($longitude); ?>),icon,true);
-  	  map.addOverlay(newMarker);
-	  map.setZoom(15);
-	  <?
-	  } else {
-	  ?>
-	  map.setZoom(13);
-	  <? 
-	  }
-	  ?>
-	  
-	  var listener = GEvent.addListener(map, "click", function(overlay, point) {
-      	if (overlay) {
-        	map.removeOverlay(overlay);
-        } else {
-			map.clearOverlays();
-            createMarker(point);
-			map.setCenter(point);
-			document.forms[1].latitude.value=point.y;
-			document.forms[1].longitude.value=point.x;
-			document.forms[1].located.value='1';
-        }
-      });
-	  
-	  function createMarker(point) {
-  	  	var newMarker = new GMarker(point,icon,true);
-  		map.addOverlay(newMarker);
-  		return newMarker;
-      }
-	  
-	}
-	  
-*/
+	*/
     </script>
 <p>
-<form action="" method="post">  <input name="locate" type="submit" id="locate" style="color: <? echo($form_color); ?>; font-size: <? echo($font_size); ?>em;" value="<? echo($locate_button_text); ?>"> 
+<form action="" method="post">  <input name="locate" type="submit" id="locate" style="color: <? echo($form_color); ?>; font-size: <? echo($font_size); ?>em;" value="Locate"> 
   <input name="latitude" type="hidden" id="latitude" value="<? echo($latitude); ?>">
   <input name="longitude" type="hidden" id="longitude" value="<? echo($longitude); ?>">
-  <input name="located" type="hidden" id="located" value="0">
+  <input name="located" type="hidden" id="located" value="<? echo($already_located); ?>">
   <input name="c" type="hidden" id="c" value="<? echo($c); ?>">
   <input name="date" type="hidden" id="date" value="<? echo($date); ?>">
   <input name="id" type="hidden" id="id" value="<? echo($id); ?>">
   <input name="lang" type="hidden" id="lang" value="<? echo($lang); ?>">
 </form>
 </p>
-<p><font face="Courier New, Courier, mono" size="2"><a href="edit_channel.php?c=<? echo($c); ?>&date=<? echo($date); ?>#<? echo($id); ?>">Volver</a> </font>
+<p><font face="Courier New, Courier, mono" size="2"><a href="edit_channel.php?c=<? echo($c); ?>&date=<? echo($date); ?>#<? echo($id); ?>">Back</a> </font>
 </p>
 </body>
 </html>

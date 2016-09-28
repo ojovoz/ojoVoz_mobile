@@ -8,15 +8,17 @@ if (isset($_SESSION['kiosk'])) {
 }
 $dbh=initDB();
 
+/*
 if (isset($_GET['l'])) {
 	$_SESSION['language']=$_GET['l'];
 }
+*/
 
-if (isset($_SESSION['language'])) {
-	$language = $_SESSION['language'];
-} else {
+//if (isset($_SESSION['language'])) {
+//	$language = $_SESSION['language'];
+//} else {
 	$language = 0;
-}
+//}
 
 if (isset($_SESSION['selection_list'])) {
 	$_SESSION['selection_list']="";
@@ -25,7 +27,7 @@ if (isset($_SESSION['selection_list'])) {
 if (isset($_GET['t'])) {
 	$tag_mode=$_GET['t'];
 } else {
-	$tag_mode=1;
+	$tag_mode=0;
 }
 
 if(isset($_GET['cc'])) {
@@ -67,7 +69,7 @@ if(isset($_SESSION['cc'])) {
 }
 
 if ($crono_random_check == true) {
-	CheckMessagesRandomChannel($get_tags_from_subject,$mail_server,$dbh,$time_zone,$get_user_from_message_subject,$get_date_from_exif,$convert_to_mp3,$servpath,$sample_rate,$channel_folder,$static_map_width,$static_map_height,$google_maps_api_key,$get_reverse_geocoding,$ffmpeg_path);
+	CheckMessagesRandomChannel($get_tags_from_subject,$mail_server,$dbh,$time_zone,$get_user_from_message_subject,$get_date_from_exif,$convert_to_mp3,$servpath,$sample_rate,$channel_folder,$static_map_width,$static_map_height,$google_maps_api_key,$get_reverse_geocoding,$ffmpeg_path,$max_messages_from_inbox);
 }
 
 $tc=TagCloud(-4,1,10000,$channels_excluded_from_crono,$tag_toolbox_1_time,$tag_toolbox_n_times,$main_page,$tag_page_tag_color,$tag_page_background_color,$tag_min_size_tag_page,$tag_max_size_tag_page,$dbh,"",$tag_cloud_title,-1,$tag_mode,false,false,'0000-00-00',"",$tag_page_tag_hilite_color,$tag_page_hilite_size,$main_crono_channel,$language,$ov_locales);	
@@ -80,7 +82,7 @@ $tc=TagCloud(-4,1,10000,$channels_excluded_from_crono,$tag_toolbox_1_time,$tag_t
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
   <script language="JavaScript" src="includes/general.js" language="javascript" type="text/javascript"></script>
 </head>
-<body bgcolor="<? echo($tag_page_background_color); ?>" text="<? echo($textcolor); ?>" alink="<? echo($textcolor); ?>" vlink="<? echo($textcolor); ?>" link="<? echo($textcolor); ?>">
+<body bgcolor="<? echo($tag_page_background_color); ?>" text="<? echo($textcolor); ?>" alink="<? echo($textcolor); ?>" vlink="<? echo($textcolor); ?>" link="<? echo($textcolor); ?>" leftmargin="50" marginwidth="50">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td width="62%"><font size="<? echo($ov_text_font_size); ?>" face="<? echo($ov_text_font); ?>">
@@ -97,7 +99,7 @@ for($i=0;$i<sizeof($menu_ids);$i++) {
 				$menu_link="<a href=\"".$main_page."?c=".$default_channel_id."\">";
 				break;
 			case "-2":
-				$menu_link="";
+				$menu_link="<a href=\"http://www.megafone.net\">";
 				break;
 			case "-3":
 				$menu_link="<a href=\"map.php\">";
@@ -124,22 +126,22 @@ for($i=0;$i<sizeof($menu_ids);$i++) {
       </h1>
 </font></td>
 <td width="26%"><div align="right"><font size="<? echo($ov_text_font_size); ?>" face="<? echo($ov_text_font); ?>"><?
-$languages = ShowLanguageOptions("tags.php",$t,"",$ov_languages,$language);
-echo($languages);
+//$languages = ShowLanguageOptions("tags.php",$t,"",$bv_languages,$language);
+//echo($languages);
 ?></font></div></td>
 <td width="12%"><div align="right"> </div></td>
 </tr>
-</table>
+</table><hr>
 <font size="<? echo($ov_text_font_size); ?>" face="<? echo($ov_text_font); ?>"><a name="tags"></a>
 <? 
 echo("<h1 style=\"font-size: ".$ov_text_font_size_header."em\">");
-echo($ov_tags_mode_text[$language]." "); 
-$t_modes=explode(",",$tag_modes[$language]);
-if ($tag_mode==0) {
-	echo($t_modes[0].". $ov_tags_other_mode_text[$language] <a href=\"tags.php?t=1#tags\">".$t_modes[1]."</a>");
-} else {
-	echo($t_modes[1].". $ov_tags_other_mode_text[$language] <a href=\"tags.php?t=0#tags\">".$t_modes[0]."</a>");
-}
+//echo($bv_tags_mode_text[$language]." "); 
+//$t_modes=explode(",",$tag_modes[$language]);
+//if ($tag_mode==0) {
+//	echo($t_modes[0].". $bv_tags_other_mode_text[$language] <a href=\"tags.php?t=1#tags\">".$t_modes[1]."</a>");
+//} else {
+//	echo($t_modes[1].". $bv_tags_other_mode_text[$language] <a href=\"tags.php?t=0#tags\">".$t_modes[0]."</a>");
+//}
 echo("</h1>");?>
 </font>
 <font face="<? echo($ov_text_font); ?>">

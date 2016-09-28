@@ -11,7 +11,7 @@ function GetDefaultChannelIDVar($dbh) {
 }
 
 //general variables
-$global_channel_name="Ojovoz WebServer";
+$global_channel_name="OVWEBSERVER";
 $channel_folder="ovwebserver";
 $init_page="ojovoz.php";
 $main_page="ojovoz.php";
@@ -36,7 +36,7 @@ $channel_order="";
 //useful for projects with many crono channels
 $crono_random_check=true;
 //time zone of the area where the project is being made.
-$time_zone=2;
+$time_zone=-8;
 //maximum number of tags that appear in the tag cloud.
 $max_tags_in_cloud=50;
 //read tags from subject of message?
@@ -44,7 +44,8 @@ $get_tags_from_subject=false;
 //default user name (when uploading pictures)
 $default_user_name="web_upload";
 //
-$mail_server="{134.0.12.74:110/pop3/notls}";
+$mail_server="{address:port/pop3/notls}";
+$max_messages_from_inbox=10;
 //auto create email addresses?
 $auto_create_email=false;
 //main crono channel, used to link from tag channel
@@ -80,14 +81,14 @@ $thumbnail_width=160;
 $thumbnail_height=120;
 $max_image_width_1=360;
 $max_image_width_2=520;
-$max_image_width_edit="348";
+$max_image_width_edit=348;
 $video_width=320;
 $video_height=255;
 $audio_width=520;
 $audio_height=25;
 $edit_video_width=280;
 $edit_video_height=210;
-$edit_audio_width=280;
+$edit_audio_width=348;
 $edit_audio_height=25;
 $tag_page_tag_color="#000000";
 $tag_page_tag_hilite_color="#000000";
@@ -140,10 +141,12 @@ $thumbnail_text[2]="last";
 //
 //mapping
 //
-$google_maps_api_key="your*api*key";
+$google_maps_api_key="your google maps api key";
+$mapbox_api_key="your mapbox api key";
+$mapbox_id="your mapbox id";
 $has_map=true;
-$map_channel_name="Ojovoz WebServer";
-$max_markers_on_map=50;
+$map_channel_name="";
+$max_markers_on_map=500;
 $max_tags_on_map=50;
 $show_tags_in_map=true;
 $map_tag_mode=0; //0=frequent, 1=popular
@@ -153,8 +156,8 @@ $map_channel_height="360px";
 $show_legend_in_map=true;
 $prefered_city="";
 $use_prefered_city=true;
-$default_latitude=-6.822935;
-$default_longitude=39.269643;
+$default_latitude=-10.71667;
+$default_longitude=38.8;
 $get_reverse_geocoding=false;
 $static_map_width=480;
 $static_map_height=360;
@@ -165,8 +168,8 @@ $get_user_from_message_subject=true;
 //
 //conversion
 $convert_to_mp3=true;
-$servpath="/usr/home/sautiyawakulima.net/web/";
-$ffmpeg_path="/usr/local/home/srvcat/local/binaris/yourserver.net/";
+$servpath="/path/to/html/docs/";
+$ffmpeg_path="/path/to/ffmpeg/";
 $sample_rate="22050";
 //titles-languages
 $ov_languages="Español,English";
@@ -183,9 +186,9 @@ $ov_rss_feed_title=array("RSS","RSS");
 $ov_current_crono_text=array("Area:","Area:");
 $ov_choose_crono_text=array("Elija un área:","Choose an area:");
 $ov_choose_other_crono_text=array("Elija otra área","Choose another area");
-$ov_current_child_text=array("Emisor:","Participant:");
-$ov_choose_child_text=array("Elige un emisor:","Choose a participant:");
-$ov_choose_other_child_text=array("Ver otro emisor","Choose a different participant");
+$ov_current_child_text=array("Grupo:","Group:");
+$ov_choose_child_text=array("Elige un grupo:","Choose a group:");
+$ov_choose_other_child_text=array("Ver otro grupo","Choose a different group");
 $ov_tags_mode_text=array("","");
 $ov_tags_other_mode_text=array("Cambiar a","Change to");
 $ov_tag_modes_explanation[0]=array("El número junto a cada tag indica cuántas veces ha sido usada.","The number beside each tag indicates the times it has been used.");
@@ -218,7 +221,7 @@ $ov_comment_password=array("Contraseña","Password");
 $ov_comment_text=array("Comentario","Comment");
 $ov_add_comment_button=array("Publicar","Publish");
 $ov_comment_back_link=array("Volver","Back");
-$ov_comment_wrong_password=array("Contraseña incorrecta","Wrong password");
+$ov_comment_wrong_password=array("Error en el comentario","Wrong password");
 $ov_no_comments_text=array("Añadir comentario","Add comment");
 $ov_1_comments_text=array("Un comentario","One comment");
 $ov_n_comments_text=array("comentarios","comments");
@@ -243,7 +246,17 @@ $ov_next_page_text=array("Siguiente página","Next page");
 $ov_previous_page_text=array("Página anterior","Previous page");
 $ov_search_text=array("Buscar","Search");
 $ov_deselect_tags=array("Limpiar selección","Clear selection");
+$ov_share_page_text=array("compartir","share");
+$ov_message_pending_approval=array("Mensaje pendiente de aprobación","Message pending approval");
+$ov_approve_message_text=array("Aprobado","Approved");
+$ov_map_dates_between=array("Entre","Between");
+$ov_map_dates_and=array("y","and");
+$ov_map_dates_button=array("Buscar","Search");
 //android
 $smtp_server="smtp.yourserver.net";
 $smtp_server_port="578";
+//RSS
+$rss_description="";
+$rss_language="en";
+$rss_max_messages=50;
 ?>

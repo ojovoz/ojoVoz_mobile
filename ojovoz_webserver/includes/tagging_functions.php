@@ -389,7 +389,7 @@ function TagCloud($c,$crono,$m,$e,$tb1,$tbn,$page,$tag_color,$bgcolor,$minSize,$
 			$name=$name."*";
 		}
 		if($c==-3) {
-			$gt=IsGeoTagged($dbh,$row[1]);
+			$gt=(IsGeoTagged($dbh,$row[1]) && IsPublished($dbh,$row[1]));
 		} else {
 			$gt=true;
 		}
@@ -463,7 +463,7 @@ function TagCloud($c,$crono,$m,$e,$tb1,$tbn,$page,$tag_color,$bgcolor,$minSize,$
 					}
 				} else {
 					$legend_tag_color=GetTagColor($dbh,$tags[$i]["id"]);
-					$cloud = $cloud."<li style=\"display: inline\"><img src=\"includes/images/marker".$legend_tag_color."_ball.png\" align=\"absbottom\"><a href=\"".$page."?c=$c&tag=".$tags[$i]["id"]."\" style=\"font-size: ".$size."em; font-family: Arial,Helvetica; color: ".$color."; background-color: ".$backcolor."\" title=\"".$toolbox."\">".$tags[$i]["name"]."</a></li> ";
+					$cloud = $cloud."<li style=\"display: inline\"><img src=\"includes/images/marker".$legend_tag_color."s.png\" align=\"absbottom\"><a href=\"".$page."?c=$c&tag=".$tags[$i]["id"]."\" style=\"font-size: ".$size."em; font-family: Arial,Helvetica; color: ".$color."; background-color: ".$backcolor."\" title=\"".$toolbox."\">".$tags[$i]["name"]."</a></li> ";
 				}
 			} else {
 				$found=false;
@@ -486,14 +486,14 @@ function TagCloud($c,$crono,$m,$e,$tb1,$tbn,$page,$tag_color,$bgcolor,$minSize,$
 						$cloud = $cloud."<li style=\"display: inline\"><a href=\"".$page."?c=$c&tag=".$tags[$i]["id"]."\" style=\"font-size: ".$size."em; font-family: Arial,Helvetica; color: ".$color."; background-color: ".$backcolor."\" title=\"".$toolbox."\">".$tags[$i]["name"]."</a></li> ";
 					} else {
 						$legend_tag_color=GetTagColor($dbh,$tags[$i]["id"]);
-						$cloud = $cloud."<li style=\"display: inline\"><img src=\"includes/images/marker".$legend_tag_color."_ball.png\" align=\"absbottom\"><a href=\"".$page."?c=$c&tag=".$tags[$i]["id"]."\" style=\"font-size: ".$size."em; font-family: Arial,Helvetica; color: ".$color."; background-color: ".$backcolor."\" title=\"".$toolbox."\">".$tags[$i]["name"]."</a></li> ";
+						$cloud = $cloud."<li style=\"display: inline\"><img src=\"includes/images/marker".$legend_tag_color."s.png\" align=\"absbottom\"><a href=\"".$page."?c=$c&tag=".$tags[$i]["id"]."\" style=\"font-size: ".$size."em; font-family: Arial,Helvetica; color: ".$color."; background-color: ".$backcolor."\" title=\"".$toolbox."\">".$tags[$i]["name"]."</a></li> ";
 					}
 				} else {
 					if ($legend==false) {
 						$cloud = $cloud."<li style=\"display: inline\"><font style=\"font-size: ".$size."em; font-family: Arial,Helvetica; color: ".$color."; background-color: ".$backcolor."\">".$tags[$i]["name"]."</font></li> ";
 					} else {
 						$legend_tag_color=GetTagColor($dbh,$tags[$i]["id"]);
-						$cloud = $cloud."<li style=\"display: inline\"><img src=\"includes/images/marker".$legend_tag_color."_ball.png\" align=\"absbottom\"><font style=\"font-size: ".$size."em; font-family: Arial,Helvetica; color: ".$color."; background-color: ".$backcolor."\">".$tags[$i]["name"]."</font></li> ";
+						$cloud = $cloud."<li style=\"display: inline\"><img src=\"includes/images/marker".$legend_tag_color."s.png\" align=\"absbottom\"><font style=\"font-size: ".$size."em; font-family: Arial,Helvetica; color: ".$color."; background-color: ".$backcolor."\">".$tags[$i]["name"]."</font></li> ";
 					}
 				}
 			}
@@ -766,10 +766,10 @@ function GetCorrelated($qWhere,$crono,$c,$dbh) {
 			}
 		}
 		if ($x!="") {
-			$ret[$i]=$x;
+			$ret[0]=$x;
 		}
 	//}
-	return $ret;
+	return $ret[0];
 }
 
 function GetTagsInGroup($id,$dbh) {

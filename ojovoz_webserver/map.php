@@ -23,10 +23,18 @@ if (isset($_GET['m'])) {
 	$message=-1;
 }
 
+if (isset($_GET['from']) && isset($_GET['to'])){
+	$from=$_GET['from'];
+	$to=$_GET['to'];
+} else {
+	$from="";
+	$to="";
+}
+
 if (isset($_SESSION['language'])) {
 	$language = $_SESSION['language'];
 } else {
-	$language = 0;
+	$language = 1;
 }
 
 if (isset($_GET['s'])) {
@@ -84,7 +92,7 @@ if (!isset($bgcolor)) {
 }
 
 if ($crono_random_check == true) {
-	CheckMessagesRandomChannel($get_tags_from_subject,$mail_server,$dbh,$time_zone,$get_user_from_message_subject,$get_date_from_exif,$convert_to_mp3,$servpath,$sample_rate,$channel_folder,$static_map_width,$static_map_height,$google_maps_api_key,$get_reverse_geocoding,$ffmpeg_path);
+	CheckMessagesRandomChannel($get_tags_from_subject,$mail_server,$dbh,$time_zone,$get_user_from_message_subject,$get_date_from_exif,$convert_to_mp3,$servpath,$sample_rate,$channel_folder,$static_map_width,$static_map_height,$google_maps_api_key,$get_reverse_geocoding,$ffmpeg_path,$max_messages_from_inbox);
 }
 
 if (!isset($_SESSION['selection_list']) || $_GET['r'] == 1) {
@@ -128,11 +136,11 @@ $qWhere=GetFilterMapMessageList($qWhere,$dbh);
 //get list of correlated tags & descriptors
 if ($qWhere!="") {
 	$correlated=GetCorrelated($qWhere,1,-3,$dbh);
-	$correlated_tags=$correlated[0];
-	$correlated_descriptors=$correlated[1];
+	$correlated_tags=$correlated;
+	//$correlated_descriptors=$correlated[1];
 } else {
 	$correlated_tags="-1";
-	$correlated_descriptors="-1";
+	//$correlated_descriptors="-1";
 }
 /////////////////////////////
 $page_filter=GetTagNames($_SESSION['selection_list'],$dbh,$language);
@@ -157,18 +165,16 @@ if ($show_descriptors_in_map) {
 <head>
   <title><? echo($global_channel_name); ?></title>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-  <script type="text/javascript"
-  	src="https://maps.googleapis.com/maps/api/js?key=<? echo($google_maps_api_key); ?>&sensor=false">
-  </script>
+  <link rel="stylesheet" href="includes/leaflet/leaflet.css" />
+  <script src="includes/leaflet/leaflet.js"></script>
   <script language="JavaScript" src="includes/general.js" language="javascript" type="text/javascript"></script>
   <link rel="SHORTCUT ICON" href="http://sautiyawakulima.net/favicon.ico">
 </head>
-<body bgcolor="<? echo($bgcolor); ?>" text="#<? echo($textcolor); ?>" link="#<? echo($textcolor); ?>" vlink="#<? echo($textcolor); ?>" alink="#<? echo($textcolor); ?>" leftmargin="50" marginwidth="50" onload="initialize()">
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-<tr>
-    <td width="62%"><font size="<? echo($ov_text_font_size); ?>" face="<? echo($ov_text_font); ?>"> 
-      <h1 style="font-size: <? echo($ov_text_font_size_header."em"); ?>"> <img src="includes/logos/logoOjo_100px.png" width="100" height="97" border="0" align="absmiddle">
-        <?
+<body bgcolor="#<? echo($bgcolor); ?>" text="#<? echo($textcolor); ?>" link="#<? echo($textcolor); ?>" vlink="#<? echo($textcolor); ?>" alink="#<? echo($textcolor); ?>" leftmargin="50" marginwidth="50">
+<form action="" method="post">
+<font size="<? echo($ov_text_font_size); ?>" face="<? echo($ov_text_font); ?>"> 
+  <h1 style="font-size: <? echo($ov_text_font_size_header."em"); ?>"> 
+    <?
 $menu_ids=explode(",",$ov_menu_ids);
 $menu_titles=explode(",",$ov_menu_titles[$language]);
 for($i=0;$i<sizeof($menu_ids);$i++) {
@@ -207,21 +213,9 @@ for($i=0;$i<sizeof($menu_ids);$i++) {
 		echo(" ");
 	}
 }
-if ($has_rss && $crono==0) {
 ?>
-        <a href="<? echo("rss.php?c=".$c); ?>"><img src="includes/images/feed-icon-28x28.png" title="<? echo($ov_rss_feed_title[$language]); ?>" alt="<? echo($ov_rss_feed_title[$language]); ?>" width="28" height="28" align="absmiddle" border="0"></a> 
-        <? } ?>
-      </h1>
-      </font></td>
-<td width="26%"><div align="right"><font size="<? echo($ov_text_font_size); ?>" face="<? echo($ov_text_font); ?>">
-        <?
-$languages = ShowLanguageOptions($main_page,$c,$date,$ov_languages,$language,$from);
-echo($languages);
-?>
-        </font></div></td>
-<td width="12%"><div align="right"> </div></td>
-</tr>
-</table>
+  </h1>
+</font></form>
 <hr>
 <? if ($show_tags_in_map) {
 ?>
@@ -255,44 +249,60 @@ if (($show_tags_in_map==1 && $tc[0]!="") || $show_descriptors_in_map==1) {
 	echo("<br>");
 }
 ?>
-<div id="map" style="width: 100%; height: 480px"></div>
+<div id="map" style="width: 100%; height: 600px"></div>
 <script type="text/javascript">
-	var marker=null;
-	var openMarker=null;
-	var latLng=null;
-	var infoWindow=new google.maps.InfoWindow();
-	var bounds = new google.maps.LatLngBounds();
+	var ovMap = L.map('map').setView([<? echo($default_latitude); ?>, <?  echo($default_longitude); ?>], 13);
 	
-	var image = new Array();
-	image[0]={url:'includes/images/marker00_ball.png', size:new google.maps.Size(16,17), origin:new google.maps.Point(0,0), anchor: new google.maps.Point(8,9)};
-	image[1]={url:'includes/images/marker01_ball.png', size:new google.maps.Size(16,17), origin:new google.maps.Point(0,0), anchor: new google.maps.Point(8,9)};
-	image[2]={url:'includes/images/marker02_ball.png', size:new google.maps.Size(16,17), origin:new google.maps.Point(0,0), anchor: new google.maps.Point(8,9)};
-	image[3]={url:'includes/images/marker03_ball.png', size:new google.maps.Size(16,17), origin:new google.maps.Point(0,0), anchor: new google.maps.Point(8,9)};
-	image[4]={url:'includes/images/marker04_ball.png', size:new google.maps.Size(16,17), origin:new google.maps.Point(0,0), anchor: new google.maps.Point(8,9)};
-	image[5]={url:'includes/images/marker05_ball.png', size:new google.maps.Size(16,17), origin:new google.maps.Point(0,0), anchor: new google.maps.Point(8,9)};
-	image[6]={url:'includes/images/marker06_ball.png', size:new google.maps.Size(16,17), origin:new google.maps.Point(0,0), anchor: new google.maps.Point(8,9)};
-	image[7]={url:'includes/images/marker07_ball.png', size:new google.maps.Size(16,17), origin:new google.maps.Point(0,0), anchor: new google.maps.Point(8,9)};
-	image[8]={url:'includes/images/marker08_ball.png', size:new google.maps.Size(16,17), origin:new google.maps.Point(0,0), anchor: new google.maps.Point(8,9)};
-	image[9]={url:'includes/images/marker09_ball.png', size:new google.maps.Size(16,17), origin:new google.maps.Point(0,0), anchor: new google.maps.Point(8,9)};
-	image[10]={url:'includes/images/marker10_ball.png', size:new google.maps.Size(16,17), origin:new google.maps.Point(0,0), anchor: new google.maps.Point(8,9)};
+	var icon = new Array();
+	var n;
+	for(var i=0;i<23;i++){
+		if(i<10){
+			n='0'+i.toString();
+		} else {
+			n=i.toString();
+		}
+		icon[i] = L.icon({iconUrl:'includes/images/marker'+ n +'.png',shadowURL:'includes/images/shadow.png',iconSize:[34,54],shadowSize:[63,54],iconAnchor:[19,53],shadowAnchor:[17,53],popupAnchor:[-1,-55]});
+	}
 	
-	var shadow={url:'includes/images/shadow_ball.png', size:new google.maps.Size(26,18), origin:new google.maps.Point(0,0), anchor: new google.maps.Point(8,9)};
-	var shape={coord:[1,1,16,17], type:'rect'};
 	
-	function initialize(){
-		latLng = new google.maps.LatLng(<? echo($default_latitude); ?>, <?  echo($default_longitude); ?>);
-		var mapOptions = {center: latLng, zoom: 8, mapTypeId: google.maps.MapTypeId.ROADMAP};
-    	var map = new google.maps.Map(document.getElementById("map"),mapOptions);
-		
-		<?
-		$query=GetMessagesInMap($qWhere,$max_markers_on_map,$from,$dbh,$message);
+	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=<? echo($mapbox_api_key); ?>', {
+		maxZoom: 18,
+		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+			'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery (C) <a href="http://mapbox.com">Mapbox</a>',
+		id: '<? echo($mapbox_id); ?>',
+		accessToken: '<? echo($mapbox_api_key); ?>'
+	}).addTo(ovMap);
+	
+	var latLng = null;
+	var marker = null;
+	var openMarker = null;
+	var latLngOpenMarker = null;
+	var markersLayer = new L.featureGroup();
+	
+	<?
+		$min_lat=999.99;
+		$max_lat=0;
+		$min_lng=999.99;
+		$max_lng=0;
+		$query=GetMessagesInMap($qWhere,$max_markers_on_map,$dbh,$message,$from,$to);
 		$result = mysql_query($query, $dbh);
 		$i=0;
 		while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
 			$lat=preg_replace("/[^0-9.,\-]/", "", $row[4]);
 			$lng=preg_replace("/[^0-9.,\-]/", "", $row[5]);
-			echo("latLng = new google.maps.LatLng($lat, $lng);\n\r");
-			echo("bounds.extend(latLng);\n\r");
+			echo("latLng = L.latLng($lat, $lng);");
+			if(floatval($lat)<$min_lat){
+				$min_lat=floatval($lat);
+			} else if(floatval($lat)>$max_lat){
+				$max_lat=floatval($lat);
+			}
+			if(floatval($lng)<$min_lng){
+				$min_lng=floatval($lng);
+			} else if(floatval($lng)>$max_lng){
+				$max_lng=floatval($lng);
+			}
+			
 			if ($row[11]==1) {
 				$asc="";
 			} else {
@@ -310,26 +320,69 @@ if (($show_tags_in_map==1 && $tc[0]!="") || $show_descriptors_in_map==1) {
 			}
 			$label = $img."<br><font color=\"$map_data_color\" size=\"2\" face=\"Arial, Helvetica, sans-serif\"> ".$row[1]."</font>";
 			$color=intval(GetMessageColor($dbh,$row[14]));
-			if($color>10) { $color=6; }
-			echo("marker = new google.maps.Marker({position: latLng, map:map, shadow:shadow, shape:shape, icon:image[$color], html:'$label'});\n\r");
-			echo("google.maps.event.addListener(marker, 'click', function () {\n\r");
-			echo("infoWindow.setContent(this.html);\n\r");
-			echo("infoWindow.open(map,this);\n\r");
-			echo("});\n\r");
+			echo("marker = L.marker(latLng,{icon:icon[$color]}).addTo(markersLayer);");
+			echo("marker.bindPopup('".$label."');");
+			
 			if ($message==$row[14]) {
-				echo("openMarker = marker;\n\r");
+				echo("openMarker = marker;");
+				echo("latLngOpenMarker = L.latLng($lat, $lng);");
 			}
 		}
-		?>
-		map.fitBounds(bounds);
+		?>	
 		
-		if(openMarker!=null){
-			google.maps.event.trigger(openMarker, 'click');
-		}
+	ovMap.addLayer(markersLayer);
+	ovMap.fitBounds(markersLayer.getBounds(), {padding:[50,50]});
+	if(openMarker!=null){
+		setTimeout(function(){ ovMap.panTo(latLngOpenMarker,{animate:true});
+		openMarker.openPopup();
+		}, 1000);
 	}
 	
-	
 </script>
-<br>
+<?
+$dates=CalculateMapDates($qWhere,$dbh,$ov_locales[$language]);
+$dates_from=$dates[0];
+$dates_to=$dates[1];
+if(sizeof($dates_from)>1 && sizeof($dates_to)>1){
+?>
+<p><font size="<? echo($ov_text_font_size); ?>" face="<? echo($ov_text_font); ?>">
+<? echo($ov_map_dates_between[$language]." "); ?>
+<select name="date_from" id="date_from" style="color: <? echo($textcolor); ?>; background-color: <? echo($bgcolor); ?>; font-size: <? echo($font_size); ?>em;">
+<?
+	for($i=0;$i<sizeof($dates_from);$i++) {
+		$dates_parts=explode(",",$dates_from[$i]);
+		if (($i==(sizeof($dates_from)-1) && $from=="") || ($from==$dates_parts[1])) {
+			echo("<option value=\"".$dates_parts[1]."\" selected>".$dates_parts[0]."</option>");
+		} else {
+			echo("<option value=\"".$dates_parts[1]."\">".$dates_parts[0]."</option>");
+		}
+	}
+?>
+</select>
+<? echo(" ".$ov_map_dates_and[$language]." "); ?>
+<select name="date_to" id="date_to" style="color: <? echo($textcolor); ?>; background-color: <? echo($bgcolor); ?>; font-size: <? echo($font_size); ?>em;">
+<?
+	for($i=0;$i<sizeof($dates_to);$i++) {
+		$dates_parts=explode(",",$dates_to[$i]);
+		if (($i==0 && $to=="") || ($to==$dates_parts[1])) {
+			echo("<option value=\"".$dates_parts[1]."\" selected>".$dates_parts[0]."</option>");
+		} else {
+			echo("<option value=\"".$dates_parts[1]."\">".$dates_parts[0]."</option>");
+		}
+	}
+?>
+</select>&nbsp;
+<input type="button" name="dates" id="dates" value="<? echo($ov_map_dates_button[$language]); ?>" style="font-size: <? echo($font_size); ?>em;">
+<script type="text/javascript">
+    document.getElementById("dates").onclick = function () {
+		select_from=document.getElementById("date_from");
+		date_from=select_from.options[date_from.selectedIndex].value;
+		select_to=document.getElementById("date_to");
+		date_to=select_to.options[date_to.selectedIndex].value;
+        location.href = "map.php?from=" + date_from + "&to=" + date_to;
+    };
+</script>
+</font></p>
+<? } ?>
 </body>
 </html>

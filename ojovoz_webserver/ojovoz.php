@@ -11,7 +11,7 @@ if (isset($_GET['l'])) {
 if (isset($_SESSION['language'])) {
 	$language = $_SESSION['language'];
 } else {
-	$language = 0;
+	$language = 1;
 }
 
 if (isset($_GET['c'])) {
@@ -103,9 +103,9 @@ if (($c >= 0) && ($c != "")) {
 
 	//check for incoming messages
 	if ($crono == 0 && $is_active == 1) {
-		CheckMessages($user,$pass,$c,$folder,$get_tags_from_subject,$mail_server,$dbh,$time_zone,$get_user_from_message_subject,$get_date_from_exif,$convert_to_mp3,$servpath,$sample_rate,$channel_folder,$static_map_width,$static_map_height,$google_maps_api_key,$get_reverse_geocoding,$ffmpeg_path);
+		CheckMessages($user,$pass,$c,$folder,$get_tags_from_subject,$mail_server,$dbh,$time_zone,$get_user_from_message_subject,$get_date_from_exif,$convert_to_mp3,$servpath,$sample_rate,$channel_folder,$static_map_width,$static_map_height,$google_maps_api_key,$get_reverse_geocoding,$ffmpeg_path,$max_messages_from_inbox);
 	} else if ($crono == 1 && $crono_random_check == true) {
-		CheckMessagesRandomChannel($get_tags_from_subject,$mail_server,$dbh,$time_zone,$get_user_from_message_subject,$get_date_from_exif,$convert_to_mp3,$servpath,$sample_rate,$channel_folder,$static_map_width,$static_map_height,$google_maps_api_key,$get_reverse_geocoding,$ffmpeg_path);
+		CheckMessagesRandomChannel($get_tags_from_subject,$mail_server,$dbh,$time_zone,$get_user_from_message_subject,$get_date_from_exif,$convert_to_mp3,$servpath,$sample_rate,$channel_folder,$static_map_width,$static_map_height,$google_maps_api_key,$get_reverse_geocoding,$ffmpeg_path,$max_messages_from_inbox);
 	}
 		
 	//////////////////////////////////////////////////////
@@ -129,11 +129,11 @@ if (($c >= 0) && ($c != "")) {
 	//get list of correlated tags & descriptors
 	if ($qWhere!="") {
 		$correlated=GetCorrelated($qWhere,$crono,$c,$dbh);
-		$correlated_tags=$correlated[0];
-		$correlated_descriptors=$correlated[1];
+		$correlated_tags=$correlated;
+		//$correlated_descriptors=$correlated[1];
 	} else {
 		$correlated_tags="-1";
-		$correlated_descriptors="-1";
+		//$correlated_descriptors="-1";
 	}
 	
 	if ($show_tags) {
@@ -176,7 +176,7 @@ if (($c >= 0) && ($c != "")) {
 <head>
   <title><? echo($global_channel_name); ?></title>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<script language="JavaScript" src="includes/general.js" language="javascript" type="text/javascript"></script>
+<script src="includes/general.js"></script>
 <script src="includes/audio.min.js"></script>
 <script>
   audiojs.events.ready(function() {
@@ -189,12 +189,10 @@ if (($c >= 0) && ($c != "")) {
 </style>
 </head>
 <body bgcolor="#<? echo($bgcolor); ?>" text="#<? echo($textcolor); ?>" link="#<? echo($textcolor); ?>" vlink="#<? echo($textcolor); ?>" alink="#<? echo($textcolor); ?>" leftmargin="50" marginwidth="50">
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-<tr>
-<td width="62%"><form action="" method="post">
-        <font size="<? echo($ov_text_font_size); ?>" face="<? echo($ov_text_font); ?>"> 
-        <h1 style="font-size: <? echo($ov_text_font_size_header."em"); ?>"> <a href="about.php"><img src="includes/logos/logoOjo_100px.png" width="100" height="97" border="0" align="absmiddle"></a> 
-          <?
+<form action="" method="post">
+<font size="<? echo($ov_text_font_size); ?>" face="<? echo($ov_text_font); ?>"> 
+  <h1 style="font-size: <? echo($ov_text_font_size_header."em"); ?>"> 
+    <?
 $menu_ids=explode(",",$ov_menu_ids);
 $menu_titles=explode(",",$ov_menu_titles[$language]);
 for($i=0;$i<sizeof($menu_ids);$i++) {
@@ -233,24 +231,16 @@ for($i=0;$i<sizeof($menu_ids);$i++) {
 		echo(" ");
 	}
 }
-if ($has_rss && $crono==0) {
 ?>
-          <a href="<? echo("rss.php?c=".$c); ?>"><img src="includes/images/feed-icon-28x28.png" title="<? echo($ov_rss_feed_title[$language]); ?>" alt="<? echo($ov_rss_feed_title[$language]); ?>" width="28" height="28" align="absmiddle" border="0"></a> 
-          <? } ?>
-		  | 
-          <input type="text" name="q" id="q" value="<? if ($_SESSION['q']!="") echo($_SESSION['q']); else echo($bv_search_text[$language]); ?>" style="width:160px; height:22px; border:2px solid #000000" onClick="SelectText();">
-        </h1>
-        </font> 
-      </form></td>
-<td width="26%"><div align="right"><font size="<? echo($ov_text_font_size); ?>" face="<? echo($ov_text_font); ?>">
+    | 
+    <input type="text" name="q" id="q" value="<? if ($_SESSION['q']!="") echo($_SESSION['q']); else echo($ov_search_text[$language]); ?>" style="width:160px; height:22px; border:2px solid #000000" onClick="SelectText();">
 <?
-$languages = ShowLanguageOptions($main_page,$c,$date,$ov_languages,$language,$from);
-echo($languages);
+	$languages = ShowLanguageOptions($main_page,$c,$date,$ov_languages,$language,$from);
+	echo($languages);
 ?>
-</font></div></td>
-<td width="12%"><div align="right"> </div></td>
-</tr>
-</table>
+</h1>
+</font> 
+</form>
 <hr>
 <?
 if ($show_tags) {
@@ -291,7 +281,8 @@ if ($c!=$media_channel_id) {
 	}
 	echo(' <a href="./../dar/dar.php?r=1">Ubungo</a>');
 ?></h1><?
-}*/
+}
+*/
 if ($c!=$media_channel_id) {
 	$crono_channels=GetParentChannels($dbh);
 	$current_crono=-1;
@@ -354,7 +345,7 @@ while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
 	$data_string="";
 	if ($c!=$media_channel_id) {
 		if ($show_sender==1) {
-			$data_string = $ov_message_sender_text[$language]." ".$message_sender." ";
+			$data_string = "<i>".$message_sender.":</i> ";
 		}
 		if ($show_date==1) {
 			if($data_string=="") {
@@ -391,6 +382,7 @@ while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
 	$att_query = "SELECT filename, original_filename, image_width, image_height, content_type, attachment_id, latitude, longitude, map_filename, map_address, is_published FROM attachment WHERE message_id = ".$message_id." ORDER BY content_type, attachment_id";
 	$att_result = mysql_query($att_query, $dbh);
 	$prev_type = "";
+	$pending = false;
 	while ($att_row = mysql_fetch_array($att_result, MYSQL_NUM)) {
 		$filename = "channels/".$att_row[0];
 		$title = $att_row[1];
@@ -410,87 +402,79 @@ while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
 			}
 		}
 		
-		if ($type == 1) {
+		if ($is_published){
+			if ($type == 1) {
 			
-			//show image
-			if ($width>1  && $is_published == 1) {
-				if ($width > $max_image_width_1 && $width < $max_image_width_2) {
-					$height = $height*($max_image_width_2/$width);
-  					$width = $max_image_width_2;
-				} else if ($width > $max_image_width_2) {
-					$height = $height*($max_image_width_2/$width);
-  					$width = $max_image_width_2;
-				} else {
-					$height = $height*($max_image_width_2/$width);
-					$width = $max_image_width_2;
-				}
-				$prev_type = 1;
-				if ($latitude!="" && $longitude!="") { ?><a href="<? echo("map.php?m=$message_id"); ?>"> <? } ?>
-				<img src="<? echo($filename); ?>" width="<? echo($width); ?>" height="<? echo($height); ?>" border="0" /><?
-				if ($latitude!="" && $longitude!="") { ?></a><?
-				}
-				$added_text="";
+				//show image
+				if ($width>1) {
+					if ($width > $max_image_width_1 && $width < $max_image_width_2) {
+						$height = $height*($max_image_width_2/$width);
+						$width = $max_image_width_2;
+					} else if ($width > $max_image_width_2) {
+						$height = $height*($max_image_width_2/$width);
+						$width = $max_image_width_2;
+					} else {
+						$height = $height*($max_image_width_2/$width);
+						$width = $max_image_width_2;
+					}
+					$prev_type = 1;
+					if ($latitude!="" && $longitude!="") { ?><a href="<? echo("map.php?m=$message_id"); ?>"> <? } ?>
+					<img src="<? echo($filename); ?>" width="<? echo($width); ?>" height="<? echo($height); ?>" border="0" /><?
+					if ($latitude!="" && $longitude!="") { ?></a><?
+					}
+					$added_text="";
+				} 
+		
 			} else {
-				$width=$static_map_width;
-				$height=$static_map_height;
-				$added_text=". ".$image_title;
-			}
-			if ($map_filename!="") {
-				$prev_type = 1;
-?><img src="maps/<? echo($map_filename); ?>" width="<? echo($static_map_width); ?>" height="<? echo($static_map_height); ?>" alt="<? echo(utf8_decode($map_address).$added_text); ?>" border="0" title="<? echo(utf8_decode($map_address).$added_text); ?>" /><?
-			}
-			if ($width==1 && $map_filename=="" && $image_title!="") {
-				//echo("<font size=\"$ov_text_font_size\" face=\"$ov_text_font\">$image_title</font>");
+				//show audio
+				if ($type==2) {
+					if ($prev_type==1) {
+						echo("<br>");
+					} else if ($prev_type=="" && $message_tags!="") {
+						echo("<font size=\"$ov_text_font_size\" face=\"$ov_text_font\">".$ov_image_title_text[$language]." ".strip_tags($message_tags)."</font><br>");
+					}
+					$prev_type=$type;
+					if($ov_show_player) {
+						$width = $audio_width;
+						$height = $audio_height;
+?><audio src="<? echo($filename); ?>" preload="none"></audio><?
+					} else {
+						echo("<font size=\"$ov_text_font_size\" face=\"$ov_text_font\"><a href=\"$filename\">$ov_audio_link_text[$language]</a></font><br>");
+					}
+				} 
 			}
 		} else {
-			//show video or sound using quicktime
-			if ($type==2) {
-				if ($prev_type==1) {
-					echo("<br>");
-				} else if ($prev_type=="" && $message_tags!="") {
-					echo("<font size=\"$ov_text_font_size\" face=\"$ov_text_font\">".$ov_image_title_text[$language]." ".strip_tags($message_tags)."</font><br>");
-				}
-				$prev_type=$type;
-				if($ov_show_player) {
-					$width = $audio_width;
-					$height = $audio_height;
-?><audio src="<? echo($filename); ?>" preload="none"></audio>
-<br><?
-				} else {
-					echo("<font size=\"$ov_text_font_size\" face=\"$ov_text_font\"><a href=\"$filename\">$ov_audio_link_text[$language]</a></font><br>");
-				}
-			} else {
-				if ($prev_type==1) {
-					echo("<br>");
-				} else if ($prev_type=="" && $message_tags!="") {
-					echo("<font size=\"$ov_text_font_size\" face=\"$ov_text_font\">".$ov_image_title_text[$language]." ".strip_tags($message_tags)."</font><br>");
-				}
-				$prev_type=$type;
-				echo("<font size=\"$ov_text_font_size\" face=\"$ov_text_font\"><a href=\"$filename\">$ov_video_link_text[$language]</a></font><br>");
+			if(!$pending){
+				echo("<font size=\"$ov_text_font_size\" face=\"$ov_text_font\">$ov_message_pending_approval[$language]</font><br>");
+				$pending=true;
 			}
 		}
 	}
-?><font size="<? echo($ov_text_font_size); ?>" face="<? echo($ov_text_font); ?>"><?
 	//show message text
 	if ($prev_type == 1) {
 		echo("<br>");
-  	}		
-	if ($message_text != "") {
-		print("<div style=\"width:520px;text-align:justify\"><i>".$message_text."</i></div><br>");
+  	}
+?><font size="1" face="<? echo($ov_text_font); ?>"><?	
+	if(!$pending) { echo('<a href="share.php?id='.$message_id.'" target="_blank">'.$ov_share_page_text[$language].'</a><br><br>'); }
+?></font><font size="<? echo($ov_text_font_size); ?>" face="<? echo($ov_text_font); ?>"><?		
+	if ($message_text != "" && !$pending) {
+		print("<div style=\"width:520px;text-align:justify\"><i>".stripslashes($message_text)."</i></div><br>");
 		if ($c==$media_channel_id) {
 			echo("<font size=\"$ov_text_font_size\" face=\"$ov_text_font\">$message_sender</font><br>");
 		}		
 	}
-	/*
- 	$nc=GetNComments($message_id,$dbh);
-	if ($nc==0) {
-		echo("<a href=\"comment.php?id=$message_id&c=$c&date=$date&from=$from\">".$ov_no_comments_text[$language]."</a><br><hr>");
-	} else if ($nc==1) {
-		echo("<a href=\"comment.php?id=$message_id&c=$c&date=$date&from=$from\">".$ov_1_comments_text[$language]."</a><br><hr>");
-	} else {
-		echo("<a href=\"comment.php?id=$message_id&c=$c&date=$date&from=$from\">$nc ".$ov_n_comments_text[$language]."</a><br><hr>");
+	
+	if(!$pending) {
+		$nc=GetNComments($message_id,$dbh);
+		if ($nc==0) {
+			echo("<a href=\"comment.php?id=$message_id&c=$c&date=$date&from=$from\">".$ov_no_comments_text[$language]."</a><br>");
+		} else if ($nc==1) {
+			echo("<a href=\"comment.php?id=$message_id&c=$c&date=$date&from=$from\">".$ov_1_comments_text[$language]."</a><br>");
+		} else {
+			echo("<a href=\"comment.php?id=$message_id&c=$c&date=$date&from=$from\">$nc ".$ov_n_comments_text[$language]."</a><br>");
+		}
 	}
-	*/
+	
 ?><hr></font><br><?
 }
 if ($nm==0) {

@@ -28,7 +28,7 @@ ojoVoz webServer
 -- $google_maps_api_key: Google Maps API key of your server
 -- $servpath: the full path to your web server (where web documents are located)
 -- $ffmpeg_path: full path to ffmpeg in your server
--- $smtp_server: address of your SMTP server. This is used to tell the ojoVoz mobile app which server is should connect to
+-- $smtp_server: address of your SMTP server. This is used to tell the ojoVoz mobile app which SMTP server it should connect to
 -- $smtp_server_port: SMTP port of your server. Usually 578.
 
 You can modify other variables, names are self-explanatory.
