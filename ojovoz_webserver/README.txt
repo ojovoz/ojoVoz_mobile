@@ -1,8 +1,7 @@
 ojoVoz webServer
 ----------------
-2003-2012, Eugenio Tisselli
+2003-2016, Eugenio Tisselli
 
-(Please refer to the root folder for licence info)
 ----------------
 
 1. Requirements:
