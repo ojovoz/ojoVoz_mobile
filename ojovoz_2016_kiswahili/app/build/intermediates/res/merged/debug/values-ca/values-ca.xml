@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MachoSauti</string>
+    <string name="omCancelButtonText">Cancel·lar</string>
+    <string name="omChooseTagText">Tria una paraula</string>
+    <string name="omDefineIdTitle">Defineix ID</string>
+    <string name="omDefineServerTitle">Defineix servidor</string>
+    <string name="omDelete">Esborrar</string>
+    <string name="omDeleteSelectedMessages">Esborrar missatges seleccionats?</string>
+    <string name="omDialogTitle">Escriu el teu nom</string>
+    <string name="omGoBack">Tornar</string>
+    <string name="omIdLabel">ID</string>
+    <string name="omLocationStr">GPS no disponible</string>
+    <string name="omMenuOptNameText">Nom</string>
+    <string name="omMenuOptSendText">Missatges</string>
+    <string name="omMessageSavedText">Missatge guardat</string>
+    <string name="omNewTagText">Nova paraula</string>
+    <string name="omNextPage">Següent</string>
+    <string name="omNoMessagesSelected">No hi han missatges seleccionats</string>
+    <string name="omNoMessagesText">No hi han missatges </string>
+    <string name="omOKButtonText">OK</string>
+    <string name="omPhotoButtonText">Fer una foto</string>
+    <string name="omPleaseConnectText">Comprova la connexió a Internet</string>
+    <string name="omPleaseWait">Un moment, si us plau ...</string>
+    <string name="omPreviousPage">Anterior</string>
+    <string name="omRemainingMessages">missatges ...</string>
+    <string name="omSaveButtonText">Guardar missatge</string>
+    <string name="omSend">Enviar</string>
+    <string name="omSendingMessagesDialogText">Enviant missatges</string>
+    <string name="omServerLabel">Servidor</string>
+    <string name="omSoundButtonText">Enregistrar veu</string>
+    <string name="omSoundFinishedStr">Veu enregistrada</string>
+    <string name="omSoundStr">Enregistrant veu ...</string>
+    <string name="omTagsDownloaded">Tags descarregades amb èxit</string>
+    <string name="omTextFieldLabel">Nom</string>
+</resources>

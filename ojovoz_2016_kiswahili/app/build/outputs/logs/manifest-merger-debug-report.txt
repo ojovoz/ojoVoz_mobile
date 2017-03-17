@@ -1,0 +1,96 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:2:1-40:12
+	package
+		ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:3:5-30
+		INJECTED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml
+	android:versionName
+		ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:5:5-30
+		INJECTED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml
+	android:versionCode
+		ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:4:5-28
+		INJECTED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:2:11-69
+uses-sdk
+ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:7:5-44
+	android:targetSdkVersion
+		INJECTED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:7:15-41
+		INJECTED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml
+uses-permission#android.permission.CAMERA
+ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:8:5-65
+	android:name
+		ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:8:22-62
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:9:5-81
+	android:name
+		ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:9:22-78
+uses-permission#android.permission.RECORD_AUDIO
+ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:10:5-70
+	android:name
+		ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:10:22-68
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:11:5-79
+	android:name
+		ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:11:22-76
+uses-feature#android.hardware.camera
+ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:12:3-58
+	android:name
+		ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:12:17-55
+uses-feature#android.hardware.camera.autofocus
+ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:13:3-68
+	android:name
+		ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:13:17-65
+uses-permission#android.permission.INTERNET
+ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:14:3-65
+	android:name
+		ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:14:20-62
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:15:3-77
+	android:name
+		ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:15:20-74
+application
+ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:18:5-38:19
+	android:label
+		ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:20:9-41
+	android:configChanges
+		ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:21:9-59
+	android:icon
+		ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:19:9-39
+activity#ojovoz.mainActivity
+ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:22:9-31:20
+	android:screenOrientation
+		ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:25:13-49
+	android:label
+		ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:23:13-45
+	android:launchMode
+		ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:26:13-44
+	android:name
+		ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:24:13-47
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:27:13-30:29
+action#android.intent.action.MAIN
+ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:28:17-69
+	android:name
+		ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:28:25-66
+category#android.intent.category.LAUNCHER
+ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:29:17-77
+	android:name
+		ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:29:27-74
+activity#ojovoz.messagesActivity
+ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:32:9-37:20
+	android:screenOrientation
+		ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:35:13-49
+	android:label
+		ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:33:13-45
+	android:launchMode
+		ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:36:13-44
+	android:name
+		ADDED from C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\src\main\AndroidManifest.xml:34:13-51

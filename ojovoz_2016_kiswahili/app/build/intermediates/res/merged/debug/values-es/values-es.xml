@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MachoSauti</string>
+    <string name="omCancelButtonText">Cancelar</string>
+    <string name="omChooseTagText">Elige una palabra</string>
+    <string name="omDefineIdTitle">Definir ID</string>
+    <string name="omDefineServerTitle">Definir servidor</string>
+    <string name="omDelete">Borrar</string>
+    <string name="omDeleteSelectedMessages">¿Borrar mensajes seleccionados?</string>
+    <string name="omDialogTitle">Escribe tu nombre</string>
+    <string name="omGoBack">Volver</string>
+    <string name="omIdLabel">ID</string>
+    <string name="omLocationStr">GPS no disponible</string>
+    <string name="omMenuOptNameText">Mi nombre</string>
+    <string name="omMenuOptSendText">Mensajes</string>
+    <string name="omMessageSavedText">Mensaje guardado</string>
+    <string name="omNewTagText">Nueva palabra</string>
+    <string name="omNextPage">Siguiente</string>
+    <string name="omNoMessagesSelected">No hay mensajes seleccionados</string>
+    <string name="omNoMessagesText">No hay mensajes </string>
+    <string name="omOKButtonText">OK</string>
+    <string name="omPhotoButtonText">Tomar una foto</string>
+    <string name="omPleaseConnectText">Revisa la conexión a Internet</string>
+    <string name="omPleaseWait">Espere, por favor ...</string>
+    <string name="omPreviousPage">Anterior</string>
+    <string name="omRemainingMessages">mensajes</string>
+    <string name="omSaveButtonText">Guardar mensaje</string>
+    <string name="omSend">Enviar</string>
+    <string name="omSendingMessagesDialogText">Enviando mensajes</string>
+    <string name="omServerLabel">Servidor</string>
+    <string name="omSoundButtonText">Grabar voz</string>
+    <string name="omSoundFinishedStr">Voz grabada</string>
+    <string name="omSoundStr">Grabando voz ...</string>
+    <string name="omTagsDownloaded">Tags descargadas exitosamente</string>
+    <string name="omTextFieldLabel">Nombre</string>
+</resources>

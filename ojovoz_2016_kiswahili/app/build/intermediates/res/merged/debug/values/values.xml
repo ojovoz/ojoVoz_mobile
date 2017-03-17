@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#000000</color>
+    <color name="lightblue">#aaaaff</color>
+    <color name="lightgray">#dddddd</color>
+    <color name="omTextColor">#FFFFFF</color>
+    <color name="white">#ffffff</color>
+    <color name="yellow">#ffff00</color>
+    <drawable name="omBlank">#000000</drawable>
+    <string name="app_name" translatable="false">MachoSauti</string>
+    <string name="omCancelButtonText">Kufuta</string>
+    <string name="omChooseTagText">Kuchagua neno</string>
+    <string name="omDefineIdTitle">Kuandika ID</string>
+    <string name="omDefineServerTitle">Kuandika server</string>
+    <string name="omDelete">Kufuta</string>
+    <string name="omDeleteSelectedMessages">Kufuta ujumbe kuchaguliwa?</string>
+    <string name="omDialogTitle">Kuandika jina lako</string>
+    <string name="omEmpty" translatable="false"/>
+    <string name="omGoBack">Rudi nyuma</string>
+    <string name="omIdLabel">ID</string>
+    <string name="omLocationStr">GPS hazipatikani</string>
+    <string name="omMenuOptNameText">Jina langu</string>
+    <string name="omMenuOptSendText">Ujumbe</string>
+    <string name="omMessageSavedText">Ujumbe kuokolewa</string>
+    <string name="omNewTagText">Mpya ya neno</string>
+    <string name="omNextPage">Ijayo</string>
+    <string name="omNoMessagesSelected">Hakuna ujumbe kuchaguliwa</string>
+    <string name="omNoMessagesText">Hakuna ujumbe</string>
+    <string name="omOKButtonText">Sawa</string>
+    <string name="omPhotoButtonText">Piga picha</string>
+    <string name="omPleaseConnectText">Hakuna mtandao uhusiano</string>
+    <string name="omPleaseWait">Tafadhali subiri ...</string>
+    <string name="omPreviousPage">Uliopita</string>
+    <string name="omRemainingMessages">ujumbe ...</string>
+    <string name="omSaveButtonText">Kuokoa ujumbe</string>
+    <string name="omSend">Kutuma</string>
+    <string name="omSendingMessagesDialogText">Ujumbe ni kuwa alimtuma</string>
+    <string name="omServerLabel">Server</string>
+    <string name="omSoundButtonText">Rekodi ya sauti</string>
+    <string name="omSoundFinishedStr">Sauti imekuwa kumbukumbu</string>
+    <string name="omSoundStr">Kurekodi ...</string>
+    <string name="omTagsDownloaded">Vitambulisho kupakuliwa</string>
+    <string name="omTextFieldLabel">Jina</string>
+    <style name="omButtonTextStyle">size:30dp</style>
+</resources>

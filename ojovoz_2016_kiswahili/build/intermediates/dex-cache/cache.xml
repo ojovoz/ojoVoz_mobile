@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\mail\mail.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="428e267abff0d10802ccde86b915da2c20471160">
+        <dex dex="C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\build\intermediates\pre-dexed\debug\mail_ef573d0b493c1fb53bbaddba250106d8f4f536a0.jar" />
+    </item>
+    <item
+        jar="C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\httpclient-4.2\httpclient-4.2.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="15e5dcd413042ee5af9c350604d57e8c156e103f">
+        <dex dex="C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\build\intermediates\pre-dexed\debug\httpclient-4.2_1ac7cb8b07cdd90a2c54497ebb04498186a3279b.jar" />
+    </item>
+    <item
+        jar="C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\additionnal\additionnal.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="bd9e8dc422bb8c8405359947fe9f4282b49f57f4">
+        <dex dex="C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\build\intermediates\pre-dexed\debug\additionnal_167ab4d878d9ba60b4ee894d9e1cc5c4739d82dc.jar" />
+    </item>
+    <item
+        jar="C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\activation\activation.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="d1257cbff6faa44c1f325ae0d9413522d4644383">
+        <dex dex="C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\build\intermediates\pre-dexed\debug\activation_b380680a7918bdc0446b697b8b17f2ee47031ad5.jar" />
+    </item>
+    <item
+        jar="C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\apache-httpcomponents-httpcore\apache-httpcomponents-httpcore.jar"
+        jumboMode="false"
+        revision="23.0.3"
+        sha1="33fc26c02f8043ab0ede19eadc8c9885386b255c">
+        <dex dex="C:\Users\Eugenio\StudioProjects\ojovoz_2016_kiswahili\app\build\intermediates\pre-dexed\debug\apache-httpcomponents-httpcore_27bce9257c6513817d5096b8d8e7429cf836637e.jar" />
+    </item>
+
+</items>
