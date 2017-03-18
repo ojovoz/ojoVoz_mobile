@@ -2,7 +2,6 @@ package ojovoz;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -16,13 +15,11 @@ import java.util.Date;
 import ojovoz.skeleton.R;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
@@ -34,8 +31,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,6 +45,7 @@ public class mainActivity extends Activity {
     private int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 
     private String photoFile;
+    private String prevPhotoFile;
     private boolean photoDone = false;
 
     private AudioRecorder soundRecorder;
@@ -477,6 +473,7 @@ public class mainActivity extends Activity {
 
         soundRecorder.clear();
         photoFile = "";
+        prevPhotoFile = "";
         Button buttonRecording = (Button) findViewById(R.id.omVoiceButton);
         buttonRecording.setText(R.string.omSoundButtonText);
         buttonRecording.setTextColor(Color.BLACK);
@@ -497,41 +494,6 @@ public class mainActivity extends Activity {
 
     }
 
-    public String getRealPathFromURI(Uri contentUri) {
-        String realPath = "";
-        Cursor cursor;
-        String[] proj = {MediaStore.Images.ImageColumns._ID, MediaStore.Images.ImageColumns.DATA};
-        String largeFileSort = MediaStore.Images.ImageColumns._ID + " DESC";
-        try {
-            cursor = managedQuery(contentUri, proj, null, null, largeFileSort);
-            cursor.moveToFirst();
-            realPath = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
-            cursor.close();
-        } catch (Exception e) {
-
-        }
-        return realPath;
-    }
-
-    public boolean saveBitmap(Bitmap bitmap, String filename) {
-        File f = new File(filename);
-
-        try {
-
-            f.createNewFile();
-            FileOutputStream fo = new FileOutputStream(f);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fo);
-            fo.flush();
-            //fo.write(bytes.toByteArray());
-            fo.close();
-
-        } catch (IOException e) {
-            Toast.makeText(this, "Error saving " + filename, Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        return true;
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -544,11 +506,14 @@ public class mainActivity extends Activity {
             }
 
             photoDone = true;
+            prevPhotoFile = photoFile;
             if (recordingDone) {
                 Button saveButton = (Button) findViewById(R.id.omSaveButton);
                 saveButton.setVisibility(View.VISIBLE);
 
             }
+        } else if(!prevPhotoFile.isEmpty()){
+            photoFile = prevPhotoFile;
         }
     }
 
