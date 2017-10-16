@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +13,7 @@ import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -379,6 +381,7 @@ public class messagesActivity extends Activity {
         menu.add(0, 0, 0, R.string.omSend);
         menu.add(1, 1, 1, R.string.omDelete);
         menu.add(2, 2, 2, R.string.omGoBack);
+        menu.add(3, 3, 3, R.string.omGoToWebPage);
         return true;
     }
 
@@ -420,8 +423,30 @@ public class messagesActivity extends Activity {
                     }
                     this.finish();
                 }
+                break;
+            case 3:
+                if (!sending){
+                    openWebPage();
+                }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void openWebPage(){
+        if(isOnline()){
+            server=getPreference("server");
+            if(!server.isEmpty()){
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                if(i.resolveActivity(getPackageManager())!=null) {
+                    i.setData(Uri.parse(server));
+                    startActivity(i);
+                }
+            } else {
+                Toast.makeText(this, R.string.omPleaseConnectText, Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, R.string.omPleaseConnectText, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void stopSoundPlayer() {
@@ -555,6 +580,7 @@ public class messagesActivity extends Activity {
 
     public void deleteSelectedMessages() {
         int n = 0;
+        int upper;
         final String allMessages[];
         String newMessageList = "";
         final String bundledMessages = getPreference("log");
@@ -562,8 +588,14 @@ public class messagesActivity extends Activity {
         if (bundledMessages != "" && bundledMessages != null) {
             allMessages = bundledMessages.split("\\*");
 
+            if (allMessages.length > (from + maxMessages)) {
+                upper = from+maxMessages;
+            } else {
+                upper = allMessages.length;
+            }
+
             for (int i = 0; i < allMessages.length; i++) {
-                if ((int) selectedMessages.get(i) == 1) {
+                if ((int) selectedMessages.get(i) == 1 && (i >= from && i < upper)) {
                     String messageElements[] = allMessages[i].split(";");
                     deleteFile(messageElements[4], true);
                     deleteFile(messageElements[5], false);

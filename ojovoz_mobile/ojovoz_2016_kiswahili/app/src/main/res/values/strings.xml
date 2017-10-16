@@ -37,5 +37,6 @@
     <string name="omNoMessagesSelected">Hakuna ujumbe kuchaguliwa</string>
     <string name="omNextPage">Ijayo</string>
     <string name="omPreviousPage">Uliopita</string>
+    <string name="omGoToWebPage">Nenda kwenye ukurasa wavuti</string>
 
 </resources>

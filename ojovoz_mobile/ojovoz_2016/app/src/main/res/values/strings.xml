@@ -37,5 +37,6 @@
     <string name="omNoMessagesSelected">No messages selected</string>
     <string name="omNextPage">Next</string>
     <string name="omPreviousPage">Previous</string>
+    <string name="omGoToWebPage">Go to web page</string>
 
 </resources>

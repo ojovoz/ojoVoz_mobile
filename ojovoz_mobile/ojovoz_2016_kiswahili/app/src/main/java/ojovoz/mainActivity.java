@@ -47,7 +47,7 @@ public class mainActivity extends Activity {
     private int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 
     private String photoFile;
-    private String prevPhotoFile;
+    private String prevPhotoFile = "";
     private boolean photoDone = false;
 
     private AudioRecorder soundRecorder;
@@ -271,6 +271,7 @@ public class mainActivity extends Activity {
         super.onCreateOptionsMenu(menu);
         menu.add(0, 0, 0, R.string.omMenuOptSendText);
         menu.add(1, 1, 1, R.string.omMenuOptNameText);
+        menu.add(2, 2, 2, R.string.omGoToWebPage);
         return true;
     }
 
@@ -304,8 +305,29 @@ public class mainActivity extends Activity {
                     dlg.show();
                 }
                 break;
+            case 2:
+                if (!recording){
+                    openWebPage();
+                }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void openWebPage(){
+        if(isOnline()){
+            server=getPreference("server");
+            if(!server.isEmpty()){
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                if(i.resolveActivity(getPackageManager())!=null) {
+                    i.setData(Uri.parse(server));
+                    startActivity(i);
+                }
+            } else {
+                Toast.makeText(this, R.string.omPleaseConnectText, Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, R.string.omPleaseConnectText, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void defineServer(String current) {
