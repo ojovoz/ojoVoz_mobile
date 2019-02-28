@@ -16,7 +16,7 @@ if (!isset($_GET['date'])) {
 }
 
 //$lang=GetUserLanguage($c,$dbh);
-$lang=0;
+$lang=1;
 
 if (isset($delete)) {
 	if ($delete > 0) {

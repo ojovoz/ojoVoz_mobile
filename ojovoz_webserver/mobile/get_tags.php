@@ -12,9 +12,7 @@ function getTags($id,$dbh) {
 $id="";
 if(isset($_GET['id'])) {
 	$id=$_GET['id'];
+	$tags=getTags($id,$dbh);
+	echo($tags);
 }
-
-$tags=getTags($id,$dbh);
-
-echo($tags);
 ?>

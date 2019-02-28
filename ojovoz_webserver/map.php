@@ -255,7 +255,7 @@ if (($show_tags_in_map==1 && $tc[0]!="") || $show_descriptors_in_map==1) {
 	
 	var icon = new Array();
 	var n;
-	for(var i=0;i<23;i++){
+	for(var i=0;i<=23;i++){
 		if(i<10){
 			n='0'+i.toString();
 		} else {
@@ -319,9 +319,10 @@ if (($show_tags_in_map==1 && $tc[0]!="") || $show_descriptors_in_map==1) {
 				$img = "";
 			}
 			$label = $img."<br><font color=\"$map_data_color\" size=\"2\" face=\"Arial, Helvetica, sans-serif\"> ".$row[1]."</font>";
-			$color=intval(GetMessageColor($dbh,$row[14]));
-			echo("marker = L.marker(latLng,{icon:icon[$color]}).addTo(markersLayer);");
-			echo("marker.bindPopup('".$label."');");
+			$color=ltrim($row[14],"0");
+			$color=intval(GetMessageColor($dbh,$color));
+			echo("marker = L.marker(latLng,{icon:icon[$color]}).addTo(markersLayer);\n");
+			echo("marker.bindPopup('".$label."');\n");
 			
 			if ($message==$row[14]) {
 				echo("openMarker = marker;");

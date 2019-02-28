@@ -18,7 +18,11 @@ if(isset($_GET['id'])) {
 	$id=$_GET['id'];
 	$email_pass=getEmailPass($id,$dbh);
 	if($email_pass!="") {
-		echo($email_pass.";".$smtp_server.";".$smtp_server_port);
+		$email_pass_parts=explode(";",$email_pass);
+		$df = fopen("php://output", 'w');
+		$row=array($email_pass_parts[0],$email_pass_parts[1],$multimedia_subject,$smtp_server,$smtp_server_port);
+		fputcsv($df, $row);
+		fclose($df);
 	}
 }
 ?>

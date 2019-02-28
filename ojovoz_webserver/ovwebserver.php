@@ -253,9 +253,10 @@ if ($show_tags) {
 ?>
 <font size="<? echo($ov_text_font_size); ?>" face="<? echo($ov_text_font); ?>">
 <?
-/*
+
 if ($c!=$media_channel_id) {
 	$crono_channels=GetParentChannels($dbh);
+	
 	$current_crono=-1;
 	echo("<h1 title=\"$ov_choose_crono_text\" style=\"font-size: ".$ov_text_font_size_header."em\">");
 	if (sizeof($crono_channels)==1 && $is_study==0) {
@@ -279,10 +280,9 @@ if ($c!=$media_channel_id) {
 			}
 		}
 	}
-	echo(' <a href="./../dar/dar.php?r=1">Ubungo</a>');
 ?></h1><?
 }
-*/
+
 if ($c!=$media_channel_id) {
 	$crono_channels=GetParentChannels($dbh);
 	$current_crono=-1;
@@ -311,6 +311,7 @@ if ($c!=$media_channel_id) {
 	}
 } 
 echo("</h1>");
+
 if ($page_filter!="") {
 	echo("<h1 title=\"".$page_filter."\" style=\"font-size: ".$ov_text_font_size_header."em\">");
 	echo($page_filter);

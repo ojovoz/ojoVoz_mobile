@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <color name="colorPrimaryLight">#22cf16</color>
+    <color name="colorPrimary">#236E12</color>
+    <color name="colorPrimaryDark">#236E12</color>
+    <color name="colorAccent">#FA7000</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorInput">#BABA03</color>
+
+    <color name="colorDrawFaded" tools:ignore="UnusedResources">#666666</color>
+    <color name="colorFillFaded">#EEEEEE</color>
+
+</resources>

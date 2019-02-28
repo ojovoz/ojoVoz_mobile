@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cancelButtonText">Cancelar</string>
+    <string name="clearDataButtonText">BORRAR MENSAJES</string>
+    <string name="confirmClearMessages">¿Deseas borrar todos los mensajes?</string>
+    <string name="defineMyNameLabel">Escribe tu nombre</string>
+    <string name="deleteItemsConfirmMessage">¿Deseas borrar todos los mensajes seleccionados?</string>
+    <string name="downloadTagsButtonText">DESCARGAR PALABRAS CLAVE</string>
+    <string name="downloadingParametersMessage">Descargando parámetros</string>
+    <string name="downloadingTagsMessage">Descargando palabras clave</string>
+    <string name="incorrectInternetParamsMessage">Parámetros de conexión incorrectos, por favor ponte en contacto con el administrador del sistema.</string>
+    <string name="messagesActivity">ojoVoz -- Mensaje</string>
+    <string name="messagesDeleted">Mensajes borrados exitosamente</string>
+    <string name="noButtonText">No</string>
+    <string name="noItemsSelectedMessage">Ningún mensaje seleccionado</string>
+    <string name="noLatLong">Posición no disponible</string>
+    <string name="noMessages">Ningún mensaje</string>
+    <string name="okButtonText">OK</string>
+    <string name="opDeleteSelectedMessages">Borrar mensajes seleccionados</string>
+    <string name="opGoBack">Volver</string>
+    <string name="opGoToWeb">Ir a página web</string>
+    <string name="opMessages">Mensajes</string>
+    <string name="opMyName">Mi nombre</string>
+    <string name="opToggleSelection">Invertir selección</string>
+    <string name="opUploadSelectedMessages">Enviar mensajes seleccionados</string>
+    <string name="otherWord">Otra</string>
+    <string name="pictureButtonLabel">Tomar foto</string>
+    <string name="pictureSoundNotSavedText">Foto y grabación no guardados. ¿De verdad deseas salir?</string>
+    <string name="pictureSoundSavedMessage">Mensaje guardado exitosamente</string>
+    <string name="placeholderNewTag">Escribe una nueva palabra clave</string>
+    <string name="placeholderPhoneID">ID del teléfono</string>
+    <string name="placeholderURL">URL del servidor</string>
+    <string name="placeholderUserName">Nombre del usuario</string>
+    <string name="pleaseConnectMessage">Por favor conéctate a internet</string>
+    <string name="saveButtonText">GUARDAR</string>
+    <string name="saveChangesButtonText">GUARDAR CAMBIOS</string>
+    <string name="selectTagsTitle">Selecciona palabras clave</string>
+    <string name="selected">seleccionados</string>
+    <string name="sendingMultimediaRecordsMessage">Enviando mensajes</string>
+    <string name="settingsActivity">Ajustes</string>
+    <string name="settingsNotSavedText">Ajustes no guardados. ¿De verdad deseas salir?</string>
+    <string name="soundButtonLabel">Grabar voz</string>
+    <string name="soundButtonLabelAgain">Grabar voz nuevamente</string>
+    <string name="soundButtonRecordingLabel">Grabando - oprime para detener</string>
+    <string name="tagsButtonLabel">Palabras clave</string>
+    <string name="yesButtonText">Sí</string>
+</resources>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="cancelButtonText">Cancel</string>
+    <string name="deleteItemsConfirmMessage">Do you really want to delete the selected messages?</string>
+    <string name="downloadingParametersMessage">Downloading parameters</string>
+    <string name="incorrectInternetParamsMessage">Incorrect internet parameters. Please contact the system administrator</string>
+    <string name="noButtonText">No</string>
+    <string name="noItemsSelectedMessage">No messages selected</string>
+    <string name="okButtonText">OK</string>
+    <string name="opDeleteSelectedMessages">Delete selected messages</string>
+    <string name="opGoBack">Go back</string>
+    <string name="opGoToWeb">Go to web</string>
+    <string name="otherWord">Other</string>
+    <string name="pictureButtonLabel">Take a picture</string>
+    <string name="pictureSoundNotSavedText">Picture and sound have not been saved. Do you really want to exit?</string>
+    <string name="pictureSoundSavedMessage">Message saved successfully</string>
+    <string name="pleaseConnectMessage">Please connect to the internet</string>
+    <string name="saveButtonText">SAVE</string>
+    <string name="selected">selected</string>
+    <string name="sendingMultimediaRecordsMessage">Sending messages</string>
+    <string name="soundButtonLabel">Record voice</string>
+    <string name="soundButtonLabelAgain">Record voice again</string>
+    <string name="soundButtonRecordingLabel">Recording - press to stop</string>
+    <string name="yesButtonText">Yes</string>
+    <string name="emptyString" translatable="false"></string>
+    <string name="app_name" translatable="false">ojoVoz</string>
+    <string name="noLatLong">Location not available</string>
+    <string name="tagsButtonLabel">Choose tags</string>
+    <string name="placeholderNewTag">Enter new tag</string>
+    <string name="opMessages">Messages</string>
+    <string name="defineMyNameLabel">Enter your name</string>
+    <string name="messagesActivity">ojoVoz Messages</string>
+    <string name="opUploadSelectedMessages">Upload selected messages</string>
+    <string name="placeholderURL">Server URL</string>
+    <string name="placeholderPhoneID">Phone ID</string>
+    <string name="placeholderUserName">User name</string>
+    <string name="downloadTagsButtonText">DOWNLOAD TAGS</string>
+    <string name="clearDataButtonText">CLEAR MESSAGES</string>
+    <string name="saveChangesButtonText">SAVE CHANGES</string>
+    <string name="settingsActivity">Settings</string>
+    <string name="settingsNotSavedText">Setting not saved. Do you really want to exit?</string>
+    <string name="downloadingTagsMessage">Downloading tags</string>
+    <string name="confirmClearMessages">Do you really want to delete all messages?</string>
+    <string name="messagesDeleted">Messages deleted successfully</string>
+    <string name="noMessages">No messages</string>
+    <string name="selectTagsTitle">Select tags</string>
+    <string name="opMyName">My name</string>
+    <string name="opToggleSelection">Invert selection</string>
+</resources>
