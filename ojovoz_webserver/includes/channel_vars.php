@@ -15,7 +15,7 @@ $global_channel_name="ovwebserver";
 $channel_folder="ovwebserver";
 $init_page="ovwebserver.php";
 $main_page="ovwebserver.php";
-$master_pass="ojovoz";
+$master_pass="xxx";
 $edit_page="edit_channel.php";
 //this is the ID of the channel
 //that appears by default when the main page
@@ -44,7 +44,7 @@ $get_tags_from_subject=false;
 //default user name (when uploading pictures)
 $default_user_name="web_upload";
 //
-$mail_server="{134.0.12.74:110/pop3/notls}";
+$mail_server="{x.x.x.x:110/pop3/notls}";
 $max_messages_from_inbox=10;
 //auto create email addresses?
 $auto_create_email=false;
@@ -98,8 +98,8 @@ $ov_form_font_size=1.0;
 //mapping
 //
 $google_maps_api_key=""; //fuck off google
-$mapbox_api_key="pk.eyJ1Ijoib2pvdm96IiwiYSI6ImNpcDN2ZGNldzAwMml2d20ycXVjZzFxMjEifQ.qs9pRNpko3M9Nt1XA77S5g";
-$mapbox_id="ojovoz.0b1kh07o";
+$mapbox_api_key="xxx";
+$mapbox_id="xxx";
 $has_map=true;
 $map_channel_name="#r0g";
 $max_markers_on_map=500;
@@ -124,8 +124,8 @@ $get_user_from_message_subject=true;
 //
 //conversion
 $convert_to_mp3=true;
-$servpath="/usr/home/sautiyawakulima.net/web/";
-$ffmpeg_path="/usr/local/home/srvcat/local/binaris/sautiyawakulima.net/";
+$servpath="path/to/htmldocs";
+$ffmpeg_path="path/to/ffmpeg";
 $sample_rate="22050";
 //titles-languages
 $ov_languages="English,Español";
@@ -203,9 +203,9 @@ $ov_map_dates_between=array("Between","Entre");
 $ov_map_dates_and=array("and","y");
 $ov_map_dates_button=array("Search","Buscar");
 //android
-$smtp_server="smtp.sautiyawakulima.net";
+$smtp_server="xxx";
 $smtp_server_port="578";
-$multimedia_subject="wbEYLYB5y3n5hueX3i3c";
+$multimedia_subject="xxx";
 //RSS
 $rss_description="ovwebserver";
 $rss_language="en";
