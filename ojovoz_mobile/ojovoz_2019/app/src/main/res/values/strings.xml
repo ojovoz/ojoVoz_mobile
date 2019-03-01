@@ -46,4 +46,5 @@
     <string name="selectTagsTitle">Select tags</string>
     <string name="opMyName">My name</string>
     <string name="opToggleSelection">Invert selection</string>
+    <string name="opSendAllMessages">Send all messages</string>
 </resources>

@@ -16,7 +16,7 @@ public class dateHelper {
 
     public Date stringToDate(String d) {
         Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy_HH:mm:ss");
         sdf.setTimeZone(TimeZone.getDefault());
         try {
             date = sdf.parse(d);
@@ -27,7 +27,7 @@ public class dateHelper {
     }
 
     public String dateToString(Date d) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy_HH:mm:ss");
         sdf.setTimeZone(TimeZone.getDefault());
         return sdf.format(d);
     }

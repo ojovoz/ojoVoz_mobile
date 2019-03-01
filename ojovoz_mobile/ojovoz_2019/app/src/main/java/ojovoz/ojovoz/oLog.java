@@ -100,7 +100,8 @@ public class oLog {
     public String toString(String separator) {
         String ret = "";
         dateHelper dH = new dateHelper();
-        ret = user + separator + dH.dateToString(date) + separator + tags + separator + latitude + separator + longitude;
+        String sTags = (tags.isEmpty()) ? "null" : tags;
+        ret = user + separator + dH.dateToString(date)  + separator + latitude + separator + longitude + separator + sTags;
         return ret;
     }
 

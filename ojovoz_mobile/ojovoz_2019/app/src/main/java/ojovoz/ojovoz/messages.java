@@ -232,7 +232,7 @@ public class messages extends AppCompatActivity implements httpConnection.AsyncR
                             String[] toArr = {ojoVozEmail};
                             m.setTo(toArr);
                             m.setFrom(ojoVozEmail);
-                            m.setSubject(multimediaSubject);
+                            m.setSubject("ojovoz");
                             m.setBody(body);
                             boolean proceed = true;
 
@@ -297,10 +297,14 @@ public class messages extends AppCompatActivity implements httpConnection.AsyncR
                 deleteImgSndFiles(deleteFiles);
 
                 createLogList();
-                recyclerViewAdapter.list = cardDataFromLog();
-                recyclerViewAdapter.setList(recyclerViewAdapter.list);
-                recyclerViewAdapter.notifyDataSetChanged();
-                modifyActivityTitle();
+                if(logList.size()>0) {
+                    recyclerViewAdapter.list = cardDataFromLog();
+                    recyclerViewAdapter.setList(recyclerViewAdapter.list);
+                    recyclerViewAdapter.notifyDataSetChanged();
+                    modifyActivityTitle();
+                } else {
+                    goBack();
+                }
             }
         }
     };
@@ -373,10 +377,14 @@ public class messages extends AppCompatActivity implements httpConnection.AsyncR
         l.deleteLogItems(delete);
         deleteImgSndFiles(deleteFiles);
         createLogList();
-        recyclerViewAdapter.list = cardDataFromLog();
-        recyclerViewAdapter.setList(recyclerViewAdapter.list);
-        recyclerViewAdapter.notifyDataSetChanged();
-        modifyActivityTitle();
+        if(logList.size()>0) {
+            recyclerViewAdapter.list = cardDataFromLog();
+            recyclerViewAdapter.setList(recyclerViewAdapter.list);
+            recyclerViewAdapter.notifyDataSetChanged();
+            modifyActivityTitle();
+        } else {
+            goBack();
+        }
     }
 
     public void deleteImgSndFiles(ArrayList<String> deleteFiles) {

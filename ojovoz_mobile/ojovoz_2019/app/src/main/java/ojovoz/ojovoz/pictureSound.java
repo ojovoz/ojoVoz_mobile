@@ -1,6 +1,7 @@
 package ojovoz.ojovoz;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,6 +17,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
@@ -34,18 +37,24 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
+
+import au.com.bytecode.opencsv.CSVReader;
+import au.com.bytecode.opencsv.CSVWriter;
 
 /**
  * Created by Eugenio on 18/02/2019.
  */
-public class pictureSound extends AppCompatActivity {
+public class pictureSound extends AppCompatActivity implements httpConnection.AsyncResponse {
 
     private int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
     private int CAMERA_PERMISSION = 232323;
@@ -69,6 +78,19 @@ public class pictureSound extends AppCompatActivity {
     public String user;
     public String server;
     public String phoneID;
+    String ojoVozEmail = "";
+    String ojoVozPass = "";
+    String multimediaSubject = "";
+    String smtpServer = "";
+    String smtpPort = "";
+    ProgressDialog downloadingParamsDialog;
+    boolean bConnecting;
+    private ProgressDialog sendingMultimediaDialog;
+    private Thread uploadMultimedia;
+    ArrayList<oLog> logList;
+    private int[] multimediaCleanUpList;
+    private ArrayList<String> deleteFiles = new ArrayList<>();
+    private Context context;
 
     boolean bChanges = false;
 
@@ -98,6 +120,8 @@ public class pictureSound extends AppCompatActivity {
         setContentView(R.layout.activity_picture_sound);
 
         createDir(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + File.separator + getString(R.string.app_name) + File.separator);
+
+        context = this;
 
         preferences = new preferenceManager(this);
         user = preferences.getPreference("user");
@@ -156,7 +180,8 @@ public class pictureSound extends AppCompatActivity {
         super.onCreateOptionsMenu(menu);
         menu.add(0, 0, 0, R.string.opMyName);
         menu.add(1, 1, 1, R.string.opMessages);
-        menu.add(2, 2, 2, R.string.opGoToWeb);
+        menu.add(2, 2, 2, R.string.opSendAllMessages);
+        menu.add(3, 3, 3, R.string.opGoToWeb);
         return true;
     }
 
@@ -170,6 +195,9 @@ public class pictureSound extends AppCompatActivity {
                 tryExit(1);
                 break;
             case 2:
+                sendMessages();
+                break;
+            case 3:
                 goToWebPage();
                 break;
         }
@@ -673,6 +701,203 @@ public class pictureSound extends AppCompatActivity {
         }
     }
 
+    public void createLogList() {
+        oLog log = new oLog(this);
+        logList = log.sortLogByDate(log.createLog(), true, -1);
+    }
+
+    public boolean getEmailParams() {
+        boolean ret = false;
+        csvFileManager paramList;
+
+        paramList = new csvFileManager("parameters");
+        List<String[]> paramCSV = paramList.read(this);
+        if (paramCSV != null) {
+            Iterator<String[]> iterator = paramCSV.iterator();
+            while (iterator.hasNext()) {
+                String[] record = iterator.next();
+                if (record.length == 5) {
+                    ojoVozEmail = record[0];
+                    ojoVozPass = record[1];
+                    multimediaSubject = record[2];
+                    smtpServer = record[3];
+                    smtpPort = record[4];
+                    ret = true;
+                }
+            }
+        }
+        return ret;
+    }
+
+    public void sendMessages() {
+        httpConnection http = new httpConnection(this, this);
+        if (http.isOnline()) {
+            bConnecting=true;
+            if (getEmailParams()) {
+                doSendMultimediaMessages();
+            } else {
+                CharSequence dialogTitle = getString(R.string.downloadingParametersMessage);
+                downloadingParamsDialog = new ProgressDialog(this);
+                downloadingParamsDialog.setCancelable(true);
+                downloadingParamsDialog.setCanceledOnTouchOutside(false);
+                downloadingParamsDialog.setMessage(dialogTitle);
+                downloadingParamsDialog.setIndeterminate(true);
+                downloadingParamsDialog.show();
+                downloadingParamsDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface d) {
+                        bConnecting = false;
+                        downloadingParamsDialog.dismiss();
+                    }
+                });
+                http.execute(server + "/mobile/get_parameters.php?id=" + phoneID, "");
+            }
+
+        } else {
+            Toast.makeText(this, R.string.pleaseConnectMessage, Toast.LENGTH_SHORT).show();
+            bConnecting = false;
+        }
+    }
+
+    public void doSendMultimediaMessages() {
+
+        ArrayList<String> b = new ArrayList<>();
+        final ArrayList<oLog> attachments = new ArrayList<>();
+        createLogList();
+        Iterator<oLog> iterator = logList.iterator();
+
+        while (iterator.hasNext()) {
+            oLog l = iterator.next();
+            b.add(l.toString(";"));
+            attachments.add(l);
+        }
+
+        if (!b.isEmpty()) {
+            final ArrayList<String> emailBody = b;
+            multimediaCleanUpList = new int[attachments.size()];
+            httpConnection http = new httpConnection(this, this);
+            if (http.isOnline()) {
+                sendingMultimediaDialog = new ProgressDialog(this);
+                sendingMultimediaDialog.setCancelable(true);
+                sendingMultimediaDialog.setCanceledOnTouchOutside(false);
+                CharSequence dialogTitle = getString(R.string.sendingMultimediaRecordsMessage);
+                sendingMultimediaDialog.setMessage(dialogTitle);
+                sendingMultimediaDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                sendingMultimediaDialog.setProgress(0);
+                int dialogMax = attachments.size();
+                sendingMultimediaDialog.setMax(dialogMax);
+                sendingMultimediaDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface d) {
+                        bConnecting = false;
+                        uploadMultimedia.interrupt();
+                        sendingMultimediaDialog.dismiss();
+                    }
+                });
+                sendingMultimediaDialog.show();
+
+                uploadMultimedia = new Thread(new Runnable() {
+                    public void run() {
+
+                        int n = 0;
+                        Iterator<oLog> iterator = attachments.iterator();
+                        while (iterator.hasNext() && bConnecting) {
+                            oLog item = iterator.next();
+                            String body = emailBody.get(n);
+
+                            Mail m = new Mail(ojoVozEmail, ojoVozPass, smtpServer, smtpPort);
+                            String[] toArr = {ojoVozEmail};
+                            m.setTo(toArr);
+                            m.setFrom(ojoVozEmail);
+                            m.setSubject("ojovoz");
+                            m.setBody(body);
+                            boolean proceed = true;
+
+                            try {
+                                File f1 = new File(item.pictureFile);
+                                if (f1.exists()) {
+                                    m.addAttachment(item.pictureFile);
+                                } else {
+                                    proceed = false;
+                                }
+                                File f2 = new File(item.soundFile);
+                                if (f2.exists()) {
+                                    m.addAttachment(item.soundFile);
+                                } else {
+                                    proceed = false;
+                                }
+                            } catch (Exception e) {
+                                proceed = false;
+                            }
+
+                            if (proceed) {
+                                try {
+                                    if (m.send()) {
+                                        multimediaCleanUpList[n] = item.line;
+                                        deleteFiles.add(item.pictureFile);
+                                        deleteFiles.add(item.soundFile);
+                                    }
+                                } catch (Exception e) {
+
+                                }
+                            }
+                            progressHandler.sendMessage(progressHandler.obtainMessage());
+
+                            n++;
+
+                        }
+                    }
+                });
+                uploadMultimedia.start();
+
+            } else {
+                Toast.makeText(this, R.string.pleaseConnectMessage, Toast.LENGTH_SHORT).show();
+                bConnecting = false;
+            }
+        } else {
+            Toast.makeText(this, R.string.noMessages, Toast.LENGTH_SHORT).show();
+            bConnecting = false;
+        }
+    }
+
+    Handler progressHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            sendingMultimediaDialog.incrementProgressBy(1);
+            if (sendingMultimediaDialog.getProgress() == sendingMultimediaDialog.getMax()) {
+                bConnecting = false;
+                sendingMultimediaDialog.dismiss();
+                uploadMultimedia.interrupt();
+
+                oLog l = new oLog(context);
+                l.deleteLogItems(multimediaCleanUpList);
+
+                deleteImgSndFiles(deleteFiles);
+            }
+        }
+    };
+
+    public void deleteImgSndFiles(ArrayList<String> deleteFiles) {
+        Iterator<String> iterator = deleteFiles.iterator();
+        while (iterator.hasNext()) {
+            String f = iterator.next();
+            File fileX = new File(f);
+            long imgFileDate = fileX.lastModified();
+            fileX.delete();
+            if (f.contains("jpg")) {
+                String defaultGalleryPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath() + File.separator + "Camera";
+                File imgs = new File(defaultGalleryPath);
+                File imgsArray[] = imgs.listFiles();
+                for (int i = 0; i < imgsArray.length; i++) {
+                    if (Math.abs(imgsArray[i].lastModified() - imgFileDate) <= 3000) {
+                        imgsArray[i].delete();
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
     public void startGPS() {
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationListener = new OMLocationListener();
@@ -788,6 +1013,33 @@ public class pictureSound extends AppCompatActivity {
                 textLocation.setText(R.string.noLatLong);
             }
         }
+    }
+
+    @Override
+    public void processFinish(String output) {
+
+        downloadingParamsDialog.dismiss();
+        String[] nextLine;
+        CSVReader reader = new CSVReader(new StringReader(output), ',', '"');
+        File file = new File(this.getFilesDir(), "parameters");
+        try {
+            FileWriter w = new FileWriter(file);
+            CSVWriter writer = new CSVWriter(w, ',', '"');
+            while ((nextLine = reader.readNext()) != null) {
+                writer.writeNext(nextLine);
+            }
+            writer.close();
+            reader.close();
+            if (getEmailParams()) {
+                doSendMultimediaMessages();
+            } else {
+                Toast.makeText(this, R.string.incorrectInternetParamsMessage, Toast.LENGTH_SHORT).show();
+                bConnecting = false;
+            }
+        } catch (IOException e) {
+            bConnecting = false;
+        }
+
     }
 
 }
