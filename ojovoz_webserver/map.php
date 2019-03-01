@@ -213,6 +213,8 @@ for($i=0;$i<sizeof($menu_ids);$i++) {
 		echo(" ");
 	}
 }
+$languages = ShowLanguageOptions("map.php",$c,$date,$ov_languages,$language,$from);
+echo(" || ".$languages);
 ?>
   </h1>
 </font></form>

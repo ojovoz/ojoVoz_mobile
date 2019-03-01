@@ -27,7 +27,7 @@ public class dateHelper {
     }
 
     public String dateToString(Date d) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy_HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         sdf.setTimeZone(TimeZone.getDefault());
         return sdf.format(d);
     }

@@ -681,6 +681,8 @@ public class pictureSound extends AppCompatActivity implements httpConnection.As
         EditText tt = (EditText)findViewById(R.id.newTag);
         tt.setVisibility(View.GONE);
 
+        createTagList();
+
         Toast.makeText(this, R.string.pictureSoundSavedMessage, Toast.LENGTH_SHORT).show();
     }
 
