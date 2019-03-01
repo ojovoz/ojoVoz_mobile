@@ -31,4 +31,10 @@ public class dateHelper {
         sdf.setTimeZone(TimeZone.getDefault());
         return sdf.format(d);
     }
+
+    public String dateToStringSend(Date d) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd_MM_yyyy_kk_mm_ss");
+        sdf.setTimeZone(TimeZone.getDefault());
+        return sdf.format(d);
+    }
 }
