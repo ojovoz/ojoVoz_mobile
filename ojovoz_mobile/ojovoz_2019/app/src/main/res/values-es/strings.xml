@@ -9,7 +9,7 @@
     <string name="downloadingParametersMessage">Descargando parámetros</string>
     <string name="downloadingTagsMessage">Descargando palabras clave</string>
     <string name="incorrectInternetParamsMessage">Parámetros de conexión incorrectos, por favor ponte en contacto con el administrador del sistema.</string>
-    <string name="messagesActivity">ojoVoz -- Mensaje</string>
+    <string name="messagesActivity">ojoVoz -- Mensajes</string>
     <string name="messagesDeleted">Mensajes borrados exitosamente</string>
     <string name="noButtonText">No</string>
     <string name="noItemsSelectedMessage">Ningún mensaje seleccionado</string>
@@ -45,5 +45,4 @@
     <string name="tagsButtonLabel">Palabras clave</string>
     <string name="yesButtonText">Sí</string>
     <string name="opSendAllMessages">Enviar todos los mensajes</string>
-    <string name="messagesSentSuccessfully">Mensajes enviados exitosamente</string>
 </resources>
