@@ -28,7 +28,7 @@ ojoVoz webServer
 
 -- $mail_server: address of your mail server. In the example string, port 110 is used, with protocol POP3 and NOTLS parameter. This string is used to retrieve incoming messages.
 
--- $google_maps_api_key: Google Maps API key of your server
+-- $mapbox_api_key and $mapbox_id: Your Mapbox ID and API key (https://www.mapbox.com)
 
 -- $servpath: the full path to your web server (where web documents are located)
 
