@@ -163,6 +163,7 @@ if ($show_descriptors_in_map) {
 <!DOCTYPE html>
 <html>
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=0.9">
   <title><? echo($global_channel_name); ?></title>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
   <link rel="stylesheet" href="includes/leaflet/leaflet.css" />
