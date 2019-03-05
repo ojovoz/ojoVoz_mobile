@@ -21,13 +21,21 @@ ojoVoz webServer
 2.3. Modify includes/init_database.php, and enter the following values: $db (name of the new database), $db_user and $db_pass
 
 2.4. Modify includes/channel_vars.php, and configure the following basic variables:
+
 -- $global_channel_name: name of your new ojoVoz project
+
 -- $channel_folder: name of the folder where you will install your ojoVoz project. All scripts will be subfolders of that folder.
+
 -- $mail_server: address of your mail server. In the example string, port 110 is used, with protocol POP3 and NOTLS parameter. This string is used to retrieve incoming messages.
--- $google_maps_api_key: Google Maps API key of your server
+
+-- $mapbox_api_key and $mapbox_id: Your Mapbox ID and API key (https://www.mapbox.com)
+
 -- $servpath: the full path to your web server (where web documents are located)
+
 -- $ffmpeg_path: full path to ffmpeg in your server
+
 -- $smtp_server: address of your SMTP server. This is used to tell the ojoVoz mobile app which SMTP server it should connect to
+
 -- $smtp_server_port: SMTP port of your server. Usually 578.
 
 You can modify other variables, names are self-explanatory.
