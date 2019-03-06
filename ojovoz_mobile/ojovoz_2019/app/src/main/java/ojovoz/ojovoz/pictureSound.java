@@ -644,6 +644,7 @@ public class pictureSound extends AppCompatActivity implements httpConnection.As
         }
 
         String tags = getTagsString(true);
+        messageDate = new Date();
 
         oLog log = new oLog(this);
         log.appendToLog(user, messageDate, tags, Double.toString(lat), Double.toString(lon), photoFile, soundFile);
@@ -658,8 +659,6 @@ public class pictureSound extends AppCompatActivity implements httpConnection.As
         bt.setText(R.string.tagsButtonLabel);
 
         filesToDelete = new ArrayList<>();
-
-        messageDate = new Date();
 
         photoDone = false;
         photoFile = "";

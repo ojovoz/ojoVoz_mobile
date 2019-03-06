@@ -44,5 +44,5 @@
     <string name="soundButtonRecordingLabel">Recording - press to stop</string>
     <string name="tagsButtonLabel">Choose tags</string>
     <string name="yesButtonText">Yes</string>
-    <string name="opSendAllMessages">Send all messages</string>
+    <string name="opSendAllMessages">Upload all messages</string>
 </resources>
