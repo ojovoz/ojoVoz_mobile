@@ -198,6 +198,8 @@ function CheckMessages($user,$pass,$c,$folder,$get_tags_from_subject,$server,$db
 						} else {
 							$text = trim(utf8_decode(decode_ISO88591($attachment)));
 						}
+						//remove new lines!!
+						$text=str_replace(array("\n\r", "\n", "\r"),'',$text);
 						$parts=explode(";",$text);
 						$sender=$parts[0];
 						$date=formatDate($parts[1]);
