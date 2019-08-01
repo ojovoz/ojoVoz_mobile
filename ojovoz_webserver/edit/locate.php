@@ -56,8 +56,8 @@ if ($located==false) {
 	}
 
 	$point=GetAttachmentLocation($dbh,$id,$default_latitude,$default_longitude);
-	$latitude=$point[0];
-	$longitude=$point[1];
+	$latitude=preg_replace("/[^0-9.,\-]/", "", $point[0]);
+	$longitude=preg_replace("/[^0-9.,\-]/", "", $point[1]);
 	$already_located=$point[2];
 ?>
 
