@@ -839,7 +839,7 @@ public class pictureSound extends AppCompatActivity implements httpConnection.As
                                         deleteFiles.add(item.soundFile);
                                     }
                                 } catch (Exception e) {
-
+                                    multimediaCleanUpList[n] = -1;
                                 }
                             }
                             progressHandler.sendMessage(progressHandler.obtainMessage());

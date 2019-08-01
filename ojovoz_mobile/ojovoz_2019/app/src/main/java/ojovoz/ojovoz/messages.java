@@ -261,7 +261,7 @@ public class messages extends AppCompatActivity implements httpConnection.AsyncR
                                         deleteFiles.add(item.soundFile);
                                     }
                                 } catch (Exception e) {
-
+                                    multimediaCleanUpList[n] = -1;
                                 }
                             }
                             progressHandler.sendMessage(progressHandler.obtainMessage());
