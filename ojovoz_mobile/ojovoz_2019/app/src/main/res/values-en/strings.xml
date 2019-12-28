@@ -45,4 +45,5 @@
     <string name="tagsButtonLabel">Choose tags</string>
     <string name="yesButtonText">Yes</string>
     <string name="opSendAllMessages">Upload all messages</string>
+    <string name="photoFailedMessage">Error while saving picture, please try again</string>
 </resources>

@@ -45,4 +45,5 @@
     <string name="tagsButtonLabel">Palabras clave</string>
     <string name="yesButtonText">Sí</string>
     <string name="opSendAllMessages">Enviar todos los mensajes</string>
+    <string name="photoFailedMessage">Error al guardar la foto, por favor inténtalo de nuevo</string>
 </resources>

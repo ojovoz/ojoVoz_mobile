@@ -494,20 +494,25 @@ public class pictureSound extends AppCompatActivity implements httpConnection.As
                 ImageView thumbnail = (ImageView) this.findViewById(R.id.thumbnail);
                 thumbnail.setImageBitmap(thumb);
                 thumbnail.invalidate();
+
+                photoDone = true;
+                bChanges = true;
+                if (!prevPhotoFile.isEmpty()) {
+                    filesToDelete.add(prevPhotoFile);
+                }
+                prevPhotoFile = photoFile;
+
+                if (recordingDone) {
+                    Button saveButton = (Button) findViewById(R.id.saveButton);
+                    saveButton.setVisibility(View.VISIBLE);
+
+                }
+            } else {
+                photoDone = false;
+                Toast.makeText(this, R.string.photoFailedMessage, Toast.LENGTH_SHORT).show();
             }
 
-            photoDone = true;
-            bChanges = true;
-            if (!prevPhotoFile.isEmpty()) {
-                filesToDelete.add(prevPhotoFile);
-            }
-            prevPhotoFile = photoFile;
 
-            if (recordingDone) {
-                Button saveButton = (Button) findViewById(R.id.saveButton);
-                saveButton.setVisibility(View.VISIBLE);
-
-            }
 
         } else if (!prevPhotoFile.isEmpty()) {
             photoFile = prevPhotoFile;
